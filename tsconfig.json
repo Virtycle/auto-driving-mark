@@ -43,5 +43,5 @@
   "include": [
     "src"
   ],
-  "exclude": ["node_modules", "build", "dist", "config"]
+  "exclude": ["node_modules", "build", "dist", "config", "src/engine/loaders"]
 }

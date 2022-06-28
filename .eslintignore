@@ -1,3 +1,4 @@
 config/**/*.js
 public/**/*.js
 dist/**/*.js
+src/engine/loaders/*.js

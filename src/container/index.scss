@@ -1,6 +1,13 @@
 .spo-total-loading {
     height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
     .ant-spin-container {
         height: 100%;
     }
+}
+.spo-content {
+    background-color: #474747;
 }

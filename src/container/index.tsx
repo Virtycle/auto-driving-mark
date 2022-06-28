@@ -5,6 +5,7 @@ import { ConfigProvider, Layout, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import Dashboard from '../dashboard';
 import Header from '../layout/header';
+import FooterControl from '../layout/footer-control';
 import MainList from '../layout/main-list';
 import zhCN from 'antd/lib/locale/zh_CN';
 import 'antd/dist/antd.css';
@@ -27,15 +28,9 @@ function Container() {
     return (
         <ConfigProvider locale={zhCN}>
             <GlobalContext.Provider value={{}}>
-                <Layout style={{ height: '100%' }}>
-                    <Header />
-                    {/* <Layout>*/}
-                    <Spin
-                        spinning={loading}
-                        indicator={CircleLoading}
-                        size="large"
-                        wrapperClassName="spo-total-loading"
-                    >
+                <Spin spinning={loading} indicator={CircleLoading} size="large" wrapperClassName="spo-total-loading">
+                    <Layout style={{ height: '100%' }}>
+                        <Header />
                         <Layout style={{ height: '100%' }}>
                             <Sider width={200} className="spo-sider" style={{ background: '#BBBBBB' }}>
                                 <MainList />
@@ -44,9 +39,9 @@ function Container() {
                                 <Dashboard />
                             </Content>
                         </Layout>
-                    </Spin>
-                    {/* </Layout> */}
-                </Layout>
+                        <FooterControl />
+                    </Layout>
+                </Spin>
             </GlobalContext.Provider>
         </ConfigProvider>
     );
