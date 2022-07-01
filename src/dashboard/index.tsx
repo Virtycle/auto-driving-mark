@@ -4,8 +4,8 @@ import './index.scss';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
-import { SceneRender } from '@/engine';
-import { PCDLoader } from 'three/examples/jsm/loaders/PCDLoader';
+import ContentManager3D, { PCDLoaderEx } from '@/engine';
+import { BufferGeometry } from 'three';
 
 const ReactGridLayout = WidthProvider(RGL);
 
@@ -15,7 +15,7 @@ export default function Dashboard() {
         isResizable: false,
     };
 
-    const ref2 = useRef<SceneRender | null>(null);
+    const ref2 = useRef<ContentManager3D | null>(null);
     const ref3 = useRef<HTMLDivElement>(null);
 
     const layout = [
@@ -30,20 +30,45 @@ export default function Dashboard() {
 
     useEffect(() => {
         if (!ref2.current) {
-            const loader = new PCDLoader();
-            const scene = new SceneRender();
-            ref2.current = scene;
-            loader.load('./052_1591240197426.pcd', (data) => {
+            const loader = new PCDLoaderEx();
+            const manager = new ContentManager3D();
+            ref2.current = manager;
+            loader.load('./052_1591240197426.pcd', (data: BufferGeometry) => {
                 // loader.load('./1635923800089062.pcd', (data) => {
                 if (ref3.current) {
-                    scene.init({
+                    manager.initScene({
                         mainDiv: ref3.current?.children[2] as HTMLDivElement,
                         topDiv: ref3.current?.children[5] as HTMLDivElement,
                         frontDiv: ref3.current?.children[4] as HTMLDivElement,
                         sideDiv: ref3.current?.children[6] as HTMLDivElement,
+                        pointCloud: data,
                     });
-                    scene.addPointCloud(data);
-                    scene.startAnimate();
+                    manager.addCubeCollection({
+                        position: {
+                            x: 12.91,
+                            y: 8.0357,
+                            z: 0,
+                        },
+                        rotation: {
+                            x: 0,
+                            y: 0,
+                            z: 120,
+                        },
+                        dimension: {
+                            x: 2.153,
+                            y: 4.127,
+                            z: 1.69,
+                        },
+                        name: 'car1',
+                        active: false,
+                    });
+                    setTimeout(() => {
+                        manager.activeCube('car1');
+                    }, 5000);
+                    setTimeout(() => {
+                        manager.inActiveCube();
+                    }, 10000);
+                    // build point cloud
                 }
             });
         }

@@ -1,12 +1,25 @@
-import { RendererInstance, RenderInitParams } from './interface';
-import { PerspectiveCamera, OrthographicCamera, WebGLRenderer, WebGL1Renderer, Scene, AxesHelper, Color } from 'three';
+import { RendererInstance, RenderInitParams, ObjectLayers } from './interface';
+import {
+    PerspectiveCamera,
+    OrthographicCamera,
+    WebGLRenderer,
+    WebGL1Renderer,
+    Scene,
+    AxesHelper,
+    Color,
+    Group,
+    Mesh,
+} from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
 import WEBGL from 'three/examples/jsm/capabilities/WebGL';
 
 const rendererParam = { antialias: true, alpha: true };
 
 export default class MainRenderer implements RendererInstance {
     camera: PerspectiveCamera | undefined;
+
+    cameraLayer = 1;
 
     renderer: WebGLRenderer | WebGL1Renderer | undefined;
 
@@ -24,6 +37,8 @@ export default class MainRenderer implements RendererInstance {
 
     helperCamera = new OrthographicCamera(-8, 8, 8 - 8, 1, 5);
 
+    transformControls: TransformControls | undefined;
+
     init(params: RenderInitParams) {
         if (WEBGL.isWebGL2Available()) {
             this.renderer = new WebGLRenderer(rendererParam) as WebGLRenderer;
@@ -39,12 +54,18 @@ export default class MainRenderer implements RendererInstance {
         const height = params.div.clientHeight;
         const radio = width / height;
         this.camera = new PerspectiveCamera(15, radio, 0.1, 2000);
+        this.camera.layers.enableAll();
+        this.camera.layers.toggle(ObjectLayers.threeView);
+        this.camera.layers.toggle(ObjectLayers.none);
         this.camera.position.set(20, -60, 50);
         this.camera.up.set(0, 0, 1);
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.minDistance = 5;
         this.controls.maxDistance = 1000;
         this.controls.update();
+        this.transformControls = new TransformControls(this.camera, this.renderer.domElement);
+        // this.transformControls.showX = false;
+        this.transformControls.space = 'local';
         this.axesHelper.position.set(0, 0, 0);
         this.helperScene.add(this.axesHelper);
         this.helperScene.background = new Color(0x000000);
@@ -56,6 +77,9 @@ export default class MainRenderer implements RendererInstance {
 
     initEvent() {
         // this.parent?.addEventListener();
+        this.transformControls?.addEventListener('dragging-changed', (event) => {
+            (this.controls as OrbitControls).enabled = !event.value;
+        });
     }
 
     public resize(width: number, height: number, resizeRenderer = true): void {
@@ -80,6 +104,14 @@ export default class MainRenderer implements RendererInstance {
         this.helperCamera.top = insetHeight / 2;
         this.helperCamera.bottom = insetHeight / -2;
         this.helperCamera.updateProjectionMatrix();
+    }
+
+    public bindObject3DWithControl(flag: boolean, mesh?: Group | Mesh) {
+        if (flag && mesh) {
+            this.transformControls?.attach(mesh);
+        } else {
+            this.transformControls?.detach();
+        }
     }
 
     render(scene: Scene) {

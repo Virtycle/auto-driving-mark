@@ -1,4 +1,4 @@
-import { BufferGeometry, FileLoader, Float32BufferAttribute, Loader, LoaderUtils, Points, PointsMaterial } from 'three';
+import { BufferGeometry, FileLoader, Float32BufferAttribute, Loader, LoaderUtils } from 'three';
 
 class PCDLoaderEx extends Loader {
     constructor(manager) {
@@ -313,10 +313,7 @@ class PCDLoaderEx extends Loader {
         if (color.length > 0) geometry.setAttribute('color', new Float32BufferAttribute(color, 3));
 
         geometry.computeBoundingSphere();
-
-        // build material
-
-        // build point cloud
+        geometry.computeBoundingBox();
 
         return geometry;
     }

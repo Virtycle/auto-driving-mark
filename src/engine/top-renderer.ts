@@ -1,5 +1,5 @@
-import { RendererInstance, RenderInitParams } from './interface';
-import { OrthographicCamera, WebGLRenderer, WebGL1Renderer, Scene } from 'three';
+import { RendererInstance, RenderInitParams, ObjectLayers } from './interface';
+import { OrthographicCamera, WebGLRenderer, WebGL1Renderer, Scene, Vector3 } from 'three';
 // import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
@@ -22,6 +22,8 @@ export default class TopRenderer implements RendererInstance {
 
     size = 20;
 
+    distance = 20;
+
     init(params: RenderInitParams) {
         if (WEBGL.isWebGL2Available()) {
             this.renderer = new WebGLRenderer(rendererParam) as WebGLRenderer;
@@ -41,10 +43,13 @@ export default class TopRenderer implements RendererInstance {
             (radio * this.size) / 2,
             this.size / 2,
             this.size / -2,
-            0.1,
+            this.distance - 0.1,
             500,
         );
-        this.camera.position.set(0, 0, 20);
+        this.camera.layers.disableAll();
+        this.camera.layers.toggle(ObjectLayers.default);
+        this.camera.layers.toggle(ObjectLayers.threeView);
+        this.camera.position.set(0, 0, this.distance);
         this.camera.up.set(0, 1, 0);
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         // this.controls.enablePan = false;
@@ -82,6 +87,16 @@ export default class TopRenderer implements RendererInstance {
         this.camera.updateProjectionMatrix();
         if (resizeRenderer) {
             this.renderer.setSize(width, height);
+        }
+    }
+
+    public flyTo(center: Vector3, dir: Vector3): void {
+        if (this.camera) {
+            this.camera.position.set(center.x, center.y, this.distance);
+            this.camera.zoom = 1;
+            this.camera.up.set(dir.x, dir.y, 0);
+            this.controls?.target.set(center.x, center.y, center.z);
+            this.camera.updateProjectionMatrix();
         }
     }
 

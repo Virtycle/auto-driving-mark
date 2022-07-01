@@ -1,29 +1,49 @@
-import { Scene, Group, Points, Mesh, BufferGeometry, Color, Vector3 } from 'three';
+import {
+    Scene,
+    Group,
+    Points,
+    Mesh,
+    BufferGeometry,
+    Color,
+    Line,
+    BoxHelper,
+    Matrix4,
+    Vector3,
+    Vector2,
+    Box3,
+} from 'three';
 import { STATE, RendererInstance, ThreeViewRenderAddon } from './interface';
 import MainRenderer from './main-renderer';
 import FrontRenderer from './front-renderer';
 import TopRenderer from './top-renderer';
 import SideRenderer from './side-renderer';
 import WEBGL from 'three/examples/jsm/capabilities/WebGL';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
+import { getBoxDirection } from './untils';
+
 /**
  * Rendering Engine
  */
 export default class SceneRender {
     public state: STATE = STATE.NONE;
 
-    private mainRenderer: RendererInstance | undefined;
+    private mainRenderer = new MainRenderer();
 
-    private frontRenderer: (RendererInstance & ThreeViewRenderAddon) | undefined;
+    private frontRenderer = new FrontRenderer();
 
-    private topRenderer: (RendererInstance & ThreeViewRenderAddon) | undefined;
+    private topRenderer = new TopRenderer();
 
-    private sideRenderer: (RendererInstance & ThreeViewRenderAddon) | undefined;
+    private sideRenderer = new SideRenderer();
 
     private wrappedScene = new Scene();
-    // 立体框Group;
-    private rectFrameRoot = new Group();
-
-    private PointCloudRoot = new Group();
+    // 放立体框 Group;
+    private cubeRoot = new Group();
+    // 放点云 Group;
+    private pointCloudRoot = new Group();
+    // 放限制圆 Group;
+    private cirCleRoot = new Group();
+    // transformControls
+    private transformControlsGroup = new Group();
 
     private animationId: number | undefined;
 
@@ -43,19 +63,17 @@ export default class SceneRender {
             console.log(warning);
         }
         this.wrappedScene.background = new Color(0x000000);
-        this.mainRenderer = new MainRenderer();
-        this.frontRenderer = new FrontRenderer();
-        this.topRenderer = new TopRenderer();
-        this.sideRenderer = new SideRenderer();
         this.mainRenderer.init({ div: mainDiv });
         this.frontRenderer.init({ div: frontDiv });
         this.topRenderer.init({ div: topDiv });
         this.sideRenderer.init({ div: sideDiv });
 
-        this.wrappedScene.add(this.PointCloudRoot);
-        this.wrappedScene.add(this.rectFrameRoot);
-
-        this.syncThreeViewZoom();
+        this.wrappedScene.add(this.pointCloudRoot);
+        this.wrappedScene.add(this.cubeRoot);
+        // this.wrappedScene.add(this.activeCarCube);
+        this.wrappedScene.add(this.cirCleRoot);
+        this.addTransformControl(this.mainRenderer.transformControls as TransformControls);
+        this.wrappedScene.add(this.transformControlsGroup);
     }
 
     /**
@@ -82,7 +100,9 @@ export default class SceneRender {
 
     public render(): void {
         const zoom = this.syncThreeViewZoom();
+        this.transformControlsGroup.visible = true;
         (this.mainRenderer as RendererInstance).render(this.wrappedScene);
+        this.transformControlsGroup.visible = false;
         (this.frontRenderer as RendererInstance).render(this.wrappedScene, zoom);
         (this.topRenderer as RendererInstance).render(this.wrappedScene, zoom);
         (this.sideRenderer as RendererInstance).render(this.wrappedScene, zoom);
@@ -103,15 +123,15 @@ export default class SceneRender {
     }
 
     public addPointCloud(points: Points): void {
-        this.PointCloudRoot.add(points);
+        this.pointCloudRoot.add(points);
     }
 
     public removePointCloud(points: Points): void {
-        this.PointCloudRoot.remove(points);
+        this.pointCloudRoot.remove(points);
     }
 
     public disposePointCloud(points: Points, needDisposeMaterial = false): void {
-        this.PointCloudRoot.remove(points);
+        this.pointCloudRoot.remove(points);
         if (needDisposeMaterial) {
             SceneRender.disposeMesh(points);
         } else {
@@ -119,8 +139,20 @@ export default class SceneRender {
         }
     }
 
-    public addRectFrame(mesh: Mesh): void {
-        this.rectFrameRoot.add(mesh);
+    public addCarCube(mesh: Group): void {
+        this.cubeRoot.add(mesh);
+    }
+
+    public findCarCube(name: string): Group | undefined {
+        return (this.cubeRoot.children as Group[]).find((item) => item.name === name);
+    }
+
+    public addCircle(line: Line): void {
+        this.cirCleRoot.add(line);
+    }
+
+    public bindActiveCarCube(flag: boolean, group?: Group) {
+        this.mainRenderer?.bindObject3DWithControl(flag, group);
     }
 
     private syncThreeViewZoom(): number {
@@ -131,5 +163,16 @@ export default class SceneRender {
         if (zoomT === zoomS) return zoomF;
         if (zoomF === zoomS) return zoomT;
         return 1;
+    }
+
+    public addTransformControl(control: TransformControls): void {
+        this.transformControlsGroup.add(control);
+    }
+
+    public flyTo(box: Box3, matrix: Matrix4): void {
+        const { center, dirX, dirY } = getBoxDirection(box, matrix);
+        this.topRenderer.flyTo(center, dirY);
+        this.frontRenderer.flyTo(center, dirY);
+        this.sideRenderer.flyTo(center, dirX);
     }
 }
