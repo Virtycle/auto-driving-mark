@@ -101,11 +101,30 @@ export default class SceneRender {
     public render(): void {
         const zoom = this.syncThreeViewZoom();
         this.transformControlsGroup.visible = true;
-        (this.mainRenderer as RendererInstance).render(this.wrappedScene);
+        this.mainRenderer.render(this.wrappedScene);
         this.transformControlsGroup.visible = false;
-        (this.frontRenderer as RendererInstance).render(this.wrappedScene, zoom);
-        (this.topRenderer as RendererInstance).render(this.wrappedScene, zoom);
-        (this.sideRenderer as RendererInstance).render(this.wrappedScene, zoom);
+        this.frontRenderer.render(this.wrappedScene, zoom);
+        this.topRenderer.render(this.wrappedScene, zoom);
+        this.sideRenderer.render(this.wrappedScene, zoom);
+    }
+
+    public resize() {
+        this.mainRenderer.resize(
+            this.mainRenderer.parent?.clientWidth as number,
+            this.mainRenderer.parent?.clientHeight as number,
+        );
+        this.frontRenderer.resize(
+            this.frontRenderer.parent?.clientWidth as number,
+            this.frontRenderer.parent?.clientHeight as number,
+        );
+        this.topRenderer.resize(
+            this.topRenderer.parent?.clientWidth as number,
+            this.topRenderer.parent?.clientHeight as number,
+        );
+        this.sideRenderer.resize(
+            this.sideRenderer.parent?.clientWidth as number,
+            this.sideRenderer.parent?.clientHeight as number,
+        );
     }
 
     public static disposeGeo(geometry: BufferGeometry): void {

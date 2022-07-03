@@ -111,4 +111,8 @@ export default class ContentManager3D {
         mesh.visible = !seleted;
         points.layers.set(seleted ? ObjectLayers.threeView : ObjectLayers.none);
     }
+
+    resize() {
+        this.sceneRender.resize();
+    }
 }

@@ -62,6 +62,7 @@ export default class MainRenderer implements RendererInstance {
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.controls.minDistance = 5;
         this.controls.maxDistance = 1000;
+        this.controls.maxPolarAngle = (Math.PI * 7) / 12;
         this.controls.update();
         this.transformControls = new TransformControls(this.camera, this.renderer.domElement);
         // this.transformControls.showX = false;
