@@ -6,6 +6,8 @@ import { BoxHelper, BufferGeometry, Color, Group, LineBasicMaterial } from 'thre
 export default class ContentManager3D {
     // 渲染器
     sceneRender = new SceneRender();
+    public isInit = false;
+
     // 当前帧
     currentFrame = 0;
     // 外圆半径
@@ -27,8 +29,10 @@ export default class ContentManager3D {
         circleRadius?: number;
         pointCloud: BufferGeometry;
     }): void {
+        if (this.isInit) return;
         const { mainDiv, topDiv, frontDiv, sideDiv, circleRadius, pointCloud } = params;
         this.sceneRender.init({ mainDiv, topDiv, frontDiv, sideDiv });
+        this.isInit = true;
         this.circleRadius = circleRadius ? circleRadius : this.circleRadius;
         const limit = MeshCreater.createCircleLimit(this.circleRadius);
         const pointMaterial = MeshCreater.createPointMaterial(pointCloud);
@@ -113,6 +117,7 @@ export default class ContentManager3D {
     }
 
     resize() {
+        if (!this.isInit) return;
         this.sceneRender.resize();
     }
 }

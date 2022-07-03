@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { baseURL } from '../api';
 import tokenTool from './token';
 

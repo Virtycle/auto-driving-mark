@@ -1,5 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import RGL, { WidthProvider } from 'react-grid-layout';
+import GridLayout from 'react-grid-layout';
+import axios from '@/common/axios';
+import { baseURL } from '@/common/api';
+import { AllFrameData } from '@/common/interface';
+import { throttle } from 'lodash';
+import ResizeObserver from 'resize-observer-polyfill';
 import './index.scss';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -7,15 +12,16 @@ import 'react-resizable/css/styles.css';
 import ContentManager3D, { PCDLoaderEx } from '@/engine';
 import { BufferGeometry } from 'three';
 
-const ReactGridLayout = WidthProvider(RGL);
+const manager = new ContentManager3D();
 
-export default function Dashboard() {
+export default function Dashboard(props: { contentHeight: number; contentWidth: number }) {
     const defaultLayoutOpt = {
         isDraggable: false,
         isResizable: false,
     };
-
-    const ref2 = useRef<ContentManager3D | null>(null);
+    const { contentHeight, contentWidth } = props;
+    const rowHeight = Math.round(contentHeight / 18);
+    const contentWidthI = Math.round(contentWidth);
     const ref3 = useRef<HTMLDivElement>(null);
 
     const layout = [
@@ -29,41 +35,30 @@ export default function Dashboard() {
     ];
 
     useEffect(() => {
-        if (!ref2.current) {
+        axios.get<never, AllFrameData>(baseURL).then((data) => {
             const loader = new PCDLoaderEx();
-            const manager = new ContentManager3D();
-            ref2.current = manager;
-            loader.load('./052_1591240197426.pcd', (data: BufferGeometry) => {
-                // loader.load('./1635923800089062.pcd', (data) => {
-                if (ref3.current) {
+            loader.load(data.frameUrl, (geo: BufferGeometry) => {
+                if (ref3.current && !manager.isInit) {
                     manager.initScene({
                         mainDiv: ref3.current?.children[2] as HTMLDivElement,
                         topDiv: ref3.current?.children[5] as HTMLDivElement,
                         frontDiv: ref3.current?.children[4] as HTMLDivElement,
                         sideDiv: ref3.current?.children[6] as HTMLDivElement,
-                        pointCloud: data,
+                        pointCloud: geo,
                     });
-                    manager.addCubeCollection({
-                        position: {
-                            x: 12.91,
-                            y: 8.0357,
-                            z: 0,
-                        },
-                        rotation: {
-                            x: 0,
-                            y: 0,
-                            z: 120,
-                        },
-                        dimension: {
-                            x: 2.153,
-                            y: 4.127,
-                            z: 1.69,
-                        },
-                        name: 'car1',
-                        active: false,
+                    const itemData = data.items;
+                    itemData.forEach((item) => {
+                        manager.addCubeCollection({
+                            position: item.position,
+                            rotation: item.rotation,
+                            dimension: item.dimension,
+                            name: item.id,
+                            active: false,
+                        });
                     });
+
                     setTimeout(() => {
-                        manager.activeCube('car1');
+                        manager.activeCube(itemData[0].id);
                     }, 5000);
                     setTimeout(() => {
                         manager.inActiveCube();
@@ -71,21 +66,42 @@ export default function Dashboard() {
                     // build point cloud
                 }
             });
-        }
-        // return () => {
-        //     scene.stopAnimate();
-        // };
+        });
+        return () => {
+            // scene.stopAnimate();
+        };
     }, []);
+
+    useEffect(() => {
+        const resizeObserver = new ResizeObserver(
+            throttle(() => {
+                manager.resize();
+            }, 500),
+        );
+        resizeObserver.observe(ref3.current?.children[2] as Element);
+        resizeObserver.observe(ref3.current?.children[5] as Element);
+        resizeObserver.observe(ref3.current?.children[4] as Element);
+        resizeObserver.observe(ref3.current?.children[6] as Element);
+        return () => {
+            resizeObserver.unobserve(ref3.current?.children[2] as Element);
+            resizeObserver.unobserve(ref3.current?.children[5] as Element);
+            resizeObserver.unobserve(ref3.current?.children[4] as Element);
+            resizeObserver.unobserve(ref3.current?.children[6] as Element);
+        };
+    }, []);
+
     return (
         <>
-            <ReactGridLayout
+            <GridLayout
                 className="spo-dashboard-wrapper"
                 layout={layout}
                 cols={12}
                 margin={[0, 0]}
-                rowHeight={43}
+                rowHeight={rowHeight}
+                width={contentWidthI}
                 useCSSTransforms={false}
                 innerRef={ref3}
+                // onResizeStop={() => {}}
                 {...defaultLayoutOpt}
             >
                 <div key="2d-main" className="spo-dashboard-item" id="spo-2d-main">
@@ -101,7 +117,7 @@ export default function Dashboard() {
                 <div key="3d-front" className="spo-dashboard-item" id="spo-3d-front"></div>
                 <div key="3d-top" className="spo-dashboard-item" id="spo-3d-top"></div>
                 <div key="3d-side" className="spo-dashboard-item" id="spo-3d-side"></div>
-            </ReactGridLayout>
+            </GridLayout>
         </>
     );
 }
