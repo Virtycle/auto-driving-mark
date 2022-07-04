@@ -17,6 +17,7 @@ import MainRenderer from './main-renderer';
 import FrontRenderer from './front-renderer';
 import TopRenderer from './top-renderer';
 import SideRenderer from './side-renderer';
+import MeshFactory from './mesh-factory';
 import WEBGL from 'three/examples/jsm/capabilities/WebGL';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
 import { getBoxDirection } from './untils';
@@ -70,10 +71,13 @@ export default class SceneRender {
 
         this.wrappedScene.add(this.pointCloudRoot);
         this.wrappedScene.add(this.cubeRoot);
-        // this.wrappedScene.add(this.activeCarCube);
         this.wrappedScene.add(this.cirCleRoot);
         this.addTransformControl(this.mainRenderer.transformControls as TransformControls);
         this.wrappedScene.add(this.transformControlsGroup);
+    }
+
+    get mainRendererInstance() {
+        return this.mainRenderer;
     }
 
     /**
@@ -127,20 +131,6 @@ export default class SceneRender {
         );
     }
 
-    public static disposeGeo(geometry: BufferGeometry): void {
-        geometry.dispose();
-    }
-
-    public static disposeMesh(itemToRemove: Mesh | Points): void {
-        itemToRemove.geometry.dispose();
-
-        if (itemToRemove.material instanceof Array) {
-            itemToRemove.material.forEach((v) => v.dispose());
-        } else {
-            itemToRemove.material.dispose();
-        }
-    }
-
     public addPointCloud(points: Points): void {
         this.pointCloudRoot.add(points);
     }
@@ -152,17 +142,17 @@ export default class SceneRender {
     public disposePointCloud(points: Points, needDisposeMaterial = false): void {
         this.pointCloudRoot.remove(points);
         if (needDisposeMaterial) {
-            SceneRender.disposeMesh(points);
+            MeshFactory.disposeMesh(points);
         } else {
-            SceneRender.disposeGeo(points.geometry);
+            MeshFactory.disposeGeo(points.geometry);
         }
     }
 
-    public addCarCube(mesh: Group): void {
+    public addCube(mesh: Group): void {
         this.cubeRoot.add(mesh);
     }
 
-    public findCarCube(name: string): Group | undefined {
+    public findCube(name: string): Group | undefined {
         return (this.cubeRoot.children as Group[]).find((item) => item.name === name);
     }
 
@@ -170,7 +160,7 @@ export default class SceneRender {
         this.cirCleRoot.add(line);
     }
 
-    public bindActiveCarCube(flag: boolean, group?: Group) {
+    public bindActiveCube(flag: boolean, group?: Group) {
         this.mainRenderer?.bindObject3DWithControl(flag, group);
     }
 

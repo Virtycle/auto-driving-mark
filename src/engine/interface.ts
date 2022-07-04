@@ -11,12 +11,20 @@ import {
     Box3,
     Color,
 } from 'three';
+import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
 
 export enum STATE {
     NONE = 0,
     ROTATE,
     DOLLY,
     PAN,
+}
+
+export enum CURSOR_TYPE {
+    NONE,
+    HAND,
+    ARROW,
+    CROSS,
 }
 
 export type RenderInitParams = {
@@ -42,6 +50,11 @@ export type Vec3 = {
     z: number;
 };
 
+export enum CameraType {
+    perspective = 'perspective',
+    orthographic = 'orthographic',
+}
+
 export interface CubeCollection {
     name: string;
     mesh: Mesh;
@@ -51,6 +64,7 @@ export interface CubeCollection {
     matrix: Matrix4;
     box3Origin: Box3;
     color: Color;
+    label2D: CSS2DObject;
 }
 
 export enum ObjectLayers {

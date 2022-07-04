@@ -4,8 +4,9 @@ export interface ObjectInScene {
     position: Vec3;
     rotation: Vec3;
     dimension: Vec3;
-    category: '小汽车';
+    category: string;
     frameNum: number;
+    number: number;
     id: string;
 }
 

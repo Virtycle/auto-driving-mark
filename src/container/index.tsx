@@ -56,7 +56,7 @@ function Container() {
 
     return (
         <ConfigProvider locale={zhCN}>
-            <GlobalContext.Provider value={{}}>
+            <GlobalContext>
                 <Spin spinning={loading} indicator={CircleLoading} size="large" wrapperClassName="spo-total-loading">
                     <Layout style={{ height: '100%' }}>
                         <Header />
@@ -71,7 +71,7 @@ function Container() {
                         <FooterControl />
                     </Layout>
                 </Spin>
-            </GlobalContext.Provider>
+            </GlobalContext>
         </ConfigProvider>
     );
 }

@@ -18,13 +18,14 @@ import {
     Euler,
     Quaternion,
 } from 'three';
+import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
 import createPointColorMapMaterial, { PointShaderDataGroup } from './materials/PointColorMapMaterial';
 import TextureFactory from './texture-factory';
 import { Vec3, CubeCollection, ObjectLayers } from './interface';
 
 const boxPointMaterial = new PointsMaterial({ color: 0xff0000, size: 8 });
 
-export default class MeshCreater {
+export default class MeshFactory {
     public static createPointsCloud(geometry: BufferGeometry, material: ShaderMaterial): Points {
         return new Points(geometry, material);
     }
@@ -72,8 +73,9 @@ export default class MeshCreater {
         dimension: Vec3;
         name: string;
         color: Color;
+        label: string;
     }): CubeCollection {
-        const { position, rotation, dimension, name, color } = cubeParams;
+        const { position, rotation, dimension, name, color, label } = cubeParams;
         const geometry = new BoxGeometry(dimension.x, dimension.y, dimension.z);
         const material = new MeshBasicMaterial({
             color,
@@ -81,6 +83,8 @@ export default class MeshCreater {
             opacity: 0.3,
         });
         const mesh = new Mesh(geometry, material);
+        const label2D = MeshFactory.createLabel(label, color);
+        mesh.add(label2D);
         //origin data
         const box3Origin = new Box3();
         box3Origin.setFromObject(mesh);
@@ -103,6 +107,7 @@ export default class MeshCreater {
         mesh.layers.set(ObjectLayers.main);
         arrow.line.layers.set(ObjectLayers.main);
         arrow.cone.layers.set(ObjectLayers.main);
+        label2D.layers.set(ObjectLayers.main);
         helper.layers.set(ObjectLayers.main);
         points.layers.set(ObjectLayers.none);
 
@@ -115,6 +120,31 @@ export default class MeshCreater {
             matrix,
             box3Origin,
             color,
+            label2D,
         };
+    }
+
+    public static createLabel(string: string, color: Color): CSS2DObject {
+        const divEle = document.createElement('div');
+        const label2d = new CSS2DObject(divEle);
+        divEle.className = 'spo-3d-main-label';
+        divEle.textContent = string;
+        // todo color background
+        console.log(color);
+        return label2d;
+    }
+
+    public static disposeGeo(geometry: BufferGeometry): void {
+        geometry.dispose();
+    }
+
+    public static disposeMesh(itemToRemove: Mesh | Points): void {
+        itemToRemove.geometry.dispose();
+
+        if (itemToRemove.material instanceof Array) {
+            itemToRemove.material.forEach((v) => v.dispose());
+        } else {
+            itemToRemove.material.dispose();
+        }
     }
 }

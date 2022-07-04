@@ -12,9 +12,15 @@ import {
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
+import { CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer';
 import WEBGL from 'three/examples/jsm/capabilities/WebGL';
+import E2, { Callback } from './common/event-emitter';
 
 const rendererParam = { antialias: true, alpha: true };
+
+export enum MainRendererEvent {
+    'ObjectTransform' = 'objectTransform',
+}
 
 export default class MainRenderer implements RendererInstance {
     camera: PerspectiveCamera | undefined;
@@ -22,6 +28,8 @@ export default class MainRenderer implements RendererInstance {
     cameraLayer = 1;
 
     renderer: WebGLRenderer | WebGL1Renderer | undefined;
+
+    labelRenderer = new CSS2DRenderer();
 
     parent: HTMLDivElement | undefined;
 
@@ -39,6 +47,8 @@ export default class MainRenderer implements RendererInstance {
 
     transformControls: TransformControls | undefined;
 
+    eventEmitter = new E2();
+
     init(params: RenderInitParams) {
         if (WEBGL.isWebGL2Available()) {
             this.renderer = new WebGLRenderer(rendererParam) as WebGLRenderer;
@@ -48,7 +58,10 @@ export default class MainRenderer implements RendererInstance {
             throw new Error('浏览器不支持webgl！');
         }
         this.parent = params.div;
-        this.parent?.appendChild(this.renderer.domElement);
+        this.labelRenderer.domElement.style.position = 'absolute';
+        this.labelRenderer.domElement.style.top = '0px';
+        this.parent.appendChild(this.renderer.domElement);
+        this.parent.appendChild(this.labelRenderer.domElement);
         this.renderer.setPixelRatio(window.devicePixelRatio || 1);
         const width = params.div.clientWidth;
         const height = params.div.clientHeight;
@@ -59,13 +72,12 @@ export default class MainRenderer implements RendererInstance {
         this.camera.layers.toggle(ObjectLayers.none);
         this.camera.position.set(20, -60, 50);
         this.camera.up.set(0, 0, 1);
-        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+        this.controls = new OrbitControls(this.camera, this.labelRenderer.domElement);
         this.controls.minDistance = 5;
         this.controls.maxDistance = 1000;
         this.controls.maxPolarAngle = (Math.PI * 7) / 12;
         this.controls.update();
-        this.transformControls = new TransformControls(this.camera, this.renderer.domElement);
-        // this.transformControls.showX = false;
+        this.transformControls = new TransformControls(this.camera, this.labelRenderer.domElement);
         this.transformControls.space = 'local';
         this.axesHelper.position.set(0, 0, 0);
         this.helperScene.add(this.axesHelper);
@@ -77,10 +89,20 @@ export default class MainRenderer implements RendererInstance {
     }
 
     initEvent() {
-        // this.parent?.addEventListener();
         this.transformControls?.addEventListener('dragging-changed', (event) => {
             (this.controls as OrbitControls).enabled = !event.value;
         });
+        this.transformControls?.addEventListener('change', (event) => {
+            this.eventEmitter.emit(MainRendererEvent.ObjectTransform, event);
+        });
+    }
+
+    addEventHandler(name: MainRendererEvent, callBack: Callback) {
+        this.eventEmitter.on(name, callBack);
+    }
+
+    removeEventHandler(name: MainRendererEvent) {
+        this.eventEmitter.off(name);
     }
 
     public resize(width: number, height: number, resizeRenderer = true): void {
@@ -95,6 +117,7 @@ export default class MainRenderer implements RendererInstance {
         this.camera.updateProjectionMatrix();
         if (resizeRenderer) {
             this.renderer.setSize(width, height);
+            this.labelRenderer.setSize(width, height);
         }
 
         const insetWidth = height / 6; // square
@@ -121,7 +144,7 @@ export default class MainRenderer implements RendererInstance {
         }
         this.renderer.setViewport(0, 0, this.width, this.height);
         this.controls?.update();
-        this.renderer.render(scene, this.camera as PerspectiveCamera);
+        this.renderer.render(scene, this.camera);
 
         // inset scene
 
@@ -141,6 +164,8 @@ export default class MainRenderer implements RendererInstance {
         this.helperScene.quaternion.copy(quater.invert());
 
         this.renderer.render(this.helperScene, this.helperCamera);
+
+        this.labelRenderer.render(scene, this.camera);
 
         this.renderer.setScissorTest(false);
         this.renderer.autoClear = true;

@@ -1,6 +1,6 @@
 const EVENT_CACHE = Symbol('eventCache');
 
-type Callback = (...args: unknown[]) => void;
+export type Callback = (...args: unknown[]) => void;
 
 export default class E2 {
     private [EVENT_CACHE] = Object.create(null);
@@ -22,7 +22,7 @@ export default class E2 {
         }
     }
 
-    public off(eventName: string, callBack: Callback): void {
+    public off(eventName: string, callBack?: Callback): void {
         if (eventName && typeof eventName === 'string') {
             if (!this[EVENT_CACHE][eventName]) this[EVENT_CACHE][eventName] = [];
             if (callBack && typeof callBack === 'function') {

@@ -53,6 +53,7 @@ export default function Dashboard(props: { contentHeight: number; contentWidth: 
                             rotation: item.rotation,
                             dimension: item.dimension,
                             name: item.id,
+                            label: `${item.category} ${item.number}`,
                             active: false,
                         });
                     });
@@ -60,9 +61,9 @@ export default function Dashboard(props: { contentHeight: number; contentWidth: 
                     setTimeout(() => {
                         manager.activeCube(itemData[0].id);
                     }, 5000);
-                    setTimeout(() => {
-                        manager.inActiveCube();
-                    }, 10000);
+                    // setTimeout(() => {
+                    //     manager.inActiveCube();
+                    // }, 10000);
                     // build point cloud
                 }
             });
