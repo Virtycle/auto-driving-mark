@@ -1,13 +1,21 @@
-import { RendererInstance, RenderInitParams, ObjectLayers } from './interface';
+import {
+    RendererInstance,
+    RenderInitParams,
+    ObjectLayers,
+    CURSOR_TYPE,
+    STATE,
+    ThreeViewRendererEvent,
+} from './interface';
 import { OrthographicCamera, WebGLRenderer, WebGL1Renderer, Scene, Vector3 } from 'three';
-// import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-
 import WEBGL from 'three/examples/jsm/capabilities/WebGL';
+import E2, { Callback } from './common/event-emitter';
 
 const rendererParam = { antialias: true, alpha: true };
 
 export default class TopRenderer implements RendererInstance {
+    state = STATE.NONE;
+
     camera: OrthographicCamera | undefined;
 
     renderer: WebGLRenderer | WebGL1Renderer | undefined;
@@ -22,9 +30,13 @@ export default class TopRenderer implements RendererInstance {
 
     size = 20;
 
-    distance = 20;
+    distance = 50;
 
-    init(params: RenderInitParams) {
+    eventEmitter = new E2();
+
+    capturedPointerId = -1;
+
+    public init(params: RenderInitParams): void {
         if (WEBGL.isWebGL2Available()) {
             this.renderer = new WebGLRenderer(rendererParam) as WebGLRenderer;
         } else if (WEBGL.isWebGLAvailable()) {
@@ -52,15 +64,58 @@ export default class TopRenderer implements RendererInstance {
         this.camera.position.set(0, 0, this.distance);
         this.camera.up.set(0, 1, 0);
         this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-        // this.controls.enablePan = false;
         this.controls.panSpeed = 1;
         this.controls.enableRotate = false;
         this.resize(width, height);
         this.initEvent();
     }
 
-    initEvent() {
-        // this.parent?.addEventListener();
+    private initEvent() {
+        this.renderer?.domElement.addEventListener('pointerdown', this.onPointerDown);
+        this.renderer?.domElement.addEventListener('pointercancel', () => {
+            this.state = STATE.NONE;
+            this.capturedPointerId = -1;
+            this.renderer?.domElement.removeEventListener('pointerup', this.onPointerUp);
+        });
+        this.renderer?.domElement.addEventListener('pointermove', this.onPointerMove);
+    }
+
+    private onPointerDown = (event: PointerEvent) => {
+        if (this.state !== STATE.NONE || this.capturedPointerId !== -1) return;
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        this.state = STATE.SELECT;
+        this.renderer?.domElement.setPointerCapture(event.pointerId);
+        this.capturedPointerId = event.pointerId;
+        this.eventEmitter.emit(ThreeViewRendererEvent.ObjectSelect, event, this.camera, this.renderer);
+        this.renderer?.domElement.addEventListener('pointerup', this.onPointerUp);
+    };
+
+    private onPointerMove = (event: PointerEvent) => {
+        if (this.state === STATE.NONE) {
+            this.eventEmitter.emit(ThreeViewRendererEvent.MouseMove, event, this.camera, this.renderer);
+        } else if (this.state === STATE.SELECT && this.capturedPointerId === event.pointerId) {
+            this.eventEmitter.emit(ThreeViewRendererEvent.ObjectChange, event);
+        }
+    };
+
+    private onPointerUp = (event: PointerEvent) => {
+        this.state = STATE.NONE;
+        this.renderer?.domElement.setPointerCapture(event.pointerId);
+        this.capturedPointerId = -1;
+        this.renderer?.domElement.removeEventListener('pointerup', this.onPointerUp);
+        this.eventEmitter.emit(ThreeViewRendererEvent.ObjectRelease, event, this.camera, this.renderer);
+    };
+
+    public addEventHandler(name: ThreeViewRendererEvent, callBack: Callback) {
+        this.eventEmitter.on(name, callBack);
+    }
+
+    public removeEventHandler(name: ThreeViewRendererEvent) {
+        this.eventEmitter.off(name);
+    }
+
+    public changeCursorType(cursor: CURSOR_TYPE) {
+        if (this.renderer) this.renderer.domElement.style.cursor = cursor;
     }
 
     public getCameraZoom() {
@@ -90,12 +145,13 @@ export default class TopRenderer implements RendererInstance {
         }
     }
 
-    public flyTo(center: Vector3, dir: Vector3): void {
+    public flyTo(center: Vector3, dir: Vector3, dis: number): void {
         if (this.camera) {
-            this.camera.position.set(center.x, center.y, this.distance);
+            this.camera.position.set(center.x, center.y, center.z + this.distance + dis);
             this.camera.zoom = 1;
             this.camera.up.set(dir.x, dir.y, 0);
             this.controls?.target.set(center.x, center.y, center.z);
+            this.controls?.update();
             this.camera.updateProjectionMatrix();
         }
     }
@@ -104,12 +160,14 @@ export default class TopRenderer implements RendererInstance {
         if (!this.renderer || !this.camera) {
             throw Error('Not initialized.');
         }
-        this.camera.zoom = zoom;
-        this.camera.lookAt(scene.position);
+        if (this.camera.zoom !== zoom) {
+            this.camera.zoom = zoom;
+            this.camera.updateProjectionMatrix();
+        }
         this.controls?.update();
-        this.camera.updateProjectionMatrix();
         this.renderer.render(scene, this.camera);
 
         this.renderer.autoClear = true;
     }
+    // todo public destroy
 }

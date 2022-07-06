@@ -1,4 +1,4 @@
-import { RendererInstance, RenderInitParams, ObjectLayers } from './interface';
+import { RendererInstance, RenderInitParams, ObjectLayers, CURSOR_TYPE } from './interface';
 import {
     PerspectiveCamera,
     OrthographicCamera,
@@ -19,7 +19,8 @@ import E2, { Callback } from './common/event-emitter';
 const rendererParam = { antialias: true, alpha: true };
 
 export enum MainRendererEvent {
-    'ObjectTransform' = 'objectTransform',
+    ObjectTransform = 'objectTransform',
+    MeshSelect = 'meshSelect',
 }
 
 export default class MainRenderer implements RendererInstance {
@@ -49,7 +50,7 @@ export default class MainRenderer implements RendererInstance {
 
     eventEmitter = new E2();
 
-    init(params: RenderInitParams) {
+    public init(params: RenderInitParams) {
         if (WEBGL.isWebGL2Available()) {
             this.renderer = new WebGLRenderer(rendererParam) as WebGLRenderer;
         } else if (WEBGL.isWebGLAvailable()) {
@@ -88,21 +89,28 @@ export default class MainRenderer implements RendererInstance {
         this.initEvent();
     }
 
-    initEvent() {
+    private initEvent() {
         this.transformControls?.addEventListener('dragging-changed', (event) => {
             (this.controls as OrbitControls).enabled = !event.value;
         });
         this.transformControls?.addEventListener('change', (event) => {
             this.eventEmitter.emit(MainRendererEvent.ObjectTransform, event);
         });
+        this.labelRenderer.domElement.addEventListener('click', (event) => {
+            this.eventEmitter.emit(MainRendererEvent.MeshSelect, event, this.camera, this.renderer);
+        });
     }
 
-    addEventHandler(name: MainRendererEvent, callBack: Callback) {
+    public addEventHandler(name: MainRendererEvent, callBack: Callback) {
         this.eventEmitter.on(name, callBack);
     }
 
-    removeEventHandler(name: MainRendererEvent) {
+    public removeEventHandler(name: MainRendererEvent) {
         this.eventEmitter.off(name);
+    }
+
+    public changeCursorType(cursor: CURSOR_TYPE) {
+        if (this.renderer) this.renderer.domElement.style.cursor = cursor;
     }
 
     public resize(width: number, height: number, resizeRenderer = true): void {
@@ -138,7 +146,7 @@ export default class MainRenderer implements RendererInstance {
         }
     }
 
-    render(scene: Scene) {
+    public render(scene: Scene) {
         if (!this.renderer || !this.camera) {
             throw Error('Not initialized.');
         }
@@ -170,4 +178,6 @@ export default class MainRenderer implements RendererInstance {
         this.renderer.setScissorTest(false);
         this.renderer.autoClear = true;
     }
+
+    // todo public destroy
 }

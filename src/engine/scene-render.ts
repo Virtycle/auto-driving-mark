@@ -1,18 +1,5 @@
-import {
-    Scene,
-    Group,
-    Points,
-    Mesh,
-    BufferGeometry,
-    Color,
-    Line,
-    BoxHelper,
-    Matrix4,
-    Vector3,
-    Vector2,
-    Box3,
-} from 'three';
-import { STATE, RendererInstance, ThreeViewRenderAddon } from './interface';
+import { Scene, Group, Points, Color, Line, Matrix4, Box3, CameraHelper, OrthographicCamera } from 'three';
+import { STATE } from './interface';
 import MainRenderer from './main-renderer';
 import FrontRenderer from './front-renderer';
 import TopRenderer from './top-renderer';
@@ -74,12 +61,28 @@ export default class SceneRender {
         this.wrappedScene.add(this.cirCleRoot);
         this.addTransformControl(this.mainRenderer.transformControls as TransformControls);
         this.wrappedScene.add(this.transformControlsGroup);
+        // this.wrappedScene.add(new CameraHelper(this.topRenderer.camera as OrthographicCamera));
     }
 
     get mainRendererInstance() {
         return this.mainRenderer;
     }
 
+    get topRendererInstance() {
+        return this.topRenderer;
+    }
+
+    get frontRendererInstance() {
+        return this.frontRenderer;
+    }
+
+    get sideRendererInstance() {
+        return this.sideRenderer;
+    }
+
+    get cubeRootGoup() {
+        return this.cubeRoot;
+    }
     /**
      * start animation.
      */
@@ -179,9 +182,9 @@ export default class SceneRender {
     }
 
     public flyTo(box: Box3, matrix: Matrix4): void {
-        const { center, dirX, dirY } = getBoxDirection(box, matrix);
-        this.topRenderer.flyTo(center, dirY);
-        this.frontRenderer.flyTo(center, dirY);
-        this.sideRenderer.flyTo(center, dirX);
+        const { center, dirX, dirY, disX, disY, disZ } = getBoxDirection(box, matrix);
+        this.topRenderer.flyTo(center, dirY, disZ);
+        this.frontRenderer.flyTo(center, dirY, disY);
+        this.sideRenderer.flyTo(center, dirX, disX);
     }
 }

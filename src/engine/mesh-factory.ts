@@ -74,7 +74,7 @@ export default class MeshFactory {
         name: string;
         color: Color;
         label: string;
-    }): CubeCollection {
+    }): Pick<CubeCollection, Exclude<keyof CubeCollection, 'id'>> {
         const { position, rotation, dimension, name, color, label } = cubeParams;
         const geometry = new BoxGeometry(dimension.x, dimension.y, dimension.z);
         const material = new MeshBasicMaterial({
@@ -129,8 +129,7 @@ export default class MeshFactory {
         const label2d = new CSS2DObject(divEle);
         divEle.className = 'spo-3d-main-label';
         divEle.textContent = string;
-        // todo color background
-        console.log(color);
+        divEle.style.background = `linear-gradient(90deg, ${color.getStyle()} 0%, rgba(0, 0, 0, 0) 100%)`;
         return label2d;
     }
 

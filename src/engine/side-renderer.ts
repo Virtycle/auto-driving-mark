@@ -1,12 +1,21 @@
-import { RendererInstance, RenderInitParams, ObjectLayers } from './interface';
-import { OrthographicCamera, WebGLRenderer, WebGL1Renderer, Scene, Vector3, Vector2 } from 'three';
-// import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
+import {
+    RendererInstance,
+    RenderInitParams,
+    ObjectLayers,
+    STATE,
+    ThreeViewRendererEvent,
+    CURSOR_TYPE,
+} from './interface';
+import { OrthographicCamera, WebGLRenderer, WebGL1Renderer, Scene, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import WEBGL from 'three/examples/jsm/capabilities/WebGL';
+import E2, { Callback } from './common/event-emitter';
 
 const rendererParam = { antialias: true, alpha: true };
 
 export default class SideRenderer implements RendererInstance {
+    state = STATE.NONE;
+
     camera: OrthographicCamera | undefined;
 
     renderer: WebGLRenderer | WebGL1Renderer | undefined;
@@ -21,7 +30,11 @@ export default class SideRenderer implements RendererInstance {
 
     size = 20;
 
-    distance = 20;
+    distance = 50;
+
+    eventEmitter = new E2();
+
+    capturedPointerId = -1;
 
     init(params: RenderInitParams) {
         if (WEBGL.isWebGL2Available()) {
@@ -59,8 +72,52 @@ export default class SideRenderer implements RendererInstance {
         this.initEvent();
     }
 
-    initEvent() {
-        // this.parent?.addEventListener();
+    private initEvent() {
+        this.renderer?.domElement.addEventListener('pointerdown', this.onPointerDown);
+        this.renderer?.domElement.addEventListener('pointercancel', () => {
+            this.state = STATE.NONE;
+            this.capturedPointerId = -1;
+            this.renderer?.domElement.removeEventListener('pointerup', this.onPointerUp);
+        });
+        this.renderer?.domElement.addEventListener('pointermove', this.onPointerMove);
+    }
+
+    private onPointerDown = (event: PointerEvent) => {
+        if (this.state !== STATE.NONE || this.capturedPointerId !== -1) return;
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        this.state = STATE.SELECT;
+        this.renderer?.domElement.setPointerCapture(event.pointerId);
+        this.capturedPointerId = event.pointerId;
+        this.eventEmitter.emit(ThreeViewRendererEvent.ObjectSelect, event, this.camera, this.renderer);
+        this.renderer?.domElement.addEventListener('pointerup', this.onPointerUp);
+    };
+
+    private onPointerMove = (event: PointerEvent) => {
+        if (this.state === STATE.NONE) {
+            this.eventEmitter.emit(ThreeViewRendererEvent.MouseMove, event, this.camera, this.renderer);
+        } else if (this.state === STATE.SELECT && this.capturedPointerId === event.pointerId) {
+            this.eventEmitter.emit(ThreeViewRendererEvent.ObjectChange, event);
+        }
+    };
+
+    private onPointerUp = (event: PointerEvent) => {
+        this.state = STATE.NONE;
+        this.renderer?.domElement.setPointerCapture(event.pointerId);
+        this.capturedPointerId = -1;
+        this.renderer?.domElement.removeEventListener('pointerup', this.onPointerUp);
+        this.eventEmitter.emit(ThreeViewRendererEvent.ObjectRelease, event, this.camera, this.renderer);
+    };
+
+    public addEventHandler(name: ThreeViewRendererEvent, callBack: Callback) {
+        this.eventEmitter.on(name, callBack);
+    }
+
+    public removeEventHandler(name: ThreeViewRendererEvent) {
+        this.eventEmitter.off(name);
+    }
+
+    public changeCursorType(cursor: CURSOR_TYPE) {
+        if (this.renderer) this.renderer.domElement.style.cursor = cursor;
     }
 
     public getCameraZoom() {
@@ -90,12 +147,13 @@ export default class SideRenderer implements RendererInstance {
         }
     }
 
-    public flyTo(center: Vector3, dir: Vector3): void {
+    public flyTo(center: Vector3, dir: Vector3, dis: number): void {
         if (this.camera) {
             this.camera.zoom = 1;
-            const newP = new Vector3().addVectors(center, dir.multiplyScalar(this.distance));
+            const newP = new Vector3().addVectors(center, dir.multiplyScalar(this.distance + dis));
             this.controls?.target.set(center.x, center.y, center.z);
             this.camera.position.set(newP.x, newP.y, newP.z);
+            this.controls?.update();
             this.camera.updateProjectionMatrix();
         }
     }
@@ -104,10 +162,11 @@ export default class SideRenderer implements RendererInstance {
         if (!this.renderer || !this.camera) {
             throw Error('Not initialized.');
         }
-        this.camera.zoom = zoom;
-        this.camera.lookAt(scene.position);
+        if (this.camera.zoom !== zoom) {
+            this.camera.zoom = zoom;
+            this.camera.updateProjectionMatrix();
+        }
         this.controls?.update();
-        this.camera.updateProjectionMatrix();
         this.renderer.render(scene, this.camera);
 
         this.renderer.autoClear = true;

@@ -55,16 +55,9 @@ export default function Dashboard(props: { contentHeight: number; contentWidth: 
                             name: item.id,
                             label: `${item.category} ${item.number}`,
                             active: false,
+                            id: item.number,
                         });
                     });
-
-                    setTimeout(() => {
-                        manager.activeCube(itemData[0].id);
-                    }, 5000);
-                    // setTimeout(() => {
-                    //     manager.inActiveCube();
-                    // }, 10000);
-                    // build point cloud
                 }
             });
         });

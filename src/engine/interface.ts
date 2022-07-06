@@ -15,16 +15,25 @@ import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
 
 export enum STATE {
     NONE = 0,
-    ROTATE,
-    DOLLY,
-    PAN,
+    SELECT = 1,
+}
+
+export enum ThreeViewRendererEvent {
+    ObjectSelect = 'objectSelect',
+    ObjectRelease = 'objectRelease',
+    ObjectChange = 'objectChange',
+    MouseMove = 'mouseMove',
 }
 
 export enum CURSOR_TYPE {
-    NONE,
-    HAND,
-    ARROW,
-    CROSS,
+    NONE = 'none',
+    DEFAULT = 'default',
+    POINTER = 'pointer',
+    CROSS = 'crosshair',
+    EWRESIZE = 'ew-resize',
+    NSRESIZE = 'ns-resize',
+    NESWRESIZE = 'nesw-resize',
+    NWSERESIZE = 'nwse-resize',
 }
 
 export type RenderInitParams = {
@@ -50,6 +59,11 @@ export type Vec3 = {
     z: number;
 };
 
+export type Vec2 = {
+    x: number;
+    y: number;
+};
+
 export enum CameraType {
     perspective = 'perspective',
     orthographic = 'orthographic',
@@ -65,6 +79,7 @@ export interface CubeCollection {
     box3Origin: Box3;
     color: Color;
     label2D: CSS2DObject;
+    id: number;
 }
 
 export enum ObjectLayers {

@@ -1,22 +1,48 @@
-import { Box3, Euler, Matrix4, Vector3 } from 'three';
+import { Box3, Euler, Matrix4, Quaternion, Vector3 } from 'three';
+import { Vec2 } from './interface';
 
 function getBoxDirection(
     box: Box3,
     matrix?: Matrix4,
-): { center: Vector3; dirX: Vector3; dirY: Vector3; dirZ: Vector3 } {
+): { center: Vector3; dirX: Vector3; dirY: Vector3; dirZ: Vector3; disX: number; disY: number; disZ: number } {
     const boxI = new Box3().copy(box);
     const x = new Vector3(1, 0, 0);
     const y = new Vector3(0, 1, 0);
     const z = new Vector3(0, 0, 1);
     const center = boxI.getCenter(new Vector3());
+    let disX = boxI.max.x;
+    let disY = boxI.max.y;
+    let disZ = boxI.max.z;
     if (matrix) {
-        const euler = new Euler().setFromRotationMatrix(matrix);
+        const position = new Vector3();
+        const quaternion = new Quaternion();
+        const scale = new Vector3();
+        matrix.decompose(position, quaternion, scale);
         center.applyMatrix4(matrix);
-        x.applyEuler(euler);
-        y.applyEuler(euler);
-        z.applyEuler(euler);
+        x.applyQuaternion(quaternion);
+        y.applyQuaternion(quaternion);
+        z.applyQuaternion(quaternion);
+        disX = disX * scale.x;
+        disY = disY * scale.y;
+        disZ = disZ * scale.z;
     }
-    return { center, dirX: x, dirY: y, dirZ: z };
+    return { center, dirX: x, dirY: y, dirZ: z, disX, disY, disZ };
 }
 
-export { getBoxDirection };
+function getCanvasRelativePosition(event: MouseEvent, canvas: HTMLCanvasElement): Vec2 {
+    const rect = canvas.getBoundingClientRect();
+    return {
+        x: ((event.clientX - rect.left) * canvas.width) / rect.width,
+        y: ((event.clientY - rect.top) * canvas.height) / rect.height,
+    };
+}
+
+function getCanvasCssPosition(event: MouseEvent, canvas: HTMLCanvasElement): Vec2 {
+    const rect = canvas.getBoundingClientRect();
+    return {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top,
+    };
+}
+
+export { getBoxDirection, getCanvasRelativePosition, getCanvasCssPosition };
