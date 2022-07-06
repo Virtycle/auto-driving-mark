@@ -45,6 +45,7 @@ export default class FrontRenderer implements RendererInstance {
             throw new Error('浏览器不支持webgl！');
         }
         this.parent = params.div;
+        this.renderer.domElement.tabIndex = -1;
         this.parent?.appendChild(this.renderer.domElement);
         this.renderer.setPixelRatio(window.devicePixelRatio || 1);
         const width = params.div.clientWidth;
@@ -102,7 +103,7 @@ export default class FrontRenderer implements RendererInstance {
 
     private onPointerUp = (event: PointerEvent) => {
         this.state = STATE.NONE;
-        this.renderer?.domElement.setPointerCapture(event.pointerId);
+        this.renderer?.domElement.releasePointerCapture(event.pointerId);
         this.capturedPointerId = -1;
         this.renderer?.domElement.removeEventListener('pointerup', this.onPointerUp);
         this.eventEmitter.emit(ThreeViewRendererEvent.ObjectRelease, event, this.camera, this.renderer);

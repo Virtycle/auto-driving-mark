@@ -61,6 +61,8 @@ export default class MainRenderer implements RendererInstance {
         this.parent = params.div;
         this.labelRenderer.domElement.style.position = 'absolute';
         this.labelRenderer.domElement.style.top = '0px';
+        this.labelRenderer.domElement.tabIndex = -1;
+
         this.parent.appendChild(this.renderer.domElement);
         this.parent.appendChild(this.labelRenderer.domElement);
         this.renderer.setPixelRatio(window.devicePixelRatio || 1);
@@ -98,6 +100,13 @@ export default class MainRenderer implements RendererInstance {
         });
         this.labelRenderer.domElement.addEventListener('click', (event) => {
             this.eventEmitter.emit(MainRendererEvent.MeshSelect, event, this.camera, this.renderer);
+        });
+        this.labelRenderer.domElement.addEventListener('keydown', (event: KeyboardEvent) => {
+            event?.preventDefault();
+        });
+
+        this.labelRenderer.domElement.addEventListener('keyup', (event: KeyboardEvent) => {
+            event?.preventDefault();
         });
     }
 

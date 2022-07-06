@@ -155,6 +155,17 @@ export default class SceneRender {
         this.cubeRoot.add(mesh);
     }
 
+    public removeCube(mesh: Group): void {
+        this.cubeRoot.remove(mesh);
+    }
+
+    public removeCubeByName(name: string) {
+        const group = this.findCube(name);
+        if (group) {
+            this.removeCube(group);
+        }
+    }
+
     public findCube(name: string): Group | undefined {
         return (this.cubeRoot.children as Group[]).find((item) => item.name === name);
     }

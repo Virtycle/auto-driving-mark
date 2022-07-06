@@ -137,7 +137,7 @@ export default class MeshFactory {
         geometry.dispose();
     }
 
-    public static disposeMesh(itemToRemove: Mesh | Points): void {
+    public static disposeMesh(itemToRemove: Mesh | Points | Line): void {
         itemToRemove.geometry.dispose();
 
         if (itemToRemove.material instanceof Array) {

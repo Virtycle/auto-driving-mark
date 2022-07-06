@@ -62,7 +62,7 @@ export default function Dashboard(props: { contentHeight: number; contentWidth: 
             });
         });
         return () => {
-            // scene.stopAnimate();
+            manager.destroy();
         };
     }, []);
 

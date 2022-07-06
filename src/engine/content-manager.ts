@@ -121,6 +121,10 @@ export default class ContentManager3D {
         // );
     }
 
+    private removeEvent() {
+        //
+    }
+
     addCubeCollection(params: {
         position: Vec3;
         rotation: Vec3;
@@ -159,6 +163,29 @@ export default class ContentManager3D {
         if (active) {
             this.activeCube(name, result as CubeCollection);
         }
+    }
+
+    deleteCubeCollection(name: string) {
+        const index = this.cubeCollection.findIndex((item) => item.name === name);
+        if (index !== -1) {
+            const collection = this.cubeCollection[index];
+            const { mesh, meshHelper, arrow, points, label2D, id } = collection;
+            this.sceneRender.removeCubeByName(name);
+            this.mainPicker.removePickMeshById(id, true);
+            this.cubeCollection.splice(index, 1);
+            mesh.remove(label2D);
+            MeshFactory.disposeMesh(mesh);
+            MeshFactory.disposeMesh(meshHelper);
+            MeshFactory.disposeMesh(points);
+            MeshFactory.disposeMesh(arrow.cone);
+            MeshFactory.disposeMesh(arrow.line);
+        }
+    }
+
+    deleteActiveCube() {
+        const name = this.activeCubeCollectionName;
+        this.inActiveCube();
+        this.deleteCubeCollection(name);
     }
 
     activeCube(name: string, collectionParam?: CubeCollection): void {
@@ -255,5 +282,7 @@ export default class ContentManager3D {
         this.sceneRender.resize();
     }
 
-    // todo public destroy
+    public destroy(): void {
+        this.sceneRender.stopAnimate();
+    }
 }

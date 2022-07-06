@@ -13,6 +13,7 @@ import {
     Matrix4,
     LineSegments,
     Points,
+    Material,
 } from 'three';
 import { Vec2 } from './interface';
 
@@ -30,6 +31,8 @@ export const pointsMaterialNoId = new PointsMaterial({
     color: new Color(0x0000ff),
     size: 8,
 });
+
+type InnerMesh = Mesh | LineSegments | Points;
 
 export default class GPUPickHelper {
     private pickingTexture = new WebGLRenderTarget(1, 1);
@@ -69,17 +72,20 @@ export default class GPUPickHelper {
         return new Color().setHex(id);
     }
 
-    public addPickMesh(mesh: Mesh | LineSegments | Points): void {
+    public addPickMesh(mesh: InnerMesh): void {
         this.toPickScene.add(mesh);
     }
 
-    public removePickMesh(mesh: Mesh | LineSegments | Points): void {
+    public removePickMesh(mesh: InnerMesh): void {
         this.toPickScene.remove(mesh);
     }
 
-    public removePickMeshById(id: number): void {
-        const findMesh = this.toPickScene.children.find((item) => item.name === `${id}`);
-        if (findMesh) this.toPickScene.remove(findMesh);
+    public removePickMeshById(id: number, dispose = false): void {
+        const findMesh = this.toPickScene.children.find((item) => item.name === `${id}`) as InnerMesh;
+        if (findMesh) {
+            this.toPickScene.remove(findMesh);
+            if (dispose) (findMesh.material as Material).dispose();
+        }
     }
 
     public updatePickMeshMatrix(id: number, matrix: Matrix4) {
