@@ -1,5 +1,19 @@
-import { Scene, Group, Points, Color, Line, Matrix4, Box3, CameraHelper, OrthographicCamera } from 'three';
-import { STATE } from './interface';
+import {
+    Scene,
+    Group,
+    Points,
+    Color,
+    Line,
+    Matrix4,
+    Box3,
+    Raycaster,
+    Plane,
+    CameraHelper,
+    OrthographicCamera,
+    Vector3,
+    PerspectiveCamera,
+} from 'three';
+import { STATE, Vec2 } from './interface';
 import MainRenderer from './main-renderer';
 import FrontRenderer from './front-renderer';
 import TopRenderer from './top-renderer';
@@ -34,6 +48,10 @@ export default class SceneRender {
     private transformControlsGroup = new Group();
 
     private animationId: number | undefined;
+
+    private raycaster = new Raycaster();
+
+    private basePlane: Plane | undefined;
 
     public init({
         mainDiv,
@@ -142,6 +160,19 @@ export default class SceneRender {
         this.pointCloudRoot.remove(points);
     }
 
+    public setBasePlane(normal: Vector3, dis: number) {
+        this.basePlane = new Plane(normal, dis);
+    }
+
+    public testPlanPosition(pos: Vec2, camera: OrthographicCamera | PerspectiveCamera): Vector3 {
+        this.raycaster.setFromCamera(pos, camera);
+        const vec3 = new Vector3();
+        if (this.basePlane) {
+            this.raycaster.ray.intersectPlane(this.basePlane, vec3);
+        }
+        return vec3;
+    }
+
     public disposePointCloud(points: Points, needDisposeMaterial = false): void {
         this.pointCloudRoot.remove(points);
         if (needDisposeMaterial) {
@@ -197,5 +228,18 @@ export default class SceneRender {
         this.topRenderer.flyTo(center, dirY, disZ);
         this.frontRenderer.flyTo(center, dirY, disY);
         this.sideRenderer.flyTo(center, dirX, disX);
+    }
+
+    public destroy() {
+        this.stopAnimate();
+        this.mainRenderer.destroy();
+        this.topRenderer.destroy();
+        this.frontRenderer.destroy();
+        this.sideRenderer.destroy();
+        this.wrappedScene.clear();
+        this.cubeRoot.clear();
+        this.cirCleRoot.clear();
+        this.pointCloudRoot.clear();
+        this.transformControlsGroup.clear();
     }
 }

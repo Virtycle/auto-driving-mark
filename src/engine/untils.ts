@@ -31,6 +31,7 @@ function getBoxDirection(
 
 function getCanvasRelativePosition(event: MouseEvent, canvas: HTMLCanvasElement): Vec2 {
     const rect = canvas.getBoundingClientRect();
+    // canvas 像素空间位置
     return {
         x: ((event.clientX - rect.left) * canvas.width) / rect.width,
         y: ((event.clientY - rect.top) * canvas.height) / rect.height,
@@ -39,6 +40,7 @@ function getCanvasRelativePosition(event: MouseEvent, canvas: HTMLCanvasElement)
 
 function getCanvasCssPosition(event: MouseEvent, canvas: HTMLCanvasElement): Vec2 {
     const rect = canvas.getBoundingClientRect();
+    // css 像素空间位置
     return {
         x: event.clientX - rect.left,
         y: event.clientY - rect.top,

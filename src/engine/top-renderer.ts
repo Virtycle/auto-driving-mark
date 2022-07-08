@@ -72,13 +72,19 @@ export default class TopRenderer implements RendererInstance {
     }
 
     private initEvent() {
-        this.renderer?.domElement.addEventListener('pointerdown', this.onPointerDown);
-        this.renderer?.domElement.addEventListener('pointercancel', () => {
-            this.state = STATE.NONE;
-            this.capturedPointerId = -1;
-            this.renderer?.domElement.removeEventListener('pointerup', this.onPointerUp);
-        });
-        this.renderer?.domElement.addEventListener('pointermove', this.onPointerMove);
+        if (this.renderer) {
+            this.renderer.domElement.addEventListener('pointerdown', this.onPointerDown);
+            this.renderer.domElement.addEventListener('pointermove', this.onPointerMove);
+            this.renderer.domElement.addEventListener('pointercancel', this.onPointerCancel);
+        }
+    }
+
+    private removeAllEvent() {
+        if (this.renderer) {
+            this.renderer.domElement.removeEventListener('pointerdown', this.onPointerDown);
+            this.renderer.domElement.removeEventListener('pointermove', this.onPointerMove);
+            this.renderer.domElement.removeEventListener('pointercancel', this.onPointerCancel);
+        }
     }
 
     private onPointerDown = (event: PointerEvent) => {
@@ -105,6 +111,12 @@ export default class TopRenderer implements RendererInstance {
         this.capturedPointerId = -1;
         this.renderer?.domElement.removeEventListener('pointerup', this.onPointerUp);
         this.eventEmitter.emit(ThreeViewRendererEvent.ObjectRelease, event, this.camera, this.renderer);
+    };
+
+    private onPointerCancel = () => {
+        this.state = STATE.NONE;
+        this.capturedPointerId = -1;
+        this.renderer?.domElement.removeEventListener('pointerup', this.onPointerUp);
     };
 
     public addEventHandler(name: ThreeViewRendererEvent, callBack: Callback) {
@@ -170,5 +182,11 @@ export default class TopRenderer implements RendererInstance {
 
         this.renderer.autoClear = true;
     }
-    // todo public destroy
+
+    public destroy() {
+        this.controls?.dispose();
+        this.eventEmitter.destroy();
+        this.removeAllEvent();
+        this.renderer?.dispose();
+    }
 }

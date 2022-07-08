@@ -11,6 +11,7 @@ import 'react-resizable/css/styles.css';
 
 import ContentManager3D, { PCDLoaderEx } from '@/engine';
 import { BufferGeometry } from 'three';
+import { STATE } from '@/engine/interface';
 
 const manager = new ContentManager3D();
 
@@ -58,6 +59,9 @@ export default function Dashboard(props: { contentHeight: number; contentWidth: 
                             id: item.number,
                         });
                     });
+                    setTimeout(() => {
+                        manager.sceneRenderInstance.mainRendererInstance.changeState(STATE.DRAW_PICK);
+                    }, 5000);
                 }
             });
         });

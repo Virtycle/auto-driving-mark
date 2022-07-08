@@ -16,6 +16,8 @@ import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
 export enum STATE {
     NONE = 0,
     SELECT = 1,
+    DRAW_PICK = 2,
+    DRAW_DRAG = 3,
 }
 
 export enum ThreeViewRendererEvent {

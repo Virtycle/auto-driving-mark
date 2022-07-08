@@ -9,6 +9,7 @@ import {
     WebGLRenderer,
     LineSegments,
     OrthographicCamera,
+    Vector3,
 } from 'three';
 import SceneRender from './scene-render';
 import MeshFactory from './mesh-factory';
@@ -26,6 +27,8 @@ export default class ContentManager3D {
     private currentFrame = 0;
     // 外圆半径
     private circleRadius = 50;
+    // 外圆 或地面高
+    private baseZ = 0;
     // 生成cubGroup mesh 集合
     private cubeCollection: CubeCollection[] = [];
     // active car
@@ -46,19 +49,28 @@ export default class ContentManager3D {
         sideDiv: HTMLDivElement;
         circleRadius?: number;
         pointCloud: BufferGeometry;
+        baseZ?: number;
     }): void {
         if (this.isInit) return;
-        const { mainDiv, topDiv, frontDiv, sideDiv, circleRadius, pointCloud } = params;
+        const { mainDiv, topDiv, frontDiv, sideDiv, circleRadius, pointCloud, baseZ } = params;
         this.sceneRender.init({ mainDiv, topDiv, frontDiv, sideDiv });
         this.initEvent();
         this.isInit = true;
         this.circleRadius = circleRadius ? circleRadius : this.circleRadius;
         const limit = MeshFactory.createCircleLimit(this.circleRadius);
+        const baseZInner = baseZ || this.baseZ;
+        const vec3 = new Vector3(0, 0, baseZInner);
+        limit.position.copy(vec3);
+        this.sceneRender.setBasePlane(vec3, Math.abs(baseZInner));
         const pointMaterial = MeshFactory.createPointMaterial(pointCloud);
         const points = MeshFactory.createPointsCloud(pointCloud, pointMaterial);
         this.sceneRender.addPointCloud(points);
         this.sceneRender.addCircle(limit);
         this.sceneRender.startAnimate();
+    }
+
+    get sceneRenderInstance() {
+        return this.sceneRender;
     }
 
     private initEvent() {
@@ -78,6 +90,16 @@ export default class ContentManager3D {
                 }
             },
         );
+        this.sceneRender.mainRendererInstance.addEventHandler(MainRendererEvent.MeshDelete, () => {
+            if (!this.activeCubeCollectionName) return;
+            this.deleteActiveCube();
+        });
+        this.sceneRender.mainRendererInstance.addEventHandler(MainRendererEvent.MeshCreateClickStart, (event) => {
+            if (this.activeCubeCollectionName) {
+                this.inActiveCube();
+            }
+            console.log(event);
+        });
         // this.sceneRender.topRendererInstance.addEventHandler(
         //     ThreeViewRendererEvent.ObjectSelect,
         //     (event, camera, renderer) => {
@@ -283,6 +305,7 @@ export default class ContentManager3D {
     }
 
     public destroy(): void {
-        this.sceneRender.stopAnimate();
+        // todo destroy mesh
+        this.sceneRender.destroy();
     }
 }

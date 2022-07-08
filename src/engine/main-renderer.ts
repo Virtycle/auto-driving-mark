@@ -1,4 +1,4 @@
-import { RendererInstance, RenderInitParams, ObjectLayers, CURSOR_TYPE } from './interface';
+import { RendererInstance, RenderInitParams, ObjectLayers, CURSOR_TYPE, STATE } from './interface';
 import {
     PerspectiveCamera,
     OrthographicCamera,
@@ -21,9 +21,18 @@ const rendererParam = { antialias: true, alpha: true };
 export enum MainRendererEvent {
     ObjectTransform = 'objectTransform',
     MeshSelect = 'meshSelect',
+    MeshDelete = 'meshDelete',
+    MeshCreateClickStart = 'meshCreateClickStart',
+    MeshCreateClickMove = 'meshCreateClickMove',
+    MeshCreateClickEnd = 'meshCreateClickEnd',
+    MeshCreateDragStart = 'meshCreateDragStart',
+    MeshCreateDrag = 'meshCreateDrag',
+    MeshCreateDragEnd = 'meshCreateDragEnd',
 }
 
 export default class MainRenderer implements RendererInstance {
+    state = STATE.NONE;
+
     camera: PerspectiveCamera | undefined;
 
     cameraLayer = 1;
@@ -38,7 +47,7 @@ export default class MainRenderer implements RendererInstance {
 
     height = 0;
 
-    controls: OrbitControls | undefined;
+    controls: OrbitControls | undefined | null;
 
     axesHelper = new AxesHelper(25);
 
@@ -46,9 +55,11 @@ export default class MainRenderer implements RendererInstance {
 
     helperCamera = new OrthographicCamera(-8, 8, 8 - 8, 1, 5);
 
-    transformControls: TransformControls | undefined;
+    transformControls: TransformControls | undefined | null;
 
     eventEmitter = new E2();
+
+    capturedPointerId = -1;
 
     public init(params: RenderInitParams) {
         if (WEBGL.isWebGL2Available()) {
@@ -93,22 +104,85 @@ export default class MainRenderer implements RendererInstance {
 
     private initEvent() {
         this.transformControls?.addEventListener('dragging-changed', (event) => {
+            if (this.state !== STATE.NONE) return;
             (this.controls as OrbitControls).enabled = !event.value;
         });
         this.transformControls?.addEventListener('change', (event) => {
+            if (this.state !== STATE.NONE) return;
             this.eventEmitter.emit(MainRendererEvent.ObjectTransform, event);
         });
-        this.labelRenderer.domElement.addEventListener('click', (event) => {
-            this.eventEmitter.emit(MainRendererEvent.MeshSelect, event, this.camera, this.renderer);
-        });
-        this.labelRenderer.domElement.addEventListener('keydown', (event: KeyboardEvent) => {
-            event?.preventDefault();
-        });
-
-        this.labelRenderer.domElement.addEventListener('keyup', (event: KeyboardEvent) => {
-            event?.preventDefault();
-        });
+        if (this.labelRenderer) {
+            this.labelRenderer.domElement.addEventListener('click', this.onClick);
+            this.labelRenderer.domElement.addEventListener('keydown', this.onKeyDown);
+            this.labelRenderer.domElement.addEventListener('pointerdown', this.onPointerDown);
+            this.labelRenderer.domElement.addEventListener('pointermove', this.onPointerMove);
+            this.labelRenderer.domElement.addEventListener('pointercancel', this.onPointerCancel);
+        }
     }
+
+    private removeAllEvent() {
+        if (this.labelRenderer) {
+            this.labelRenderer.domElement.removeEventListener('click', this.onClick);
+            this.labelRenderer.domElement.removeEventListener('keydown', this.onKeyDown);
+            this.labelRenderer.domElement.removeEventListener('pointerdown', this.onPointerDown);
+            this.labelRenderer.domElement.removeEventListener('pointermove', this.onPointerMove);
+            this.labelRenderer.domElement.removeEventListener('pointercancel', this.onPointerCancel);
+        }
+    }
+
+    private onPointerDown = (event: PointerEvent) => {
+        if (this.state === STATE.NONE || this.capturedPointerId !== -1) return;
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        this.labelRenderer.domElement.setPointerCapture(event.pointerId);
+        this.capturedPointerId = event.pointerId;
+        if (this.state === STATE.DRAW_PICK) {
+            this.eventEmitter.emit(MainRendererEvent.MeshCreateClickStart, event);
+        } else if (this.state === STATE.DRAW_DRAG) {
+            this.eventEmitter.emit(MainRendererEvent.MeshCreateDragStart, event);
+        }
+        this.labelRenderer.domElement.addEventListener('pointerup', this.onPointerUp);
+    };
+
+    private onPointerMove = (event: PointerEvent) => {
+        if (this.state === STATE.DRAW_PICK && this.capturedPointerId === event.pointerId) {
+            this.eventEmitter.emit(MainRendererEvent.MeshCreateClickMove, event);
+        } else if (this.state === STATE.DRAW_DRAG && this.capturedPointerId === event.pointerId) {
+            this.eventEmitter.emit(MainRendererEvent.MeshCreateDrag, event);
+        }
+    };
+
+    private onPointerUp = (event: PointerEvent) => {
+        if (this.state === STATE.DRAW_PICK && this.capturedPointerId === event.pointerId) {
+            this.eventEmitter.emit(MainRendererEvent.MeshCreateClickEnd, event);
+        } else if (this.state === STATE.DRAW_DRAG && this.capturedPointerId === event.pointerId) {
+            this.eventEmitter.emit(MainRendererEvent.MeshCreateDragEnd, event);
+        }
+        this.state = STATE.NONE;
+        this.labelRenderer.domElement.releasePointerCapture(event.pointerId);
+        this.capturedPointerId = -1;
+        this.labelRenderer.domElement.removeEventListener('pointerup', this.onPointerUp);
+    };
+
+    private onPointerCancel = () => {
+        this.capturedPointerId = -1;
+        this.labelRenderer?.domElement.removeEventListener('pointerup', this.onPointerUp);
+    };
+
+    private onClick = (event: MouseEvent) => {
+        if (this.state !== STATE.NONE) return;
+        this.eventEmitter.emit(MainRendererEvent.MeshSelect, event, this.camera, this.renderer);
+    };
+
+    private onKeyDown = (event: KeyboardEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (this.state !== STATE.NONE) return;
+        switch (event.key) {
+            case 'Delete':
+                this.eventEmitter.emit(MainRendererEvent.MeshDelete);
+                break;
+        }
+    };
 
     public addEventHandler(name: MainRendererEvent, callBack: Callback) {
         this.eventEmitter.on(name, callBack);
@@ -120,6 +194,19 @@ export default class MainRenderer implements RendererInstance {
 
     public changeCursorType(cursor: CURSOR_TYPE) {
         if (this.renderer) this.renderer.domElement.style.cursor = cursor;
+    }
+
+    public changeState(state: STATE): void {
+        if (state === this.state) return;
+        const enable = state === STATE.NONE;
+        if (this.controls) {
+            this.controls.enablePan = enable;
+            this.controls.enableRotate = enable;
+        }
+        if (this.transformControls) {
+            this.transformControls.enabled = enable;
+        }
+        this.state = state;
     }
 
     public resize(width: number, height: number, resizeRenderer = true): void {
@@ -134,7 +221,7 @@ export default class MainRenderer implements RendererInstance {
         this.camera.updateProjectionMatrix();
         if (resizeRenderer) {
             this.renderer.setSize(width, height);
-            this.labelRenderer.setSize(width, height);
+            this.labelRenderer?.setSize(width, height);
         }
 
         const insetWidth = height / 6; // square
@@ -182,11 +269,21 @@ export default class MainRenderer implements RendererInstance {
 
         this.renderer.render(this.helperScene, this.helperCamera);
 
-        this.labelRenderer.render(scene, this.camera);
+        this.labelRenderer?.render(scene, this.camera);
 
         this.renderer.setScissorTest(false);
         this.renderer.autoClear = true;
     }
 
-    // todo public destroy
+    public destroy() {
+        this.controls?.dispose();
+        this.transformControls?.dispose();
+        this.controls = null;
+        this.transformControls = null;
+        this.eventEmitter.destroy();
+        this.removeAllEvent();
+        this.axesHelper.dispose();
+        this.renderer?.dispose();
+        // this.labelRenderer = null;
+    }
 }
