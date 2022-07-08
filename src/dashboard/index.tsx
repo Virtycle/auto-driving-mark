@@ -56,11 +56,10 @@ export default function Dashboard(props: { contentHeight: number; contentWidth: 
                             name: item.id,
                             label: `${item.category} ${item.number}`,
                             active: false,
-                            id: item.number,
                         });
                     });
                     setTimeout(() => {
-                        manager.sceneRenderInstance.mainRendererInstance.changeState(STATE.DRAW_PICK);
+                        manager.sceneRenderInstance.mainRendererInstance.changeState(STATE.DRAW_DRAG);
                     }, 5000);
                 }
             });

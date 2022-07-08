@@ -47,4 +47,13 @@ function getCanvasCssPosition(event: MouseEvent, canvas: HTMLCanvasElement): Vec
     };
 }
 
-export { getBoxDirection, getCanvasRelativePosition, getCanvasCssPosition };
+// see raycaster
+function getNormalizedPosition(event: MouseEvent, canvas: HTMLCanvasElement): Vec2 {
+    const rect = canvas.getBoundingClientRect();
+    return {
+        x: ((event.clientX - rect.left) * 2) / rect.width - 1,
+        y: ((event.clientY - rect.top) * -2) / rect.height + 1,
+    };
+}
+
+export { getBoxDirection, getCanvasRelativePosition, getCanvasCssPosition, getNormalizedPosition };

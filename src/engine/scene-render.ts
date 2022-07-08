@@ -53,6 +53,8 @@ export default class SceneRender {
 
     private basePlane: Plane | undefined;
 
+    public beforeRenderFunction: (() => void) | null = null;
+
     public init({
         mainDiv,
         topDiv,
@@ -125,6 +127,7 @@ export default class SceneRender {
 
     public render(): void {
         const zoom = this.syncThreeViewZoom();
+        if (typeof this.beforeRenderFunction === 'function') this.beforeRenderFunction();
         this.transformControlsGroup.visible = true;
         this.mainRenderer.render(this.wrappedScene);
         this.transformControlsGroup.visible = false;

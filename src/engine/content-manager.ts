@@ -10,14 +10,15 @@ import {
     LineSegments,
     OrthographicCamera,
     Vector3,
+    Quaternion,
 } from 'three';
 import SceneRender from './scene-render';
 import MeshFactory from './mesh-factory';
 import GPUPickHelper, { lineMaterialNoId, meshMaterialNoId, pointsMaterialNoId } from './GPUPickHelper';
 import { MainRendererEvent } from './main-renderer';
-import { getCanvasCssPosition } from './untils';
+import { getCanvasCssPosition, getNormalizedPosition } from './untils';
 import { CubeCollection, ObjectLayers, Vec3, ThreeViewRendererEvent, CURSOR_TYPE } from './interface';
-
+import { v4 as uuidv4 } from 'uuid';
 export default class ContentManager3D {
     // 渲染器
     private sceneRender = new SceneRender();
@@ -41,6 +42,17 @@ export default class ContentManager3D {
     private mainPicker = new GPUPickHelper();
     // three view canvas gpu pick
     private threeViewPicker = new GPUPickHelper();
+    // first pick position for mouse event
+    private pickPosition = new Vector3();
+
+    public defaultCubeInfo = {
+        rotation: { x: 0, y: 0, z: 0 },
+        dimension: { x: 3, y: 5, z: 1 },
+        color: this.inActiveColor,
+        label: '小汽车',
+    };
+
+    private minDimension = 0.3;
 
     public initScene(params: {
         mainDiv: HTMLDivElement;
@@ -59,13 +71,14 @@ export default class ContentManager3D {
         this.circleRadius = circleRadius ? circleRadius : this.circleRadius;
         const limit = MeshFactory.createCircleLimit(this.circleRadius);
         const baseZInner = baseZ || this.baseZ;
-        const vec3 = new Vector3(0, 0, baseZInner);
-        limit.position.copy(vec3);
+        const vec3 = new Vector3(0, 0, baseZInner || 1);
+        limit.position.set(0, 0, baseZInner);
         this.sceneRender.setBasePlane(vec3, Math.abs(baseZInner));
         const pointMaterial = MeshFactory.createPointMaterial(pointCloud);
         const points = MeshFactory.createPointsCloud(pointCloud, pointMaterial);
         this.sceneRender.addPointCloud(points);
         this.sceneRender.addCircle(limit);
+        this.sceneRender.beforeRenderFunction = this.changeActiveCube.bind(this);
         this.sceneRender.startAnimate();
     }
 
@@ -74,9 +87,6 @@ export default class ContentManager3D {
     }
 
     private initEvent() {
-        this.sceneRender.mainRendererInstance.addEventHandler(MainRendererEvent.ObjectTransform, () => {
-            this.changeActiveCube();
-        });
         this.sceneRender.mainRendererInstance.addEventHandler(
             MainRendererEvent.MeshSelect,
             (event, camera, renderer) => {
@@ -94,12 +104,100 @@ export default class ContentManager3D {
             if (!this.activeCubeCollectionName) return;
             this.deleteActiveCube();
         });
-        this.sceneRender.mainRendererInstance.addEventHandler(MainRendererEvent.MeshCreateClickStart, (event) => {
-            if (this.activeCubeCollectionName) {
-                this.inActiveCube();
-            }
-            console.log(event);
-        });
+        this.sceneRender.mainRendererInstance.addEventHandler(
+            MainRendererEvent.MeshCreateClickStart,
+            (event, camera, renderer) => {
+                if (this.activeCubeCollectionName) {
+                    this.inActiveCube();
+                }
+                const posNorm = getNormalizedPosition(event as PointerEvent, (renderer as WebGLRenderer).domElement);
+                const pos = this.sceneRender.testPlanPosition(posNorm, camera as PerspectiveCamera);
+                this.pickPosition.copy(pos);
+                pos.z = pos.z + this.defaultCubeInfo.dimension.z / 2;
+                this.addCubeCollection({
+                    position: pos,
+                    name: uuidv4() as string,
+                    active: true,
+                    ...this.defaultCubeInfo,
+                });
+            },
+        );
+
+        this.sceneRender.mainRendererInstance.addEventHandler(
+            MainRendererEvent.MeshCreateClickMove,
+            (event, camera, renderer) => {
+                if (!this.activeCubeCollectionName) return;
+                const posNorm = getNormalizedPosition(event as PointerEvent, (renderer as WebGLRenderer).domElement);
+                const pos = this.sceneRender.testPlanPosition(posNorm, camera as PerspectiveCamera);
+                const axis = new Vector3(0, 1, 0);
+                let angleY = pos.sub(this.pickPosition).angleTo(axis);
+                const dir = new Vector3().crossVectors(pos, axis);
+                angleY = dir.z <= 0 ? angleY : 2 * Math.PI - angleY;
+                const group = this.sceneRender.findCube(this.activeCubeCollectionName);
+                const quaternion = new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), angleY);
+                group?.quaternion.copy(quaternion);
+            },
+        );
+
+        this.sceneRender.mainRendererInstance.addEventHandler(
+            MainRendererEvent.MeshCreateDragStart,
+            (event, camera, renderer) => {
+                if (this.activeCubeCollectionName) {
+                    this.inActiveCube();
+                }
+                const posNorm = getNormalizedPosition(event as PointerEvent, (renderer as WebGLRenderer).domElement);
+                const pos = this.sceneRender.testPlanPosition(posNorm, camera as PerspectiveCamera);
+                this.pickPosition.copy(pos);
+            },
+        );
+
+        this.sceneRender.mainRendererInstance.addEventHandler(
+            MainRendererEvent.MeshCreateDrag,
+            (event, camera, renderer) => {
+                const posNorm = getNormalizedPosition(event as PointerEvent, (renderer as WebGLRenderer).domElement);
+                const pos = this.sceneRender.testPlanPosition(posNorm, camera as PerspectiveCamera);
+                const dir = new Vector3().subVectors(pos, this.pickPosition).multiplyScalar(4).round().divideScalar(4);
+                const dimension = {
+                    x: Math.abs(dir.x),
+                    y: Math.abs(dir.y),
+                    z: this.defaultCubeInfo.dimension.z,
+                };
+                const position = this.pickPosition.clone().add(dir.divideScalar(2));
+                if (
+                    !this.activeCubeCollectionName &&
+                    (dimension.x < this.minDimension || dimension.y < this.minDimension)
+                ) {
+                    return;
+                } else if (!this.activeCubeCollectionName) {
+                    this.addCubeCollection({
+                        position: {
+                            x: position.x,
+                            y: position.y,
+                            z: position.z + this.defaultCubeInfo.dimension.z / 2,
+                        },
+                        dimension,
+                        rotation: { x: 0, y: 0, z: 0 },
+                        name: uuidv4() as string,
+                        active: true,
+                        label: this.defaultCubeInfo.label,
+                        color: this.defaultCubeInfo.color,
+                    });
+                } else {
+                    const group = this.sceneRender.findCube(this.activeCubeCollectionName);
+                    const collection = this.cubeCollection.find((item) => item.name === this.activeCubeCollectionName);
+                    if (group && collection) {
+                        const { box3Origin } = collection;
+                        const scale = {
+                            x: dimension.x / (box3Origin.max.x * 2),
+                            y: dimension.y / (box3Origin.max.y * 2),
+                        };
+                        group.position.set(position.x, position.y, position.z);
+                        group.scale.set(scale.x, scale.y, 1);
+                    }
+                }
+            },
+        );
+
         // this.sceneRender.topRendererInstance.addEventHandler(
         //     ThreeViewRendererEvent.ObjectSelect,
         //     (event, camera, renderer) => {
@@ -118,6 +216,7 @@ export default class ContentManager3D {
                     camera as OrthographicCamera,
                     renderer as WebGLRenderer,
                 );
+                // this.sceneRender.topRendererInstance.render(this.threeViewPicker.toPickScene, 1);
                 if (id === 255 << 16) {
                     console.log('mesh');
                 } else if (id === 255 << 8) {
@@ -155,9 +254,8 @@ export default class ContentManager3D {
         active: boolean;
         color?: Color;
         label: string;
-        id: number; // 唯一 gpu pick
     }): void {
-        const { position, rotation, dimension, name, active, color, label, id } = params;
+        const { position, rotation, dimension, name, active, color, label } = params;
         const result = MeshFactory.creatCubeMesh({
             position,
             rotation,
@@ -166,7 +264,6 @@ export default class ContentManager3D {
             color: color ? color : this.inActiveColor,
             label,
         });
-        this.cubeCollection.push(Object.assign(result, { id }));
         const { mesh, meshHelper, arrow, name: nameI, matrix, points } = result;
         const group = new Group();
         group.name = nameI;
@@ -180,7 +277,9 @@ export default class ContentManager3D {
         this.sceneRender.addCube(group);
         // for pick
         const { geometry } = mesh;
-        this.mainPicker.addPickMeshFromGeo(geometry, matrix, id);
+        const id = this.mainPicker.addPickMeshFromGeo(geometry, matrix);
+
+        this.cubeCollection.push(Object.assign(result, { id }));
 
         if (active) {
             this.activeCube(name, result as CubeCollection);
@@ -270,19 +369,16 @@ export default class ContentManager3D {
         const group = this.sceneRender.findCube(this.activeCubeCollectionName);
         if (collection && group) {
             const { matrix } = collection;
-            this.flyToCollection(collection);
-            this.mainPicker.updatePickMeshMatrix(collection.id, group.matrix);
-            this.threeViewPicker.updateAllPickMeshMatrix(group.matrix);
             matrix.copy(group.matrix);
+            this.flyToCollection(collection);
+            this.mainPicker.updatePickMeshMatrix(collection.id, matrix);
+            this.threeViewPicker.updateAllPickMeshMatrix(matrix);
         }
     }
 
     flyToCollection(collection: CubeCollection) {
-        const {
-            mesh: { matrixWorld },
-            box3Origin,
-        } = collection;
-        this.sceneRender.flyTo(box3Origin, matrixWorld);
+        const { matrix, box3Origin } = collection;
+        this.sceneRender.flyTo(box3Origin, matrix);
     }
 
     toggleCubeCollection(collection: CubeCollection, seleted: boolean): void {

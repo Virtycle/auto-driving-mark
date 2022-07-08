@@ -136,18 +136,18 @@ export default class MainRenderer implements RendererInstance {
         this.labelRenderer.domElement.setPointerCapture(event.pointerId);
         this.capturedPointerId = event.pointerId;
         if (this.state === STATE.DRAW_PICK) {
-            this.eventEmitter.emit(MainRendererEvent.MeshCreateClickStart, event);
+            this.eventEmitter.emit(MainRendererEvent.MeshCreateClickStart, event, this.camera, this.renderer);
         } else if (this.state === STATE.DRAW_DRAG) {
-            this.eventEmitter.emit(MainRendererEvent.MeshCreateDragStart, event);
+            this.eventEmitter.emit(MainRendererEvent.MeshCreateDragStart, event, this.camera, this.renderer);
         }
         this.labelRenderer.domElement.addEventListener('pointerup', this.onPointerUp);
     };
 
     private onPointerMove = (event: PointerEvent) => {
         if (this.state === STATE.DRAW_PICK && this.capturedPointerId === event.pointerId) {
-            this.eventEmitter.emit(MainRendererEvent.MeshCreateClickMove, event);
+            this.eventEmitter.emit(MainRendererEvent.MeshCreateClickMove, event, this.camera, this.renderer);
         } else if (this.state === STATE.DRAW_DRAG && this.capturedPointerId === event.pointerId) {
-            this.eventEmitter.emit(MainRendererEvent.MeshCreateDrag, event);
+            this.eventEmitter.emit(MainRendererEvent.MeshCreateDrag, event, this.camera, this.renderer);
         }
     };
 
@@ -157,7 +157,7 @@ export default class MainRenderer implements RendererInstance {
         } else if (this.state === STATE.DRAW_DRAG && this.capturedPointerId === event.pointerId) {
             this.eventEmitter.emit(MainRendererEvent.MeshCreateDragEnd, event);
         }
-        this.state = STATE.NONE;
+        this.changeState(STATE.NONE);
         this.labelRenderer.domElement.releasePointerCapture(event.pointerId);
         this.capturedPointerId = -1;
         this.labelRenderer.domElement.removeEventListener('pointerup', this.onPointerUp);
