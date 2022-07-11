@@ -193,7 +193,7 @@ export default class MainRenderer implements RendererInstance {
     }
 
     public changeCursorType(cursor: CURSOR_TYPE) {
-        if (this.renderer) this.renderer.domElement.style.cursor = cursor;
+        if (this.renderer) this.labelRenderer.domElement.style.cursor = cursor;
     }
 
     public changeState(state: STATE): void {
@@ -205,6 +205,11 @@ export default class MainRenderer implements RendererInstance {
         }
         if (this.transformControls) {
             this.transformControls.enabled = enable;
+        }
+        if (state === STATE.DRAW_DRAG || state === STATE.DRAW_PICK) {
+            this.changeCursorType(CURSOR_TYPE.CROSS);
+        } else {
+            this.changeCursorType(CURSOR_TYPE.DEFAULT);
         }
         this.state = state;
     }

@@ -7,7 +7,7 @@ import Dashboard from '../dashboard';
 import Header from '../layout/header';
 import FooterControl from '../layout/footer-control';
 import MainList from '../layout/main-list';
-import { throttle } from 'lodash';
+import throttle from 'lodash/throttle';
 import ResizeObserver from 'resize-observer-polyfill';
 import zhCN from 'antd/lib/locale/zh_CN';
 import 'antd/dist/antd.css';
@@ -19,6 +19,8 @@ const CircleLoading = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 function Container() {
     const [isInitToken, setIsInitToken] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [collapsed, setCollapsed] = useState(false);
+    const layoutRef = useRef<HTMLElement>(null);
     const [contentSize, setContentSize] = useState({
         width: 0,
         height: 0,
@@ -54,14 +56,35 @@ function Container() {
         };
     }, []);
 
+    const toggleFullSceen = () => {
+        const flag = document.fullscreenElement === layoutRef.current;
+        try {
+            if (!flag) {
+                layoutRef.current?.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     return (
         <ConfigProvider locale={zhCN}>
             <GlobalContext>
                 <Spin spinning={loading} indicator={CircleLoading} size="large" wrapperClassName="spo-total-loading">
-                    <Layout style={{ height: '100%' }}>
-                        <Header />
+                    <Layout style={{ height: '100%' }} ref={layoutRef}>
+                        <Header toggleFullSceen={toggleFullSceen} />
                         <Layout style={{ height: '100%' }}>
-                            <Sider width={200} className="spo-sider" style={{ background: '#BBBBBB' }}>
+                            <Sider
+                                width={200}
+                                className="spo-sider"
+                                style={{ background: '#BBBBBB' }}
+                                collapsible
+                                collapsed={collapsed}
+                                collapsedWidth={0}
+                                trigger={null}
+                            >
                                 <MainList />
                             </Sider>
                             <Content className="spo-content" ref={contentRef}>

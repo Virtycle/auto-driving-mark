@@ -110,6 +110,7 @@ export default class ContentManager3D {
                 if (this.activeCubeCollectionName) {
                     this.inActiveCube();
                 }
+                this.sceneRender.mainRendererInstance.changeCursorType(CURSOR_TYPE.CROSS);
                 const posNorm = getNormalizedPosition(event as PointerEvent, (renderer as WebGLRenderer).domElement);
                 const pos = this.sceneRender.testPlanPosition(posNorm, camera as PerspectiveCamera);
                 this.pickPosition.copy(pos);
