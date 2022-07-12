@@ -74,7 +74,7 @@ export default class MeshFactory {
         name: string;
         color: Color;
         label: string;
-    }): Pick<CubeCollection, Exclude<keyof CubeCollection, 'id'>> {
+    }): Pick<CubeCollection, Exclude<keyof CubeCollection, 'id' | 'pointsNum'>> {
         const { position, rotation, dimension, name, color, label } = cubeParams;
         const geometry = new BoxGeometry(dimension.x, dimension.y, dimension.z);
         const material = new MeshBasicMaterial({
@@ -140,7 +140,7 @@ export default class MeshFactory {
     public static disposeMesh(itemToRemove: Mesh | Points | Line): void {
         itemToRemove.geometry.dispose();
 
-        if (itemToRemove.material instanceof Array) {
+        if (Array.isArray(itemToRemove.material)) {
             itemToRemove.material.forEach((v) => v.dispose());
         } else {
             itemToRemove.material.dispose();

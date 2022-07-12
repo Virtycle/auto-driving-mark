@@ -16,7 +16,7 @@ import SceneRender from './scene-render';
 import MeshFactory from './mesh-factory';
 import GPUPickHelper, { lineMaterialNoId, meshMaterialNoId, pointsMaterialNoId } from './GPUPickHelper';
 import { MainRendererEvent } from './main-renderer';
-import { getCanvasCssPosition, getNormalizedPosition } from './untils';
+import { getCanvasCssPosition, getNormalizedPosition, containPointsNum } from './untils';
 import { CubeCollection, ObjectLayers, Vec3, ThreeViewRendererEvent, CURSOR_TYPE } from './interface';
 import { v4 as uuidv4 } from 'uuid';
 export default class ContentManager3D {
@@ -44,6 +44,8 @@ export default class ContentManager3D {
     private threeViewPicker = new GPUPickHelper();
     // first pick position for mouse event
     private pickPosition = new Vector3();
+
+    private pointsCloud!: Points;
 
     public defaultCubeInfo = {
         rotation: { x: 0, y: 0, z: 0 },
@@ -76,6 +78,7 @@ export default class ContentManager3D {
         this.sceneRender.setBasePlane(vec3, Math.abs(baseZInner));
         const pointMaterial = MeshFactory.createPointMaterial(pointCloud);
         const points = MeshFactory.createPointsCloud(pointCloud, pointMaterial);
+        this.pointsCloud = points;
         this.sceneRender.addPointCloud(points);
         this.sceneRender.addCircle(limit);
         this.sceneRender.beforeRenderFunction = this.changeActiveCube.bind(this);
@@ -265,7 +268,7 @@ export default class ContentManager3D {
             color: color ? color : this.inActiveColor,
             label,
         });
-        const { mesh, meshHelper, arrow, name: nameI, matrix, points } = result;
+        const { mesh, meshHelper, arrow, name: nameI, matrix, points, box3Origin } = result;
         const group = new Group();
         group.name = nameI;
         group.add(mesh);
@@ -279,8 +282,8 @@ export default class ContentManager3D {
         // for pick
         const { geometry } = mesh;
         const id = this.mainPicker.addPickMeshFromGeo(geometry, matrix);
-
-        this.cubeCollection.push(Object.assign(result, { id }));
+        const pointsNum = containPointsNum(box3Origin, matrix, this.pointsCloud);
+        this.cubeCollection.push(Object.assign(result, { id, pointsNum }));
 
         if (active) {
             this.activeCube(name, result as CubeCollection);
@@ -369,11 +372,12 @@ export default class ContentManager3D {
         const collection = this.cubeCollection.find((item) => item.name === this.activeCubeCollectionName);
         const group = this.sceneRender.findCube(this.activeCubeCollectionName);
         if (collection && group) {
-            const { matrix } = collection;
+            const { matrix, box3Origin } = collection;
             matrix.copy(group.matrix);
             this.flyToCollection(collection);
             this.mainPicker.updatePickMeshMatrix(collection.id, matrix);
             this.threeViewPicker.updateAllPickMeshMatrix(matrix);
+            collection.pointsNum = containPointsNum(box3Origin, matrix, this.pointsCloud);
         }
     }
 

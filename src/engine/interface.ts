@@ -82,6 +82,7 @@ export interface CubeCollection {
     color: Color;
     label2D: CSS2DObject;
     id: number;
+    pointsNum: number;
 }
 
 export enum ObjectLayers {

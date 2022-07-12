@@ -176,7 +176,7 @@ export default function Dashboard(props: {
                 innerRef={layoutRef}
                 {...defaultLayoutOpt}
             >
-                <div key="spo-2d-main" className="spo-dashboard-item" id="spo-2d-main">
+                <div key="spo-2d-main" className="spo-dashboard-item" tabIndex={-1} id="spo-2d-main">
                     2D Canvas Main
                 </div>
                 <div key="spo-3d-tools" className="spo-dashboard-item" id="spo-3d-tools">
