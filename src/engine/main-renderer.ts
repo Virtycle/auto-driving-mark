@@ -175,7 +175,7 @@ export default class MainRenderer implements RendererInstance {
 
     private onKeyDown = (event: KeyboardEvent) => {
         event.preventDefault();
-        event.stopPropagation();
+        // event.stopPropagation();
         if (this.state !== STATE.NONE) return;
         switch (event.key) {
             case 'Delete':

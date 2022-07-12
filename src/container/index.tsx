@@ -88,7 +88,11 @@ function Container() {
                                 <MainList />
                             </Sider>
                             <Content className="spo-content" ref={contentRef}>
-                                <Dashboard contentHeight={contentSize.height} contentWidth={contentSize.width} />
+                                <Dashboard
+                                    contentHeight={contentSize.height}
+                                    contentWidth={contentSize.width}
+                                    changeSiderCollapsed={setCollapsed}
+                                />
                             </Content>
                         </Layout>
                         <FooterControl />

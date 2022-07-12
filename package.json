@@ -160,6 +160,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "json-server": "^0.17.0",
     "node-sass": "^7.0.1",
     "prettier": "^2.7.1",
