@@ -66,7 +66,7 @@ export default function Dashboard(props: {
                         });
                     });
                     // setTimeout(() => {
-                    //     manager.sceneRenderInstance.mainRendererInstance.changeState(STATE.DRAW_DRAG);
+                    //     manager.sceneRenderInstance.mainRendererInstance.changeState(STATE.DRAW_PICK);
                     // }, 5000);
                 }
             });

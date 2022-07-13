@@ -13,8 +13,8 @@ import {
     Vector3,
     PerspectiveCamera,
 } from 'three';
-import { STATE, Vec2 } from './interface';
-import MainRenderer from './main-renderer';
+import { STATE, ThreeViewRendererEvent, Vec2 } from './interface';
+import MainRenderer, { MainRendererEvent } from './main-renderer';
 import FrontRenderer from './front-renderer';
 import TopRenderer from './top-renderer';
 import SideRenderer from './side-renderer';
@@ -22,12 +22,15 @@ import MeshFactory from './mesh-factory';
 import WEBGL from 'three/examples/jsm/capabilities/WebGL';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls';
 import { getBoxDirection } from './untils';
+import throttle from 'lodash/throttle';
 
 /**
  * Rendering Engine
  */
 export default class SceneRender {
     public state: STATE = STATE.NONE;
+
+    private renderRequested = false;
 
     private mainRenderer = new MainRenderer();
 
@@ -81,7 +84,27 @@ export default class SceneRender {
         this.wrappedScene.add(this.cirCleRoot);
         this.addTransformControl(this.mainRenderer.transformControls as TransformControls);
         this.wrappedScene.add(this.transformControlsGroup);
+        this.initEvent();
         // this.wrappedScene.add(new CameraHelper(this.topRenderer.camera as OrthographicCamera));
+    }
+
+    private initEvent() {
+        this.mainRenderer.addEventHandler(
+            MainRendererEvent.CameraTransform,
+            throttle(() => {
+                this.transformControlsGroup.visible = true;
+                this.mainRenderer.requestRenderIfNotRequested(this.wrappedScene);
+            }, 34),
+        );
+        this.topRenderer.addEventHandler(ThreeViewRendererEvent.CameraTransform, () => {
+            this.requestRenderThreeViewIfNotRequested();
+        });
+        this.sideRenderer.addEventHandler(ThreeViewRendererEvent.CameraTransform, () => {
+            this.requestRenderThreeViewIfNotRequested();
+        });
+        this.frontRenderer.addEventHandler(ThreeViewRendererEvent.CameraTransform, () => {
+            this.requestRenderThreeViewIfNotRequested();
+        });
     }
 
     get mainRendererInstance() {
@@ -106,6 +129,7 @@ export default class SceneRender {
     /**
      * start animation.
      */
+    // 建议按需渲染
     public startAnimate(): void {
         const animate = () => {
             this.animationId = requestAnimationFrame(animate);
@@ -117,6 +141,7 @@ export default class SceneRender {
     public stopAnimate(): void {
         if (this.animationId) {
             cancelAnimationFrame(this.animationId);
+            this.animationId = 0;
         }
     }
 
@@ -126,14 +151,34 @@ export default class SceneRender {
     }
 
     public render(): void {
-        const zoom = this.syncThreeViewZoom();
+        this.renderRequested = false;
         if (typeof this.beforeRenderFunction === 'function') this.beforeRenderFunction();
         this.transformControlsGroup.visible = true;
         this.mainRenderer.render(this.wrappedScene);
+        this.renderThreeView();
+    }
+
+    public renderThreeView(): void {
+        this.renderRequested = false;
+        const zoom = this.syncThreeViewZoom();
         this.transformControlsGroup.visible = false;
         this.frontRenderer.render(this.wrappedScene, zoom);
         this.topRenderer.render(this.wrappedScene, zoom);
         this.sideRenderer.render(this.wrappedScene, zoom);
+    }
+
+    public requestRenderIfNotRequested() {
+        if (!this.renderRequested) {
+            this.renderRequested = true;
+            requestAnimationFrame(this.render.bind(this));
+        }
+    }
+
+    public requestRenderThreeViewIfNotRequested() {
+        if (!this.renderRequested) {
+            this.renderRequested = true;
+            requestAnimationFrame(this.renderThreeView.bind(this));
+        }
     }
 
     public resize() {
@@ -153,6 +198,7 @@ export default class SceneRender {
             this.sideRenderer.parent?.clientWidth as number,
             this.sideRenderer.parent?.clientHeight as number,
         );
+        if (!this.animationId) this.requestRenderIfNotRequested();
     }
 
     public addPointCloud(points: Points): void {

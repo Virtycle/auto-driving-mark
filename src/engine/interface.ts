@@ -25,6 +25,7 @@ export enum ThreeViewRendererEvent {
     ObjectRelease = 'objectRelease',
     ObjectChange = 'objectChange',
     MouseMove = 'mouseMove',
+    CameraTransform = 'cameraTransform',
 }
 
 export enum CURSOR_TYPE {

@@ -77,6 +77,9 @@ export default class TopRenderer implements RendererInstance {
             this.renderer.domElement.addEventListener('pointermove', this.onPointerMove);
             this.renderer.domElement.addEventListener('pointercancel', this.onPointerCancel);
         }
+        this.controls?.addEventListener('change', () => {
+            this.eventEmitter.emit(ThreeViewRendererEvent.CameraTransform);
+        });
     }
 
     private removeAllEvent() {

@@ -20,6 +20,7 @@ const rendererParam = { antialias: true, alpha: true };
 
 export enum MainRendererEvent {
     ObjectTransform = 'objectTransform',
+    CameraTransform = 'cameraTransform',
     MeshSelect = 'meshSelect',
     MeshDelete = 'meshDelete',
     MeshCreateClickStart = 'meshCreateClickStart',
@@ -61,6 +62,8 @@ export default class MainRenderer implements RendererInstance {
 
     capturedPointerId = -1;
 
+    renderRequested = false;
+
     public init(params: RenderInitParams) {
         if (WEBGL.isWebGL2Available()) {
             this.renderer = new WebGLRenderer(rendererParam) as WebGLRenderer;
@@ -90,6 +93,7 @@ export default class MainRenderer implements RendererInstance {
         this.controls.minDistance = 5;
         this.controls.maxDistance = 1000;
         this.controls.maxPolarAngle = (Math.PI * 7) / 12;
+        this.controls.enableDamping = true;
         this.controls.update();
         this.transformControls = new TransformControls(this.camera, this.labelRenderer.domElement);
         this.transformControls.space = 'local';
@@ -110,6 +114,9 @@ export default class MainRenderer implements RendererInstance {
         this.transformControls?.addEventListener('change', (event) => {
             if (this.state !== STATE.NONE) return;
             this.eventEmitter.emit(MainRendererEvent.ObjectTransform, event);
+        });
+        this.controls?.addEventListener('change', () => {
+            this.eventEmitter.emit(MainRendererEvent.CameraTransform);
         });
         if (this.labelRenderer) {
             this.labelRenderer.domElement.addEventListener('click', this.onClick);
@@ -250,8 +257,9 @@ export default class MainRenderer implements RendererInstance {
         if (!this.renderer || !this.camera) {
             throw Error('Not initialized.');
         }
-        this.renderer.setViewport(0, 0, this.width, this.height);
+        this.renderRequested = false;
         this.controls?.update();
+        this.renderer.setViewport(0, 0, this.width, this.height);
         this.renderer.render(scene, this.camera);
 
         // inset scene
@@ -277,6 +285,13 @@ export default class MainRenderer implements RendererInstance {
 
         this.renderer.setScissorTest(false);
         this.renderer.autoClear = true;
+    }
+
+    public requestRenderIfNotRequested(scene: Scene) {
+        if (!this.renderRequested) {
+            this.renderRequested = true;
+            requestAnimationFrame(this.render.bind(this, scene));
+        }
     }
 
     public destroy() {

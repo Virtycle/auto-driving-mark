@@ -19,6 +19,8 @@ import { MainRendererEvent } from './main-renderer';
 import { getCanvasCssPosition, getNormalizedPosition, containPointsNum } from './untils';
 import { CubeCollection, ObjectLayers, Vec3, ThreeViewRendererEvent, CURSOR_TYPE } from './interface';
 import { v4 as uuidv4 } from 'uuid';
+import throttle from 'lodash/throttle';
+
 export default class ContentManager3D {
     // 渲染器
     private sceneRender = new SceneRender();
@@ -82,7 +84,7 @@ export default class ContentManager3D {
         this.sceneRender.addPointCloud(points);
         this.sceneRender.addCircle(limit);
         this.sceneRender.beforeRenderFunction = this.changeActiveCube.bind(this);
-        this.sceneRender.startAnimate();
+        this.sceneRender.requestRenderIfNotRequested();
     }
 
     get sceneRenderInstance() {
@@ -102,6 +104,12 @@ export default class ContentManager3D {
                     this.inActiveCube();
                 }
             },
+        );
+        this.sceneRender.mainRendererInstance.addEventHandler(
+            MainRendererEvent.ObjectTransform,
+            throttle(() => {
+                this.sceneRender.requestRenderIfNotRequested();
+            }, 34),
         );
         this.sceneRender.mainRendererInstance.addEventHandler(MainRendererEvent.MeshDelete, () => {
             if (!this.activeCubeCollectionName) return;
@@ -140,6 +148,7 @@ export default class ContentManager3D {
                 const group = this.sceneRender.findCube(this.activeCubeCollectionName);
                 const quaternion = new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), angleY);
                 group?.quaternion.copy(quaternion);
+                this.sceneRender.requestRenderIfNotRequested();
             },
         );
 
@@ -198,6 +207,7 @@ export default class ContentManager3D {
                         group.position.set(position.x, position.y, position.z);
                         group.scale.set(scale.x, scale.y, 1);
                     }
+                    this.sceneRender.requestRenderIfNotRequested();
                 }
             },
         );
@@ -327,8 +337,9 @@ export default class ContentManager3D {
         }
 
         this.toggleCubeCollection(collection, true);
-        this.flyToCollection(collection);
+        // this.flyToCollection(collection);
         this.toggleActiveThreeViewPickerMesh(collection, true);
+        this.sceneRender.requestRenderIfNotRequested();
     }
 
     inActiveCube() {
@@ -342,6 +353,7 @@ export default class ContentManager3D {
         }
         this.toggleCubeCollection(collection, false);
         this.toggleActiveThreeViewPickerMesh(collection, false);
+        this.sceneRender.requestRenderIfNotRequested();
     }
 
     private toggleActiveThreeViewPickerMesh(collection: CubeCollection, bool: boolean): void {
