@@ -158,6 +158,20 @@ class PCDLoaderEx extends Loader {
             return PCDheader;
         }
 
+        function getMethod(type, size) {
+            if (type === 'F') {
+                return DataView.prototype.getFloat32;
+            } else if (type === 'U') {
+                if (size === 1) return DataView.prototype.getUint8;
+                if (size === 2) return DataView.prototype.getUint16;
+                if (size === 4) return DataView.prototype.getUint32;
+            } else if (type === 'I') {
+                if (size === 1) return DataView.prototype.getInt8;
+                if (size === 2) return DataView.prototype.getInt16;
+                if (size === 4) return DataView.prototype.getInt32;
+            }
+        }
+
         const textData = LoaderUtils.decodeText(new Uint8Array(data));
 
         // parse header (always ascii format)
@@ -168,7 +182,10 @@ class PCDLoaderEx extends Loader {
 
         const position = [];
         const normal = [];
-        const color = [];
+        const intensity = [];
+
+        let minIntensity = Number.MAX_SAFE_INTEGER;
+        let maxIntensity = Number.MIN_SAFE_INTEGER;
 
         // ascii
 
@@ -188,25 +205,15 @@ class PCDLoaderEx extends Loader {
                     position.push(parseFloat(line[offset.z]));
                 }
 
-                if (offset.rgb !== undefined) {
-                    const rgb_field_index = PCDheader.fields.findIndex((field) => field === 'rgb');
-                    const rgb_type = PCDheader.type[rgb_field_index];
-
-                    const float = parseFloat(line[offset.rgb]);
-                    let rgb = float;
-
-                    if (rgb_type === 'F') {
-                        // treat float values as int
-                        // https://github.com/daavoo/pyntcloud/pull/204/commits/7b4205e64d5ed09abe708b2e91b615690c24d518
-                        const farr = new Float32Array(1);
-                        farr[0] = float;
-                        rgb = new Int32Array(farr.buffer)[0];
+                if (offset.intensity !== undefined) {
+                    const nowNum = parseFloat(line[offset.intensity]);
+                    if (nowNum > maxIntensity) {
+                        maxIntensity = nowNum;
                     }
-
-                    const r = (rgb >> 16) & 0x0000ff;
-                    const g = (rgb >> 8) & 0x0000ff;
-                    const b = (rgb >> 0) & 0x0000ff;
-                    color.push(r / 255, g / 255, b / 255);
+                    if (nowNum < minIntensity) {
+                        minIntensity = nowNum;
+                    }
+                    intensity.push(nowNum);
                 }
 
                 if (offset.normal_x !== undefined) {
@@ -248,10 +255,23 @@ class PCDLoaderEx extends Loader {
                     );
                 }
 
-                if (offset.rgb !== undefined) {
-                    color.push(dataview.getUint8(PCDheader.points * offset.rgb + PCDheader.size[3] * i + 2) / 255.0);
-                    color.push(dataview.getUint8(PCDheader.points * offset.rgb + PCDheader.size[3] * i + 1) / 255.0);
-                    color.push(dataview.getUint8(PCDheader.points * offset.rgb + PCDheader.size[3] * i + 0) / 255.0);
+                if (offset.intensity !== undefined) {
+                    const intensity_index = PCDheader.fields.findIndex((field) => field === 'intensity');
+                    const type = PCDheader.type[intensity_index];
+                    const size = PCDheader.size[intensity_index];
+                    let method = getMethod(type, size);
+                    const nowNum = method.call(
+                        dataview,
+                        PCDheader.points * offset.intensity + PCDheader.size[intensity_index] * i,
+                        this.littleEndian,
+                    );
+                    if (nowNum > maxIntensity) {
+                        maxIntensity = nowNum;
+                    }
+                    if (nowNum < minIntensity) {
+                        minIntensity = nowNum;
+                    }
+                    intensity.push(nowNum);
                 }
 
                 if (offset.normal_x !== undefined) {
@@ -290,10 +310,23 @@ class PCDLoaderEx extends Loader {
                     position.push(dataview.getFloat32(row + offset.z, this.littleEndian));
                 }
 
-                if (offset.rgb !== undefined) {
-                    color.push(dataview.getUint8(row + offset.rgb + 2) / 255.0);
-                    color.push(dataview.getUint8(row + offset.rgb + 1) / 255.0);
-                    color.push(dataview.getUint8(row + offset.rgb + 0) / 255.0);
+                if (offset.intensity !== undefined) {
+                    const intensity_index = PCDheader.fields.findIndex((field) => field === 'intensity');
+                    const type = PCDheader.type[intensity_index];
+                    const size = PCDheader.size[intensity_index];
+                    let method = getMethod(type, size);
+                    const nowNum = method.call(
+                        dataview,
+                        PCDheader.points * offset.intensity + PCDheader.size[intensity_index] * i,
+                        this.littleEndian,
+                    );
+                    if (nowNum > maxIntensity) {
+                        maxIntensity = nowNum;
+                    }
+                    if (nowNum < minIntensity) {
+                        minIntensity = nowNum;
+                    }
+                    intensity.push(nowNum);
                 }
 
                 if (offset.normal_x !== undefined) {
@@ -310,11 +343,15 @@ class PCDLoaderEx extends Loader {
 
         if (position.length > 0) geometry.setAttribute('position', new Float32BufferAttribute(position, 3));
         if (normal.length > 0) geometry.setAttribute('normal', new Float32BufferAttribute(normal, 3));
-        if (color.length > 0) geometry.setAttribute('color', new Float32BufferAttribute(color, 3));
+        if (intensity.length > 0) geometry.setAttribute('intensity', new Float32BufferAttribute(intensity, 1));
 
         geometry.computeBoundingSphere();
         geometry.computeBoundingBox();
-
+        geometry.userData.intensity = {
+            max: maxIntensity,
+            min: minIntensity,
+            has: !!PCDheader.offset.intensity,
+        };
         return geometry;
     }
 }

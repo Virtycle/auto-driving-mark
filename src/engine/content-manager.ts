@@ -11,10 +11,12 @@ import {
     OrthographicCamera,
     Vector3,
     Quaternion,
+    ShaderMaterial,
 } from 'three';
 import SceneRender from './scene-render';
 import MeshFactory from './mesh-factory';
 import GPUPickHelper, { lineMaterialNoId, meshMaterialNoId, pointsMaterialNoId } from './GPUPickHelper';
+import { PointShaderDataGroup } from './materials/PointColorMapMaterial';
 import { MainRendererEvent } from './main-renderer';
 import { getCanvasCssPosition, getNormalizedPosition, containPointsNum } from './untils';
 import { CubeCollection, ObjectLayers, Vec3, ThreeViewRendererEvent, CURSOR_TYPE } from './interface';
@@ -412,7 +414,32 @@ export default class ContentManager3D {
         points.layers.set(seleted ? ObjectLayers.threeView : ObjectLayers.none);
     }
 
-    resize() {
+    public switchPointCloudColorType(type: PointShaderDataGroup): void {
+        const { material, geometry } = this.pointsCloud;
+        if (!Array.isArray(material)) {
+            if ((material as ShaderMaterial).uniforms.dataGroup.value === type) return;
+            if (type === PointShaderDataGroup.z) {
+                if (!geometry.boundingBox) geometry.computeBoundingBox();
+                const boundingBox = geometry.boundingBox;
+                const zmax = boundingBox?.max.z as number;
+                const zmin = boundingBox?.min.z as number;
+                (material as ShaderMaterial).uniforms.dataGroup.value = type;
+                (material as ShaderMaterial).uniforms.dataOffset.value = -zmin;
+                (material as ShaderMaterial).uniforms.dataRadio.value = 1 / (zmax - zmin);
+            } else if (type === PointShaderDataGroup.intensity) {
+                const range = geometry.userData.intensity;
+                if (!range?.has) return;
+                const max = range?.max as number;
+                const min = range?.min as number;
+                (material as ShaderMaterial).uniforms.dataGroup.value = type;
+                (material as ShaderMaterial).uniforms.dataOffset.value = -min;
+                (material as ShaderMaterial).uniforms.dataRadio.value = 1 / (max - min);
+            }
+            material.needsUpdate = true;
+        }
+    }
+
+    public resize(): void {
         if (!this.isInit) return;
         this.sceneRender.resize();
     }

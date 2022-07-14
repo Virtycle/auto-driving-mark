@@ -37,7 +37,7 @@ export default function Dashboard(props: {
     const rowHeight = Math.round(contentHeight / 18);
     const contentWidthI = Math.round(contentWidth);
     const [layoutI, setLayoutI] = useState(layout);
-    const { manager } = useContext(GlobalContext);
+    const { manager, storageWorker } = useContext(GlobalContext);
     const currentFullScreenRef = useRef<string>('');
 
     const layoutRef = useRef<HTMLDivElement>(null);
@@ -65,9 +65,11 @@ export default function Dashboard(props: {
                             active: false,
                         });
                     });
+                    storageWorker.postMessage();
                     // setTimeout(() => {
-                    //     manager.sceneRenderInstance.mainRendererInstance.changeState(STATE.DRAW_PICK);
-                    // }, 5000);
+                    // manager.sceneRenderInstance.mainRendererInstance.changeState(STATE.DRAW_PICK);
+                    // manager.switchPointCloudColorType(2);
+                    // }, 3000);
                 }
             });
         });

@@ -1,34 +1,5 @@
-import Dexie, { Table } from 'dexie';
-// import { populate } from './populate';
-// import { TodoItem } from './TodoItem';
-// import { TodoList } from './TodoList';
+import workerCreater from './worker-creater';
+import WorkerPair from './work-pair';
+import work from './work';
 
-export class TaskDB extends Dexie {
-    // images!: Table<TodoList, number>;
-    // points!: Table<TodoItem, number>;
-    constructor() {
-        super('TodoDB');
-        this.version(1).stores({
-            todoLists: '++id',
-            todoItems: '++id, todoListId',
-        });
-    }
-
-    // deleteList(todoListId: number) {
-    //     return this.transaction('rw', this.todoItems, this.todoLists, () => {
-    //         this.todoItems.where({ todoListId }).delete();
-    //         this.todoLists.delete(todoListId);
-    //     });
-    // }
-}
-
-export const db = new TaskDB();
-
-// db.on('populate', populate);
-
-// export function resetDatabase() {
-//     return db.transaction('rw', db.todoLists, db.todoItems, async () => {
-//         await Promise.all(db.tables.map((table) => table.clear()));
-//         await populate();
-//     });
-// }
+export default new WorkerPair(workerCreater(work, { a: 1 }));
