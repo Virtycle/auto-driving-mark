@@ -65,7 +65,16 @@ export default function Dashboard(props: {
                             active: false,
                         });
                     });
-                    storageWorker.postMessage();
+                    // storageWorker.postMessage({
+                    //     type: 'storeTask',
+                    //     info: { taskName: 'ssss', listP: [], listI: [] },
+                    // });
+                    // storageWorker.postMessage({ type: 'storeTask', info: { taskName: 'cc', listP: [], listI: [] } });
+                    // storageWorker.postMessage({ type: 'storeTask', info: { taskName: 'vv', listP: [], listI: [] } });
+                    // storageWorker.postMessage({ type: 'storeTask', info: { taskName: 'mm', listP: [], listI: [] } });
+                    // storageWorker.postMessage({ type: 'storeTask', info: { taskName: 'ss', listP: [], listI: [] } });
+                    // storageWorker.postMessage({ type: 'storeTask', info: { taskName: 'tt', listP: [], listI: [] } });
+                    // storageWorker.postMessage({ type: 'storeTask', info: { taskName: 'eee', listP: [], listI: [] } });
                     // setTimeout(() => {
                     // manager.sceneRenderInstance.mainRendererInstance.changeState(STATE.DRAW_PICK);
                     // manager.switchPointCloudColorType(2);

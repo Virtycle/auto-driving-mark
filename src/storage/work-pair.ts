@@ -1,3 +1,15 @@
+export const eventNames = {
+    noAvailable: 'noAvailable',
+    error: 'error',
+    storeTask: 'storeTask',
+    pointIndexStored: 'pointIndexStored',
+    imageIndexStored: 'imageIndexStored',
+};
+
+export type MessageType<T> = {
+    type: keyof typeof eventNames;
+    info: T;
+};
 export default class WorkerPair {
     private workInner!: Worker;
     constructor(worker: Worker) {
@@ -10,14 +22,13 @@ export default class WorkerPair {
     }
 
     initMessage() {
-        this.workInner.onmessage = () => {
-            console.log(2222);
+        this.workInner.onmessage = (event: MessageEvent) => {
+            const { data } = event;
+            console.log(data, 'in');
         };
     }
 
-    postMessage() {
-        this.workInner.postMessage(555);
+    postMessage<T>(data: MessageType<T>) {
+        this.workInner.postMessage(data);
     }
 }
-
-export const a = 2;

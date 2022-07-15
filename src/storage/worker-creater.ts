@@ -1,5 +1,8 @@
 export type Config = {
-    [key: string]: string | number;
+    taskLimit: number;
+    eventNames: {
+        [key: string]: string;
+    };
 };
 
 export default function workerCreater(worker: (config: Config) => void, config: Config): Worker {

@@ -1,5 +1,4 @@
 import { BufferGeometry, FileLoader, Float32BufferAttribute, Loader, LoaderUtils } from 'three';
-
 class PCDLoaderEx extends Loader {
     constructor(manager) {
         super(manager);
