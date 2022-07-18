@@ -1,3 +1,4 @@
+import urlQuery from '../utils/getQuery';
 let token = '';
 
 export default {
@@ -10,7 +11,5 @@ export default {
 };
 
 export function getInitToken(): string | null {
-    const url = new URL(window.location.href);
-    const query = new URLSearchParams(url.search);
-    return query.get('token');
+    return urlQuery.get('token');
 }

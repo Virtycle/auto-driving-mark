@@ -3,6 +3,7 @@ export type Config = {
     eventNames: {
         [key: string]: string;
     };
+    taskName: string;
 };
 
 export default function workerCreater(worker: (config: Config) => void, config: Config): Worker {

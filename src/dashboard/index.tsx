@@ -65,16 +65,20 @@ export default function Dashboard(props: {
                             active: false,
                         });
                     });
-                    // storageWorker.postMessage({
-                    //     type: 'storeTask',
-                    //     info: { taskName: 'ssss', listP: [], listI: [] },
-                    // });
-                    // storageWorker.postMessage({ type: 'storeTask', info: { taskName: 'cc', listP: [], listI: [] } });
-                    // storageWorker.postMessage({ type: 'storeTask', info: { taskName: 'vv', listP: [], listI: [] } });
-                    // storageWorker.postMessage({ type: 'storeTask', info: { taskName: 'mm', listP: [], listI: [] } });
-                    // storageWorker.postMessage({ type: 'storeTask', info: { taskName: 'ss', listP: [], listI: [] } });
-                    // storageWorker.postMessage({ type: 'storeTask', info: { taskName: 'tt', listP: [], listI: [] } });
-                    // storageWorker.postMessage({ type: 'storeTask', info: { taskName: 'eee', listP: [], listI: [] } });
+                    storageWorker.postMessage({
+                        type: 'storeTask',
+                        info: {
+                            listP: [
+                                { name: '052_1591240197426.pcd', url: 'http://localhost:5566/052_1591240197426.pcd' },
+                                { name: '1654150520.000085.pcd', url: 'http://localhost:5566/1654150520.000085.pcd' },
+                            ],
+                            listI: [
+                                { name: '111.png', url: 'http://localhost:5566/111.png', width: 1980, height: 550 },
+                                { name: '222.png', url: 'http://localhost:5566/222.png', width: 1980, height: 550 },
+                                { name: '333.jpg', url: 'http://localhost:5566/333.jpg', width: 1980, height: 550 },
+                            ],
+                        },
+                    });
                     // setTimeout(() => {
                     // manager.sceneRenderInstance.mainRendererInstance.changeState(STATE.DRAW_PICK);
                     // manager.switchPointCloudColorType(2);

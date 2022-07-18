@@ -17,15 +17,41 @@ import {
     Matrix4,
     Euler,
     Quaternion,
+    Float32BufferAttribute,
 } from 'three';
 import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
 import createPointColorMapMaterial, { PointShaderDataGroup } from './materials/PointColorMapMaterial';
 import TextureFactory from './texture-factory';
-import { Vec3, CubeCollection, ObjectLayers } from './interface';
+import { Vec3, CubeCollection, ObjectLayers, MaxAndMin } from './interface';
 
 const boxPointMaterial = new PointsMaterial({ color: 0xff0000, size: 8 });
 
 export default class MeshFactory {
+    public static createPointsGeo(
+        points: Float32Array,
+        intensity: Float32Array,
+        range: {
+            x: MaxAndMin;
+            y: MaxAndMin;
+            z: MaxAndMin;
+            intensity: MaxAndMin;
+        },
+    ): BufferGeometry {
+        const geo = new BufferGeometry();
+        geo.setAttribute('position', new Float32BufferAttribute(points, 3));
+        if (intensity.length) geo.setAttribute('intensity', new Float32BufferAttribute(intensity, 1));
+        geo.userData.intensity = {
+            has: !!intensity.length,
+            max: range.intensity.max,
+            min: range.intensity.min,
+        };
+        geo.boundingBox = new Box3(
+            new Vector3(range.x.min, range.y.min, range.z.min),
+            new Vector3(range.x.max, range.y.max, range.z.max),
+        );
+        return geo;
+    }
+
     public static createPointsCloud(geometry: BufferGeometry, material: ShaderMaterial): Points {
         return new Points(geometry, material);
     }

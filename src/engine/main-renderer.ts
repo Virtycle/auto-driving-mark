@@ -87,7 +87,7 @@ export default class MainRenderer implements RendererInstance {
         this.camera.layers.enableAll();
         this.camera.layers.toggle(ObjectLayers.threeView);
         this.camera.layers.toggle(ObjectLayers.none);
-        this.camera.position.set(20, -60, 50);
+        this.camera.position.set(20, -60, 100);
         this.camera.up.set(0, 0, 1);
         this.controls = new OrbitControls(this.camera, this.labelRenderer.domElement);
         this.controls.minDistance = 5;

@@ -1,6 +1,6 @@
+// no import allow use
 export default (inputs) => {
-    // no import to use
-    const { taskLimit, eventNames } = inputs;
+    const { taskLimit, eventNames, taskName } = inputs;
 
     function withError(promise) {
         return promise
@@ -154,7 +154,7 @@ export default (inputs) => {
                 }
             }
 
-            const textData = Parser.decodeText(new Uint8Array(data));
+            const textData = PCDParser.decodeText(new Uint8Array(data));
 
             // parse header (always ascii format)
 
@@ -251,15 +251,15 @@ export default (inputs) => {
                     if (offset.x !== undefined) {
                         const x = dataview.getFloat32(
                             PCDheader.points * offset.x + PCDheader.size[0] * i,
-                            Parser.littleEndian,
+                            PCDParser.littleEndian,
                         );
                         const y = dataview.getFloat32(
                             PCDheader.points * offset.y + PCDheader.size[1] * i,
-                            Parser.littleEndian,
+                            PCDParser.littleEndian,
                         );
                         const z = dataview.getFloat32(
                             PCDheader.points * offset.z + PCDheader.size[2] * i,
-                            Parser.littleEndian,
+                            PCDParser.littleEndian,
                         );
                         if (x > xMax) {
                             xMax = x;
@@ -292,7 +292,7 @@ export default (inputs) => {
                         const nowNum = method.call(
                             dataview,
                             PCDheader.points * offset.intensity + PCDheader.size[intensity_index] * i,
-                            Parser.littleEndian,
+                            PCDParser.littleEndian,
                         );
                         if (nowNum > maxIntensity) {
                             maxIntensity = nowNum;
@@ -315,15 +315,15 @@ export default (inputs) => {
                     if (offset.x !== undefined) {
                         const x = dataview.getFloat32(
                             PCDheader.points * offset.x + PCDheader.size[0] * i,
-                            Parser.littleEndian,
+                            PCDParser.littleEndian,
                         );
                         const y = dataview.getFloat32(
                             PCDheader.points * offset.y + PCDheader.size[1] * i,
-                            Parser.littleEndian,
+                            PCDParser.littleEndian,
                         );
                         const z = dataview.getFloat32(
                             PCDheader.points * offset.z + PCDheader.size[2] * i,
-                            Parser.littleEndian,
+                            PCDParser.littleEndian,
                         );
                         if (x > xMax) {
                             xMax = x;
@@ -356,7 +356,7 @@ export default (inputs) => {
                         const nowNum = method.call(
                             dataview,
                             PCDheader.points * offset.intensity + PCDheader.size[intensity_index] * i,
-                            Parser.littleEndian,
+                            PCDParser.littleEndian,
                         );
                         if (nowNum > maxIntensity) {
                             maxIntensity = nowNum;
@@ -372,7 +372,9 @@ export default (inputs) => {
             let intensityData = [];
             if (position.length > 0) positionData = new Float32Array(position);
             if (intensity.length > 0) intensityData = new Float32Array(intensity);
-
+            if (!intensityData.length) {
+                maxIntensity = minIntensity = 0;
+            }
             return {
                 intensity: intensityData,
                 points: positionData,
@@ -383,6 +385,50 @@ export default (inputs) => {
                     z: { max: zMax, min: zMin },
                 },
             };
+        }
+    }
+
+    class RequestApi {
+        static getPoints(url) {
+            return new Promise((resolve, reject) => {
+                fetch(url, {
+                    method: 'GET',
+                })
+                    .then((response) => {
+                        if (response.ok) {
+                            return response.arrayBuffer();
+                        } else {
+                            reject({ url, status: response.status });
+                        }
+                    })
+                    .then((buffer) => {
+                        resolve(PCDParser.parse(buffer));
+                    })
+                    .catch((error) => {
+                        self.postMessage({ type: eventNames.networkErr, info: error.message });
+                    });
+            });
+        }
+
+        static getImage(url) {
+            return new Promise((resolve, reject) => {
+                fetch(url, {
+                    method: 'GET',
+                })
+                    .then((response) => {
+                        if (response.ok) {
+                            return response.blob();
+                        } else {
+                            reject({ url, status: response.status });
+                        }
+                    })
+                    .then((blob) => {
+                        resolve(blob);
+                    })
+                    .catch((error) => {
+                        self.postMessage({ type: eventNames.networkErr, info: error.message });
+                    });
+            });
         }
     }
 
@@ -405,9 +451,16 @@ export default (inputs) => {
 
         taskDB = null;
 
-        constructor(idb, taskLimit) {
+        taskName = '';
+
+        pointsObjectStoreName = 'points-data';
+
+        imageObjectStoreName = 'images-data';
+
+        constructor(idb, taskLimit, taskName) {
             this.idbApi = idb;
             this.taskLimit = taskLimit;
+            this.taskName = taskName;
         }
 
         static getIDBApi() {
@@ -433,6 +486,7 @@ export default (inputs) => {
         }
 
         async init() {
+            if (!this.taskName) return false;
             const [err, taskListDB] = await withError(this.checkTaskListDB());
             if (err) {
                 this.handleError(err);
@@ -442,13 +496,17 @@ export default (inputs) => {
             const taskList = await this.getTaskList();
             if (Array.isArray(taskList)) {
                 this.taskList = taskList;
-                this.taskListToRemove = this.checkTaskNumToLimit();
-                if (this.taskListToRemove.length) {
-                    const [errI, done] = await withError(this.removeTaskToLimit());
-                    this.taskListToRemove = [];
-                    this.taskList = await this.getTaskList();
-                    if (errI) return false;
+                const indexHas = taskList.findIndex((item) => item.name === this.taskName);
+                if (indexHas === -1) {
+                    this.taskListToRemove = this.checkTaskNumToLimit();
+                    if (this.taskListToRemove.length) {
+                        const [errI, done] = await withError(this.removeTaskToLimit());
+                        this.taskListToRemove = [];
+                        this.taskList = await this.getTaskList();
+                        if (errI) return false;
+                    }
                 }
+
                 return true;
             }
             return false;
@@ -514,7 +572,7 @@ export default (inputs) => {
         }
 
         handleError(err) {
-            self.postMessage({ type: 'error', info: err.message });
+            self.postMessage({ type: eventNames.error, info: err.message });
         }
 
         async getDbInfo(name) {
@@ -526,8 +584,22 @@ export default (inputs) => {
             return databases.find(({ name: dbName }) => dbName === name);
         }
 
+        getTaskStorged(name) {
+            return new Promise((resolve) => {
+                const { taskDB } = this;
+                const objStoreName = name;
+                if (!taskDB) resolve(null);
+                const rq = taskDB.transaction(objStoreName, 'readonly').objectStore(objStoreName).getAllKeys();
+                rq.onsuccess = (e) => {
+                    resolve(e.target.result);
+                };
+            });
+        }
+
         async storeTask(params) {
-            const { taskName, listP, listI } = params;
+            const { taskName } = this;
+            if (!taskName) return;
+            const { listP, listI } = params;
             if (this.taskDB) {
                 this.taskDB.close();
                 this.taskDB = null;
@@ -543,6 +615,86 @@ export default (inputs) => {
                 const data = await this.storeTaskToList(taskName);
                 if (data && data.timeTag) {
                     this.taskList.push(data);
+                }
+            }
+            const listPDone = await this.getTaskStorged(this.pointsObjectStoreName);
+            const listIDone = await this.getTaskStorged(this.imageObjectStoreName);
+            this.storePoints(listP, false, listPDone);
+            this.storeImages(listI, false, listIDone);
+        }
+
+        storePoints(list, forceUpdate = false, readyHasList = []) {
+            const taskDB = this.taskDB;
+            const objStoreName = this.pointsObjectStoreName;
+            if (Array.isArray(list) && taskDB && Array.isArray(readyHasList)) {
+                for (let index = 0; index < list.length; index++) {
+                    const { name, url } = list[index];
+                    let hasFlag = false;
+                    if (!forceUpdate) {
+                        hasFlag = !!readyHasList.find((item) => item === name);
+                    }
+                    if (forceUpdate || !hasFlag) {
+                        RequestApi.getPoints(url).then(
+                            (data) => {
+                                const taskObjectStore = taskDB
+                                    .transaction(objStoreName, 'readwrite')
+                                    .objectStore(objStoreName);
+                                const rq = forceUpdate
+                                    ? taskObjectStore.put({ name, ...data })
+                                    : taskObjectStore.add({ name, ...data });
+                                rq.onsuccess = () => {
+                                    self.postMessage({ type: eventNames.pointIndexStored, info: { index, name } });
+                                };
+                                rq.onerror = () => {
+                                    self.postMessage({ type: eventNames.pointIndexStoredErr, info: { index, name } });
+                                };
+                            },
+                            (err) => {
+                                self.postMessage({
+                                    type: eventNames.pointIndexStoredErr,
+                                    info: { index, name, ...err },
+                                });
+                            },
+                        );
+                    }
+                }
+            }
+        }
+
+        storeImages(list, forceUpdate = false, readyHasList = []) {
+            const taskDB = this.taskDB;
+            const objStoreName = this.imageObjectStoreName;
+            if (Array.isArray(list) && taskDB && Array.isArray(readyHasList)) {
+                for (let index = 0; index < list.length; index++) {
+                    const { name, url, width, height } = list[index];
+                    let hasFlag = false;
+                    if (!forceUpdate) {
+                        hasFlag = !!readyHasList.find((item) => item === name);
+                    }
+                    if (forceUpdate || !hasFlag) {
+                        RequestApi.getImage(url).then(
+                            (data) => {
+                                const taskObjectStore = taskDB
+                                    .transaction(objStoreName, 'readwrite')
+                                    .objectStore(objStoreName);
+                                const rq = forceUpdate
+                                    ? taskObjectStore.put({ name, width, height, blob: data })
+                                    : taskObjectStore.add({ name, width, height, blob: data });
+                                rq.onsuccess = () => {
+                                    self.postMessage({ type: eventNames.imageIndexStored, info: { index, name } });
+                                };
+                                rq.onerror = () => {
+                                    self.postMessage({ type: eventNames.imageIndexStoredErr, info: { index, name } });
+                                };
+                            },
+                            (err) => {
+                                self.postMessage({
+                                    type: eventNames.imageIndexStoredErr,
+                                    info: { index, name, ...err },
+                                });
+                            },
+                        );
+                    }
                 }
             }
         }
@@ -574,34 +726,44 @@ export default (inputs) => {
                 request.onerror = reject;
                 request.onupgradeneeded = (event) => {
                     const db = event.target.result;
-                    db.createObjectStore('points-data', { keyPath: 'name' });
-                    const imgOS = db.createObjectStore('images-data', { keyPath: 'name' });
+                    db.createObjectStore(this.pointsObjectStoreName, { keyPath: 'name' });
+                    const imgOS = db.createObjectStore(this.imageObjectStoreName, { keyPath: 'name' });
                     imgOS.createIndex('width', 'width', { unique: false });
                     imgOS.createIndex('height', 'height', { unique: false });
                 };
             });
         }
+
+        reStoreTask(listP, listI) {
+            this.storePoints(listP, true, []);
+            this.storeImages(listI, true, []);
+        }
     }
 
     const idbApi = IDB.getIDBApi();
     if (!idbApi) {
-        self.postMessage({ type: 'error', info: 'not support indexedDB api' });
+        self.postMessage({ type: eventNames.error, info: 'not support indexedDB api' });
     }
-    const dbManager = new IDB(idbApi, taskLimit);
+    const dbManager = new IDB(idbApi, taskLimit, taskName);
     dbManager.init().then(
         () => {
             const event = {
                 [eventNames.storeTask]: (data) => {
                     dbManager.storeTask(data.info);
                 },
+                [eventNames.restoreTask]: (data) => {
+                    const { points, images } = data.info;
+                    dbManager.reStoreTask(points, images);
+                },
             };
             self.onmessage = (msg) => {
                 const { data } = msg;
                 typeof event[data.type] === 'function' && event[data.type](data);
             };
+            self.postMessage({ type: eventNames.ready, info: 'init done' });
         },
         (err) => {
-            console.log(err);
+            self.postMessage({ type: eventNames.error, info: 'not init success:' + err.message });
         },
     );
 };

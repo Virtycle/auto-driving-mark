@@ -1,10 +1,14 @@
 import workerCreater from './worker-creater';
-import WorkerPair, { eventNames } from './work-pair';
+import IDBTaskStore, { eventNames } from './idb-store';
 import work from './work';
+import urlQuery from '@/common/utils/getQuery';
 
-export default new WorkerPair(
+const taskName = urlQuery.get('taskName') as string;
+
+export default new IDBTaskStore(
     workerCreater(work, {
         taskLimit: 2,
         eventNames,
+        taskName,
     }),
 );

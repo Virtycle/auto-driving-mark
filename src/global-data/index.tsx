@@ -6,6 +6,7 @@ export type GlobalContextType = {
     setUserData: (para: unknown) => void;
     manager: ContentManager3D;
     storageWorker: typeof workerStorage;
+    loading: boolean;
 };
 export const GlobalContext = createContext<GlobalContextType>({} as GlobalContextType);
 
@@ -13,11 +14,18 @@ const manager = new ContentManager3D();
 
 export default function GlobalContextProvide({ children }: { children: ReactNode }) {
     const [userData, setUserData] = useState<unknown>(null);
+    const [loading, setLoading] = useState(false);
     const managerRef = useRef(manager);
     const storageWorkerRef = useRef(workerStorage);
     return (
         <GlobalContext.Provider
-            value={{ userData, setUserData, manager: managerRef.current, storageWorker: storageWorkerRef.current }}
+            value={{
+                userData,
+                setUserData,
+                manager: managerRef.current,
+                storageWorker: storageWorkerRef.current,
+                loading,
+            }}
         >
             {children}
         </GlobalContext.Provider>

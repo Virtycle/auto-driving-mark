@@ -67,6 +67,11 @@ export type Vec2 = {
     y: number;
 };
 
+export type MaxAndMin = {
+    max: number;
+    min: number;
+};
+
 export enum CameraType {
     perspective = 'perspective',
     orthographic = 'orthographic',
