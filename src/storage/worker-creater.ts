@@ -4,6 +4,8 @@ export type Config = {
         [key: string]: string;
     };
     taskName: string;
+    pointsObjectStoreName: string;
+    imageObjectStoreName: string;
 };
 
 export default function workerCreater(worker: (config: Config) => void, config: Config): Worker {

@@ -1,6 +1,6 @@
 // no import allow use
 export default (inputs) => {
-    const { taskLimit, eventNames, taskName } = inputs;
+    const { taskLimit, eventNames, taskName, pointsObjectStoreName, imageObjectStoreName } = inputs;
 
     function withError(promise) {
         return promise
@@ -453,14 +453,22 @@ export default (inputs) => {
 
         taskName = '';
 
-        pointsObjectStoreName = 'points-data';
+        pointsObjectStoreName = '';
 
-        imageObjectStoreName = 'images-data';
+        imageObjectStoreName = '';
 
-        constructor(idb, taskLimit, taskName) {
+        constructor(
+            idb,
+            taskLimit,
+            taskName,
+            pointsObjectStoreName = 'points-data',
+            imageObjectStoreName = 'images-data',
+        ) {
             this.idbApi = idb;
             this.taskLimit = taskLimit;
             this.taskName = taskName;
+            this.pointsObjectStoreName = pointsObjectStoreName;
+            this.imageObjectStoreName = imageObjectStoreName;
         }
 
         static getIDBApi() {
@@ -588,7 +596,7 @@ export default (inputs) => {
             return new Promise((resolve) => {
                 const { taskDB } = this;
                 const objStoreName = name;
-                if (!taskDB) resolve(null);
+                if (!taskDB) resolve([]);
                 const rq = taskDB.transaction(objStoreName, 'readonly').objectStore(objStoreName).getAllKeys();
                 rq.onsuccess = (e) => {
                     resolve(e.target.result);
@@ -607,9 +615,10 @@ export default (inputs) => {
             const [err, taskDB] = await withError(this.checkTaskDB(taskName));
             if (err) {
                 this.handleError(err);
-                return false;
+                return;
             }
             this.taskDB = taskDB;
+            self.postMessage({ type: eventNames.taskDBCreated, info: `task: ${taskName} database created` });
             const indexToFind = this.taskList.findIndex((item) => item.name === taskName);
             if (indexToFind === -1) {
                 const data = await this.storeTaskToList(taskName);
@@ -656,6 +665,8 @@ export default (inputs) => {
                                 });
                             },
                         );
+                    } else if (hasFlag) {
+                        self.postMessage({ type: eventNames.pointIndexStored, info: { index, name } });
                     }
                 }
             }
@@ -694,6 +705,8 @@ export default (inputs) => {
                                 });
                             },
                         );
+                    } else if (hasFlag) {
+                        self.postMessage({ type: eventNames.pointIndexStored, info: { index, name } });
                     }
                 }
             }
@@ -742,9 +755,9 @@ export default (inputs) => {
 
     const idbApi = IDB.getIDBApi();
     if (!idbApi) {
-        self.postMessage({ type: eventNames.error, info: 'not support indexedDB api' });
+        self.postMessage({ type: eventNames.noAvailable, info: 'not support indexedDB api' });
     }
-    const dbManager = new IDB(idbApi, taskLimit, taskName);
+    const dbManager = new IDB(idbApi, taskLimit, taskName, pointsObjectStoreName, imageObjectStoreName);
     dbManager.init().then(
         () => {
             const event = {

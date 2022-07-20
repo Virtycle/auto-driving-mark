@@ -63,9 +63,7 @@ function containPointsNum(box3: Box3, matrix: Matrix4, points: Points): number {
     const positions = points.geometry.getAttribute('position');
     const vec3 = new Vector3();
     for (let i = 0; i < positions.count; i++) {
-        vec3.setX(positions.getX(i));
-        vec3.setY(positions.getY(i));
-        vec3.setZ(positions.getZ(i));
+        vec3.fromBufferAttribute(positions, i);
         if (obb.containsPoint(vec3)) {
             number++;
         }

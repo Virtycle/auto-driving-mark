@@ -65,20 +65,22 @@ export default function Dashboard(props: {
                             active: false,
                         });
                     });
-                    storageWorker.postMessage({
-                        type: 'storeTask',
-                        info: {
-                            listP: [
-                                { name: '052_1591240197426.pcd', url: 'http://localhost:5566/052_1591240197426.pcd' },
-                                { name: '1654150520.000085.pcd', url: 'http://localhost:5566/1654150520.000085.pcd' },
-                            ],
-                            listI: [
-                                { name: '111.png', url: 'http://localhost:5566/111.png', width: 1980, height: 550 },
-                                { name: '222.png', url: 'http://localhost:5566/222.png', width: 1980, height: 550 },
-                                { name: '333.jpg', url: 'http://localhost:5566/333.jpg', width: 1980, height: 550 },
-                            ],
-                        },
-                    });
+                    storageWorker.storeTask(
+                        [
+                            { name: '052_1591240197426.pcd', url: 'http://localhost:5566/052_1591240197426.pcd' },
+                            { name: '1654150520.000085.pcd', url: 'http://localhost:5566/1654150520.000085.pcd' },
+                        ],
+                        [
+                            { name: '111.png', url: 'http://localhost:5566/111.png', width: 1980, height: 550 },
+                            { name: '222.png', url: 'http://localhost:5566/222.png', width: 1980, height: 550 },
+                            { name: '333.jpg', url: 'http://localhost:5566/333.jpg', width: 1980, height: 550 },
+                        ],
+                    );
+                    setTimeout(() => {
+                        storageWorker.readPointData('052_1591240197426.pcd').then((data) => {
+                            console.log(data);
+                        });
+                    }, 5000);
                     // setTimeout(() => {
                     // manager.sceneRenderInstance.mainRendererInstance.changeState(STATE.DRAW_PICK);
                     // manager.switchPointCloudColorType(2);

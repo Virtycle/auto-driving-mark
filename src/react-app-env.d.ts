@@ -9,6 +9,11 @@ declare namespace NodeJS {
     }
 }
 
+declare const webkitIndexedDB: indexedDB;
+declare const mozIndexedDB: indexedDB;
+declare const OIndexedDB: indexedDB;
+declare const msIndexedDB: indexedDB;
+
 declare module '*.avif' {
     const src: string;
     export default src;
