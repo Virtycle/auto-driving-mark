@@ -18,6 +18,9 @@ import {
     Euler,
     Quaternion,
     Float32BufferAttribute,
+    LineDashedMaterial,
+    Material,
+    LineSegments,
 } from 'three';
 import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
 import createPointColorMapMaterial, { PointShaderDataGroup } from './materials/PointColorMapMaterial';
@@ -90,7 +93,12 @@ export default class MeshFactory {
 
         const material = new LineBasicMaterial({ color: 0xff0000 });
 
-        return new Line(geometry, material);
+        const line = new Line(geometry, material);
+
+        const label2D = MeshFactory.createLabel(radius.toString() + 'm', 'spo-3d-main-circle-label');
+        label2D.position.set(0, radius, 0);
+        line.add(label2D);
+        return line;
     }
 
     public static creatCubeMesh(cubeParams: {
@@ -100,8 +108,9 @@ export default class MeshFactory {
         name: string;
         color: Color;
         label: string;
+        dash: boolean;
     }): Pick<CubeCollection, Exclude<keyof CubeCollection, 'id' | 'pointsNum'>> {
-        const { position, rotation, dimension, name, color, label } = cubeParams;
+        const { position, rotation, dimension, name, color, label, dash } = cubeParams;
         const geometry = new BoxGeometry(dimension.x, dimension.y, dimension.z);
         const material = new MeshBasicMaterial({
             color,
@@ -109,7 +118,7 @@ export default class MeshFactory {
             opacity: 0.3,
         });
         const mesh = new Mesh(geometry, material);
-        const label2D = MeshFactory.createLabel(label, color);
+        const label2D = MeshFactory.createLabel(label, 'spo-3d-main-cube-label', color);
         mesh.add(label2D);
         //origin data
         const box3Origin = new Box3();
@@ -122,7 +131,17 @@ export default class MeshFactory {
         const scale = new Vector3(1, 1, 1);
         matrix.compose(trans, quaternion, scale);
         // line
-        const helper = new BoxHelper(mesh, color.getHex());
+        let helperTempUse: BoxHelper | null = new BoxHelper(mesh, 0x0000000);
+        const { geometry: geoHelperTempUse, material: materialLineBase } = helperTempUse;
+        const geoHelper = geoHelperTempUse.toNonIndexed();
+        helperTempUse = null;
+        geoHelperTempUse.dispose();
+        (materialLineBase as Material).dispose();
+        const helper = new LineSegments(
+            geoHelper,
+            new LineDashedMaterial({ color: color.getHex(), dashSize: 0.2, gapSize: dash ? 0.2 : 0 }),
+        );
+        helper.computeLineDistances();
         // 8 - points
         const geometryBox = helper.geometry;
         const points = new Points(geometryBox, boxPointMaterial);
@@ -147,15 +166,16 @@ export default class MeshFactory {
             box3Origin,
             color,
             label2D,
+            dash,
         };
     }
 
-    public static createLabel(string: string, color: Color): CSS2DObject {
+    public static createLabel(string: string, className: string, color?: Color): CSS2DObject {
         const divEle = document.createElement('div');
         const label2d = new CSS2DObject(divEle);
-        divEle.className = 'spo-3d-main-label';
+        divEle.className = className;
         divEle.textContent = string;
-        divEle.style.background = `linear-gradient(90deg, ${color.getStyle()} 0%, rgba(0, 0, 0, 0) 100%)`;
+        if (color) divEle.style.background = `linear-gradient(90deg, ${color.getStyle()} 0%, rgba(0, 0, 0, 0) 100%)`;
         return label2d;
     }
 

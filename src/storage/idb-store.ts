@@ -17,11 +17,13 @@ export const eventNames = {
     imageIndexStoredErr: 'imageIndexStoredErr',
 };
 
+export type EventNames = keyof typeof eventNames;
+
 export const pointsObjectStoreName = 'points-data';
 export const imageObjectStoreName = 'images-data';
 
 export type MessageType<T> = {
-    type: keyof typeof eventNames;
+    type: EventNames;
     info: T;
 };
 
@@ -128,11 +130,11 @@ export default class IDBTaskStore<
         };
     }
 
-    public addEventHandler(name: MessageType<unknown>['type'], callBack: Callback) {
+    public addEventHandler(name: EventNames, callBack: Callback) {
         this.events.on(name, callBack);
     }
 
-    public removeEventHandler(name: MessageType<unknown>['type']) {
+    public removeEventHandler(name: EventNames) {
         this.events.off(name);
     }
 
@@ -144,7 +146,7 @@ export default class IDBTaskStore<
         this.toStorePoints = listP;
         this.toStoreImages = listI;
         this.postMessage({
-            type: 'storeTask',
+            type: eventNames.storeTask as EventNames,
             info: {
                 listP,
                 listI,
@@ -158,7 +160,7 @@ export default class IDBTaskStore<
         this.toRestorePoints = [];
         this.toRestoreImages = [];
         this.postMessage({
-            type: 'reStoreTask',
+            type: eventNames.reStoreTask as EventNames,
             info: {
                 listP,
                 listI,

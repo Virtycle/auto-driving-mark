@@ -8,6 +8,8 @@ export interface ObjectInScene {
     frameNum: number;
     number: number;
     id: string;
+    isEmpty: boolean;
+    interpolated: boolean;
 }
 
 export interface AllFrameData {

@@ -4,7 +4,7 @@ import {
     WebGL1Renderer,
     Scene,
     Mesh,
-    BoxHelper,
+    LineSegments,
     Points,
     ArrowHelper,
     Matrix4,
@@ -80,7 +80,7 @@ export enum CameraType {
 export interface CubeCollection {
     name: string;
     mesh: Mesh;
-    meshHelper: BoxHelper;
+    meshHelper: LineSegments;
     points: Points;
     arrow: ArrowHelper;
     matrix: Matrix4;
@@ -89,6 +89,7 @@ export interface CubeCollection {
     label2D: CSS2DObject;
     id: number;
     pointsNum: number;
+    dash: boolean;
 }
 
 export enum ObjectLayers {

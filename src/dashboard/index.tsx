@@ -63,6 +63,7 @@ export default function Dashboard(props: {
                             name: item.id,
                             label: `${item.category} ${item.number}`,
                             active: false,
+                            dash: item.isEmpty,
                         });
                     });
                     storageWorker.storeTask(

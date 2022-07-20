@@ -2,7 +2,7 @@ import {
     BufferGeometry,
     Color,
     Group,
-    LineBasicMaterial,
+    LineDashedMaterial,
     Mesh,
     PerspectiveCamera,
     Points,
@@ -56,6 +56,7 @@ export default class ContentManager3D {
         dimension: { x: 3, y: 5, z: 1 },
         color: this.inActiveColor,
         label: '小汽车',
+        dash: false,
     };
 
     private minDimension = 0.3;
@@ -196,6 +197,7 @@ export default class ContentManager3D {
                         active: true,
                         label: this.defaultCubeInfo.label,
                         color: this.defaultCubeInfo.color,
+                        dash: false,
                     });
                 } else {
                     const group = this.sceneRender.findCube(this.activeCubeCollectionName);
@@ -270,8 +272,9 @@ export default class ContentManager3D {
         active: boolean;
         color?: Color;
         label: string;
+        dash: boolean;
     }): void {
-        const { position, rotation, dimension, name, active, color, label } = params;
+        const { position, rotation, dimension, name, active, color, label, dash } = params;
         const result = MeshFactory.creatCubeMesh({
             position,
             rotation,
@@ -279,6 +282,7 @@ export default class ContentManager3D {
             name,
             color: color ? color : this.inActiveColor,
             label,
+            dash,
         });
         const { mesh, meshHelper, arrow, name: nameI, matrix, points, box3Origin } = result;
         const group = new Group();
@@ -401,10 +405,12 @@ export default class ContentManager3D {
     }
 
     toggleCubeCollection(collection: CubeCollection, seleted: boolean): void {
-        const { mesh, meshHelper, points, color, label2D, arrow } = collection;
+        const { mesh, meshHelper, points, color, label2D, arrow, dash } = collection;
         const colorI = seleted ? this.activeColor : color;
         meshHelper.layers.set(seleted ? ObjectLayers.default : ObjectLayers.main);
-        (meshHelper.material as LineBasicMaterial).color.setHex(colorI.getHex());
+        (meshHelper.material as LineDashedMaterial).color.setHex(colorI.getHex());
+        (meshHelper.material as LineDashedMaterial).gapSize = dash ? 0.2 : 0;
+
         // 显示箭头
         arrow.line.layers.set(seleted ? ObjectLayers.default : ObjectLayers.main);
         arrow.cone.layers.set(seleted ? ObjectLayers.default : ObjectLayers.main);
