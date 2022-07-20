@@ -72,7 +72,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "server": "json-server --watch db.json"
+    "server": "json-server --watch db.json --routes routes.json"
   },
   "eslintConfig": {
     "extends": [

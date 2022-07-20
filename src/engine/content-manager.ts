@@ -23,7 +23,7 @@ import { CubeCollection, ObjectLayers, Vec3, ThreeViewRendererEvent, CURSOR_TYPE
 import { v4 as uuidv4 } from 'uuid';
 import throttle from 'lodash/throttle';
 
-export default class ContentManager3D {
+export class ContentManager3D {
     // 渲染器
     private sceneRender = new SceneRender();
 
@@ -455,3 +455,5 @@ export default class ContentManager3D {
         this.sceneRender.destroy();
     }
 }
+
+export default new ContentManager3D();

@@ -12,7 +12,7 @@ export interface ObjectInScene {
     interpolated: boolean;
 }
 
-export interface AllFrameData {
+export interface FrameResultData {
     frameId: number;
     frameUrl: string;
     items: ObjectInScene[];

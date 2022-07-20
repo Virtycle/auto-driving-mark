@@ -1,4 +1,4 @@
-import urlQuery from '../utils/getQuery';
+import url from '../utils/url-tools';
 let token = '';
 
 export default {
@@ -11,5 +11,5 @@ export default {
 };
 
 export function getInitToken(): string | null {
-    return urlQuery.get('token');
+    return url.query.get('token');
 }

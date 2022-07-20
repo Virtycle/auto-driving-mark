@@ -1,2006 +1,2009 @@
 {
-    "frameMock": {
-        "frameId": 0,
-        "frameUrl": "http://localhost:5566/1654150520.000085.pcd",
-        "frameUrlInternal": "https://projecteng.oss-cn-shanghai.aliyuncs.com/zhuxian/batch_data/0329_314_02/out/bin_v1/time_1647227295335056543.bin",
-        "frameUrlExternal": "",
-        "items": [
-            {
-                "position": {
-                    "x": 20.338039521331098,
-                    "y": 1.1166669818959767,
-                    "z": 0.8330854826323668
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.05
-                },
-                "dimension": {
-                    "x": 4.134782608695652,
-                    "y": 1.9516922442242737,
-                    "z": 1.5165168913505178
-                },
-                "category": "小汽车",
-                "frameNum": 0,
-                "id": "081122e9-b2b3-4015-9972-47e31806960d",
-                "number": 2,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 327
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.03460385686718064,
-                    "w": 0.99940110720867
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.06922153304521884
-                }
-            },
-            {
-                "position": {
-                    "x": 57.991640526417,
-                    "y": 3.642999812848025,
-                    "z": 2.2462171267148654
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 3.0664547501988473
-                },
-                "dimension": {
-                    "x": 16.954639418580342,
-                    "y": 3.0042732982297236,
-                    "z": 3.48908130199073
-                },
-                "category": "小型大型货车",
-                "frameNum": 0,
-                "id": "a2c927c5-c2ab-406f-8939-e60e403b22df",
-                "number": 3,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 207
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0.9992943699355017,
-                    "w": 0.037560114685776254
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 3.066454750198847
-                }
-            },
-            {
-                "position": {
-                    "x": 88.42863849408076,
-                    "y": 4.122572991279612,
-                    "z": 2.4115110675889984
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -3.071187846475447
-                },
-                "dimension": {
-                    "x": 6.5670091239012764,
-                    "y": 2.447707399584269,
-                    "z": 3.3015220716378515
-                },
-                "category": "小型大型货车",
-                "frameNum": 0,
-                "id": "0787ac54-c904-4377-a1a3-57b27d26458f",
-                "number": 6,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 21
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.9993804593742344,
-                    "w": 0.03519513348382466
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -3.071187846475447
-                }
-            },
-            {
-                "position": {
-                    "x": 2.141061421550318,
-                    "y": -0.01255437786310809,
-                    "z": 0.6806649724688323
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 3.1372652008702557
-                },
-                "dimension": {
-                    "x": 7.187152612046315,
-                    "y": 3.0854479436859554,
-                    "z": 1.4999999999999991
-                },
-                "category": "小汽车",
-                "frameNum": 0,
-                "id": "1e5ca7de-e4cf-40d2-96e6-d26766d0b7e7",
-                "number": 27,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 2900
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0.9999976591450332,
-                    "w": 0.002163724671445069
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 3.137265200870256
-                }
-            },
-            {
-                "position": {
-                    "x": 10.702255865100444,
-                    "y": -11.266355445839945,
-                    "z": 1.413546160348437
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.6071153170098071
-                },
-                "dimension": {
-                    "x": 2.645706025975831,
-                    "y": 3.559072005979868,
-                    "z": 1.5
-                },
-                "category": "小汽车",
-                "frameNum": 0,
-                "id": "1c5ed97b-3857-4fae-8d73-701946c4db76",
-                "number": 28,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 990
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.7198301904612106,
-                    "w": 0.6941501976521921
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.607115317009805
-                }
-            },
-            {
-                "position": {
-                    "x": 6.064396941804032,
-                    "y": 4.187498500188107,
-                    "z": 0.6230769230769212
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.560045698784415
-                },
-                "dimension": {
-                    "x": 0.8490535526628599,
-                    "y": 0.588129503245538,
-                    "z": 1.5
-                },
-                "category": "小汽车",
-                "frameNum": 0,
-                "id": "b99aa49e-ddec-4cb7-80d3-49aa7c75176f",
-                "number": 29,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 128
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.7032956629590752,
-                    "w": 0.7108974683194158
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.5600456987844151
-                }
-            },
-            {
-                "position": {
-                    "x": 9.910742618889982,
-                    "y": -5.879466595123285,
-                    "z": 0.7499652504920936
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0
-                },
-                "dimension": {
-                    "x": 0.3410840231930514,
-                    "y": 0.27107681202122347,
-                    "z": 1.4999305009841966
-                },
-                "category": "小汽车",
-                "frameNum": 0,
-                "id": "6297f8b2-bf67-4e37-8ec8-b3d389489b40",
-                "number": 55,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 501
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0,
-                    "w": 1
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0
-                }
-            },
-            {
-                "position": {
-                    "x": 12.692514941907511,
-                    "y": 0.15561543589546362,
-                    "z": 0.8911724752873558
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.03173989383848526
-                },
-                "dimension": {
-                    "x": 4.021981316196585,
-                    "y": 2.3104042464225625,
-                    "z": 1.5809854136525834
-                },
-                "category": "小汽车",
-                "frameNum": 0,
-                "id": "151d4aec-9c15-4958-8d5a-b4c2d5606a79",
-                "number": 1,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 4803
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.015869280772815162,
-                    "w": 0.9998740750353284
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.03173989383848526
-                }
-            },
-            {
-                "position": {
-                    "x": 35.06818188106742,
-                    "y": 2.0402601011923496,
-                    "z": 0.7499999999999929
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 1.671142038088913
-                },
-                "dimension": {
-                    "x": 4,
-                    "y": 1.7,
-                    "z": 1.5
-                },
-                "category": "小汽车",
-                "frameNum": 0,
-                "id": "0d551834-5032-4609-a6bc-69e83c7f3883",
-                "number": 64,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 6
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0.7416796460911019,
-                    "w": 0.6707542788340436
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 1.6711420380889113
-                }
-            },
-            {
-                "position": {
-                    "x": 39.90993300901589,
-                    "y": 7.591547121234026,
-                    "z": 0.7499999999999911
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 1.4086994085507059
-                },
-                "dimension": {
-                    "x": 4,
-                    "y": 1.7,
-                    "z": 1.5
-                },
-                "category": "小汽车",
-                "frameNum": 0,
-                "id": "b2a90a8f-1ce3-451c-91e4-8add7daa03f5",
-                "number": 65,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 0
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0.6475384198128259,
-                    "w": 0.7620328043242682
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 1.4086994085507056
-                }
-            },
-            {
-                "position": {
-                    "x": -6.53706557644848,
-                    "y": -0.5597238098280224,
-                    "z": 2.048309178743961
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.5707963267948966
-                },
-                "dimension": {
-                    "x": 10,
-                    "y": 3.28647342995169,
-                    "z": 4.096618357487923
-                },
-                "category": "小型大型货车",
-                "frameNum": 0,
-                "id": "a02205da-34ae-4fb5-bd7b-5ebd2f09af49",
-                "number": 66,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 110
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.7071067811865475,
-                    "w": 0.7071067811865476
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.5707963267948966
-                }
-            },
-            {
-                "position": {
-                    "x": 60.60726023581847,
-                    "y": 170.62625971238759,
-                    "z": 0.24666970335147
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 2.6360388075460146
-                },
-                "dimension": {
-                    "x": 4.542044287542958,
-                    "y": 2.521079385665745,
-                    "z": 1.7318840579710146
-                },
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0.9682216650579659,
-                    "w": 0.25009359710392454
-                },
-                "category": "小汽车",
-                "id": "2b1c1f78-3306-42eb-94d5-db22960b7fd5",
-                "number": 5,
-                "interpolated": false,
-                "frameNum": 0,
-                "pointCount": {
-                    "lidar": 0
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 2.636038807546014
-                }
-            },
-            {
-                "position": {
-                    "x": 6.53666376916516,
-                    "y": -5.750308250214376,
-                    "z": 0.7499999999999986
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.8900578644247028
-                },
-                "dimension": {
-                    "x": 4,
-                    "y": 1.7,
-                    "z": 1.5
-                },
-                "category": "小汽车",
-                "frameNum": 0,
-                "id": "e4fd75b8-f17a-49d9-8579-ec8aeccee3da",
-                "number": 67,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 0
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.810513880285944,
-                    "w": 0.5857194293036748
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.890057864424703
-                }
-            },
-            {
-                "position": {
-                    "x": 16.674491380767037,
-                    "y": 29.5451016865125,
-                    "z": 1.2999999999999963
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0.19674658943836698
-                },
-                "dimension": {
-                    "x": 5.22,
-                    "y": 1.85,
-                    "z": 2.6
-                },
-                "category": "小型大型货车",
-                "frameNum": 0,
-                "id": "9a36bf6d-a032-4cc0-ba4c-fb6b3e1bc812",
-                "number": 51,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 0
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0.09821470674250442,
-                    "w": 0.9951652482776334
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0.19674658943836698
-                }
-            },
-            {
-                "position": {
-                    "x": 1.804924020214164,
-                    "y": 35.71405240012354,
-                    "z": 1.2999999999999996
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0.19674658943836698
-                },
-                "dimension": {
-                    "x": 5.22,
-                    "y": 1.85,
-                    "z": 2.6
-                },
-                "category": "小型大型货车",
-                "frameNum": 0,
-                "id": "007c5f31-d882-47cf-a16a-ec5f0f721c54",
-                "number": 52,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 32
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0.09821470674250442,
-                    "w": 0.9951652482776334
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0.19674658943836698
-                }
-            },
-            {
-                "position": {
-                    "x": 14.597090899107696,
-                    "y": 4.499606615339367,
-                    "z": 0.7499999999999973
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.5707963267948966
-                },
-                "dimension": {
-                    "x": 4,
-                    "y": 1.7,
-                    "z": 1.5
-                },
-                "category": "小汽车",
-                "frameNum": 0,
-                "id": "e5462f0a-ca5f-4f43-a4a8-1d131c63df73",
-                "number": 68,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 170
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.7071067811865475,
-                    "w": 0.7071067811865476
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.5707963267948966
-                }
-            },
-            {
-                "position": {
-                    "x": 15.794146264143784,
-                    "y": 8.450815677617886,
-                    "z": 0.7499999999999964
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -2.8255286655810674
-                },
-                "dimension": {
-                    "x": 4,
-                    "y": 1.7,
-                    "z": 1.5
-                },
-                "category": "小汽车",
-                "frameNum": 0,
-                "id": "9841a719-22b4-47a2-b629-bc7db023baa4",
-                "number": 81,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 0
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.9875389105705533,
-                    "w": 0.15737503013224424
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -2.8255286655810674
-                }
-            },
-            {
-                "position": {
-                    "x": 11.980766257472435,
-                    "y": 10.670408683226853,
-                    "z": 0.7080292045248612
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.231164688562239
-                },
-                "dimension": {
-                    "x": 3.9227053140096615,
-                    "y": 3.076092227980906,
-                    "z": 1.4160584090497275
-                },
-                "category": "小汽车",
-                "frameNum": 0,
-                "id": "5da70f3f-1b20-48b4-b4b7-eed8cc4ee462",
-                "number": 82,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 213
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.5774340677737991,
-                    "w": 0.81643731992983
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.2311646885622387
-                }
-            },
-            {
-                "position": {
-                    "x": 8.391949418302554,
-                    "y": 6.039146089561189,
-                    "z": 0.7499999999999981
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.231164688562239
-                },
-                "dimension": {
-                    "x": 3.718273018689179,
-                    "y": 2.0067095238355317,
-                    "z": 1.5
-                },
-                "category": "小汽车",
-                "frameNum": 0,
-                "id": "a702f9ea-075c-44b8-8cba-3bead7d8dc3b",
-                "number": 83,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 0
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.5774340677737991,
-                    "w": 0.81643731992983
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.2311646885622387
-                }
-            },
-            {
-                "position": {
-                    "x": 15.6239037425299,
-                    "y": 4.694618123236852,
-                    "z": 0.7499999999999966
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.9104279650277118
-                },
-                "dimension": {
-                    "x": 3.9227053140096606,
-                    "y": 1.8545893719806734,
-                    "z": 1.5
-                },
-                "category": "小汽车",
-                "frameNum": 0,
-                "id": "a4e17a77-9317-42df-b05b-a99cad72f604",
-                "number": 84,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 102
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.8164373199298754,
-                    "w": 0.5774340677737348
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.9104279650277118
-                }
-            },
-            {
-                "position": {
-                    "x": 9.581937405816392,
-                    "y": -2.231912633098748,
-                    "z": 0.7499999999999988
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.4858884172384155
-                },
-                "dimension": {
-                    "x": 4,
-                    "y": 1.7,
-                    "z": 1.5
-                },
-                "category": "小汽车",
-                "frameNum": 0,
-                "id": "481ac1c2-3794-4c84-870c-10016b35838c",
-                "number": 102,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 473
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.6764591914980864,
-                    "w": 0.7364801166615126
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.4858884172384146
-                }
-            },
-            {
-                "position": {
-                    "x": -0.13723746416749094,
-                    "y": -4.857690808819753,
-                    "z": 0.5499999999999999
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.4858884172384155
-                },
-                "dimension": {
-                    "x": 1.6179800749989304,
-                    "y": 1.4438992937350636,
-                    "z": 1.1
-                },
-                "category": "两轮车",
-                "frameNum": 0,
-                "id": "d4982d2a-40f4-4408-84f3-4aac8c7e5006",
-                "number": 103,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 65
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.6764591914980864,
-                    "w": 0.7364801166615126
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -1.4858884172384146
-                }
-            },
-            {
-                "position": {
-                    "x": 14.882235769812265,
-                    "y": 12.224055847108005,
-                    "z": 9.622452703609122
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -2.8067517781443896
-                },
-                "dimension": {
-                    "x": 2.7292644204770435,
-                    "y": 2.676683364818799,
-                    "z": 1.5
-                },
-                "category": "小汽车",
-                "frameNum": 0,
-                "id": "f46a7749-48bd-4df8-845d-e0c429bc28cc",
-                "number": 104,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 0
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.9860179037227504,
-                    "w": 0.16663941171941538
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -2.8067517781443896
-                }
-            },
-            {
-                "position": {
-                    "x": 64.98261541768096,
-                    "y": 17.374654103434892,
-                    "z": 0.8899999999999846
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 2.419875422401979
-                },
-                "dimension": {
-                    "x": 11.296815081559355,
-                    "y": 13.4548142082681,
-                    "z": 1.78
-                },
-                "category": "行人",
-                "frameNum": 0,
-                "id": "3638bf31-5cea-4936-a95d-9732c90545e6",
-                "number": 23,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 61
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0.9355940105838251,
-                    "w": 0.35307767893152564
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 2.4198754224019785
-                }
-            },
-            {
-                "position": {
-                    "x": 36.95316616248707,
-                    "y": 54.365349821714666,
-                    "z": -0.2591566861646629
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 2.4198754224019794
-                },
-                "dimension": {
-                    "x": 12.507630333001954,
-                    "y": 10.854023597044629,
-                    "z": 1.78
-                },
-                "category": "行人",
-                "frameNum": 0,
-                "id": "f0b743ca-4fa0-43a6-8ddf-81883ddf3086",
-                "number": 116,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 28
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 0.9355940105838252,
-                    "w": 0.3530776789315252
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": 2.4198754224019794
-                }
-            },
-            {
-                "position": {
-                    "x": 46.165955175004285,
-                    "y": 26.419901427353054,
-                    "z": 0.8899999999999895
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -2.027265527014135
-                },
-                "dimension": {
-                    "x": 4.869631035618484,
-                    "y": 10.33234670344102,
-                    "z": 1.78
-                },
-                "category": "行人",
-                "frameNum": 0,
-                "id": "847a447a-e949-4ef3-a4ca-6bfbaf0f02ae",
-                "number": 115,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 37
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.8487583767863968,
-                    "w": 0.5287808788476762
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -2.027265527014135
-                }
-            },
-            {
-                "position": {
-                    "x": 31.65275486266429,
-                    "y": -15.34524415405275,
-                    "z": 1.3050748109817472
-                },
-                "rotation": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.051888166633024625
-                },
-                "dimension": {
-                    "x": 3.5653015503470877,
-                    "y": 2.915270633794778,
-                    "z": 2.610149621963508
-                },
-                "category": "小型大型货车",
-                "frameNum": 0,
-                "id": "38ff9460-7364-4688-8c48-825ec0b20e16",
-                "number": 117,
-                "interpolated": false,
-                "pointCount": {
-                    "lidar": 151
-                },
-                "labels": null,
-                "isEmpty": false,
-                "annotatedBy": "human",
-                "quaternion": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.02594117294035013,
-                    "w": 0.9996634711474051
-                },
-                "rotation2": {
-                    "x": 0,
-                    "y": 0,
-                    "z": -0.05188816663302462
-                }
-            }
-        ],
-        "images": [
-            {
-                "image": "/zhuxian/batch_data/0329_314_02/out/camera_f120/time_1647227295350359456_1647227295335056543.jpg",
-                "imageUrlInternal": "https://projecteng.oss-cn-shanghai.aliyuncs.com/zhuxian/batch_data/0329_314_02/out/camera_f120/time_1647227295350359456_1647227295335056543.jpg",
-                "imageUrlExternal": "",
-                "width": 1280,
-                "height": 720,
-                "items": [
-                    {
-                        "type": "RECT",
-                        "id": "151d4aec-9c15-4958-8d5a-b4c2d5606a79",
-                        "number": 1,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 538.4013606971978,
-                            "y": 309.8785141949361
-                        },
-                        "dimension": {
-                            "x": 179.46987769595194,
-                            "y": 165.90118894556724
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+    "frameResult": [
+        {
+            "frameId": 0,
+            "frameUrl": "http://localhost:5566/1654150520.000085.pcd",
+            "frameUrlInternal": "https://projecteng.oss-cn-shanghai.aliyuncs.com/zhuxian/batch_data/0329_314_02/out/bin_v1/time_1647227295335056543.bin",
+            "frameUrlExternal": "",
+            "items": [
+                {
+                    "position": {
+                        "x": 20.338039521331098,
+                        "y": 1.1166669818959767,
+                        "z": 0.8330854826323668
                     },
-                    {
-                        "type": "RECT",
-                        "id": "081122e9-b2b3-4015-9972-47e31806960d",
-                        "number": 2,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 569.3626056231254,
-                            "y": 299.2362553915814
-                        },
-                        "dimension": {
-                            "x": 78.461696262087,
-                            "y": 68.91000340275042
-                        },
-                        "labels": "{\"occlusion\":1}",
-                        "isManual": true
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.05
                     },
-                    {
-                        "type": "RECT",
-                        "id": "a2c927c5-c2ab-406f-8939-e60e403b22df",
-                        "number": 3,
-                        "category": "小型大型货车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 544.5327887082418,
-                            "y": 230.31024730829694
-                        },
-                        "dimension": {
-                            "x": 50.40020337864121,
-                            "y": 51.05196790478317
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                    "dimension": {
+                        "x": 4.134782608695652,
+                        "y": 1.9516922442242737,
+                        "z": 1.5165168913505178
                     },
-                    {
-                        "type": "RECT",
-                        "id": "0787ac54-c904-4377-a1a3-57b27d26458f",
-                        "number": 6,
-                        "category": "小型大型货车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 584.2184386347774,
-                            "y": 240.7324402426292
-                        },
-                        "dimension": {
-                            "x": 18.379811148974113,
-                            "y": 25.15495705031526
-                        },
-                        "labels": "{\"occlusion\":1}",
-                        "isManual": true
+                    "category": "小汽车",
+                    "frameNum": 0,
+                    "id": "081122e9-b2b3-4015-9972-47e31806960d",
+                    "number": 2,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 327
                     },
-                    {
-                        "type": "RECT",
-                        "id": "fed26a59-8bfb-4b4b-a075-d1d75a218328",
-                        "number": 7,
-                        "category": "小型大型货车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 599.014893520163,
-                            "y": 239.37569041351298
-                        },
-                        "dimension": {
-                            "x": 12.9437015346507,
-                            "y": 18.429773708277253
-                        },
-                        "labels": "{\"occlusion\":1}",
-                        "isManual": true
+                    "labels": null,
+                    "isEmpty": true,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.03460385686718064,
+                        "w": 0.99940110720867
                     },
-                    {
-                        "type": "RECT",
-                        "id": "12968067-35ac-4151-8938-7aec0d866f91",
-                        "number": 56,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 173.71428571428575,
-                            "y": 128.38095238095238
-                        },
-                        "dimension": {
-                            "x": 252.95238095238093,
-                            "y": 222.47619047619048
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "d45beb3d-124b-4c06-9fa1-05296f1e7700",
-                        "number": 57,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 725.3333333333334,
-                            "y": 125.33333333333333
-                        },
-                        "dimension": {
-                            "x": 109.71428571428544,
-                            "y": 124.95238095238105
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "0b63f0c2-ed42-47fe-a728-6a561447976c",
-                        "number": 58,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 234.92281303602059,
-                            "y": 52.62435677530017
-                        },
-                        "dimension": {
-                            "x": 70.25728987993139,
-                            "y": 37.32418524871356
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "6bf74760-1ac6-477b-8e0d-d18ef6b73fe5",
-                        "number": 60,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 853.3333333333333,
-                            "y": 357.9778830963665
-                        },
-                        "dimension": {
-                            "x": 264.89731437598743,
-                            "y": 169.85781990521332
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "0d551834-5032-4609-a6bc-69e83c7f3883",
-                        "number": 64,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 498.4682586522191,
-                            "y": 268.65728877707613
-                        },
-                        "dimension": {
-                            "x": 104.0134618567397,
-                            "y": 42.606433795268856
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "b2a90a8f-1ce3-451c-91e4-8add7daa03f5",
-                        "number": 65,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 435.08904178230534,
-                            "y": 265.99574958767096
-                        },
-                        "dimension": {
-                            "x": 86.38583172223593,
-                            "y": 31.56318633461916
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "022164af-13d9-4a00-8e2a-ea8171537b5d",
-                        "number": 69,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 117.2827804107425,
-                            "y": 346.8562401263823
-                        },
-                        "dimension": {
-                            "x": 181.99052132701425,
-                            "y": 181.99052132701422
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "a702f9ea-075c-44b8-8cba-3bead7d8dc3b",
-                        "number": 83,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 0,
-                            "y": 371.0383373900844
-                        },
-                        "dimension": {
-                            "x": 125.59760057233325,
-                            "y": 348.9616626099156
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "a4e17a77-9317-42df-b05b-a99cad72f604",
-                        "number": 84,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 185.3672348142999,
-                            "y": 303.3075182862544
-                        },
-                        "dimension": {
-                            "x": 286.6581026776646,
-                            "y": 118.39877128120611
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "481ac1c2-3794-4c84-870c-10016b35838c",
-                        "number": 102,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 332.9940981401846,
-                            "y": 567.2604854920343
-                        },
-                        "dimension": {
-                            "x": 68.11823093433156,
-                            "y": 55.018571139267806
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "f46a7749-48bd-4df8-845d-e0c429bc28cc",
-                        "number": 104,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 186.9019344867853,
-                            "y": 286.17304447885186
-                        },
-                        "dimension": {
-                            "x": 149.63720984229764,
-                            "y": 79.08760673508147
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "1193865f-8693-42d9-a7da-968f779fcc7e",
-                        "number": 22,
-                        "category": "行人",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 180.3253844017835,
-                            "y": 259.1508431846739
-                        },
-                        "dimension": {
-                            "x": 171.78644461903437,
-                            "y": 25.33326106040454
-                        },
-                        "labels": "{\"occlusion\":1}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "38ff9460-7364-4688-8c48-825ec0b20e16",
-                        "number": 117,
-                        "category": "小型大型货车",
-                        "frameNum": 0,
-                        "imageNum": 0,
-                        "position": {
-                            "x": 945.2532694622057,
-                            "y": 230.7365322975835
-                        },
-                        "dimension": {
-                            "x": 123.63438125057223,
-                            "y": 71.33481648555397
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.06922153304521884
                     }
-                ]
-            },
-            {
-                "image": "/zhuxian/batch_data/0329_314_02/out/camera_f60/time_1647227295350359456_1647227295335056543.jpg",
-                "imageUrlInternal": "https://projecteng.oss-cn-shanghai.aliyuncs.com/zhuxian/batch_data/0329_314_02/out/camera_f60/time_1647227295350359456_1647227295335056543.jpg",
-                "imageUrlExternal": "",
-                "width": 1280,
-                "height": 720,
-                "items": [
-                    {
-                        "type": "RECT",
-                        "id": "151d4aec-9c15-4958-8d5a-b4c2d5606a79",
-                        "number": 1,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 1,
-                        "position": {
-                            "x": 474.0078504907425,
-                            "y": 307.5092421358611
-                        },
-                        "dimension": {
-                            "x": 365.1268664781044,
-                            "y": 334.6706124375356
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                },
+                {
+                    "position": {
+                        "x": 57.991640526417,
+                        "y": 3.642999812848025,
+                        "z": 2.2462171267148654
                     },
-                    {
-                        "type": "RECT",
-                        "id": "081122e9-b2b3-4015-9972-47e31806960d",
-                        "number": 2,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 1,
-                        "position": {
-                            "x": 496.7438931618844,
-                            "y": 264.19013379808194
-                        },
-                        "dimension": {
-                            "x": 170.32270882076085,
-                            "y": 143.4046010446845
-                        },
-                        "labels": "{\"occlusion\":1}",
-                        "isManual": true
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 3.0664547501988473
                     },
-                    {
-                        "type": "RECT",
-                        "id": "0787ac54-c904-4377-a1a3-57b27d26458f",
-                        "number": 6,
-                        "category": "小型大型货车",
-                        "frameNum": 0,
-                        "imageNum": 1,
-                        "position": {
-                            "x": 568.8009228466158,
-                            "y": 171.99089043210412
-                        },
-                        "dimension": {
-                            "x": 35.86252217835522,
-                            "y": 50.25464688882326
-                        },
-                        "labels": "{\"occlusion\":1}",
-                        "isManual": true
+                    "dimension": {
+                        "x": 16.954639418580342,
+                        "y": 3.0042732982297236,
+                        "z": 3.48908130199073
                     },
-                    {
-                        "type": "RECT",
-                        "id": "fed26a59-8bfb-4b4b-a075-d1d75a218328",
-                        "number": 7,
-                        "category": "小型大型货车",
-                        "frameNum": 0,
-                        "imageNum": 1,
-                        "position": {
-                            "x": 596.4481398471642,
-                            "y": 169.48686014588196
-                        },
-                        "dimension": {
-                            "x": 27.609228190052818,
-                            "y": 37.12654240005722
-                        },
-                        "labels": "{\"occlusion\":2}",
-                        "isManual": true
+                    "category": "小型大型货车",
+                    "frameNum": 0,
+                    "id": "a2c927c5-c2ab-406f-8939-e60e403b22df",
+                    "number": 3,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 207
                     },
-                    {
-                        "type": "RECT",
-                        "id": "eef2188a-9ef3-4ea0-99ad-7567621b05b2",
-                        "number": 8,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 1,
-                        "position": {
-                            "x": 620.5147714862576,
-                            "y": 187.01343250033835
-                        },
-                        "dimension": {
-                            "x": 7.255344971310137,
-                            "y": 10.599932156513376
-                        },
-                        "labels": "{\"occlusion\":2}",
-                        "isManual": true
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0.9992943699355017,
+                        "w": 0.037560114685776254
                     },
-                    {
-                        "type": "RECT",
-                        "id": "1a7113b6-a0ff-4203-899f-aecec928f82e",
-                        "number": 9,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 1,
-                        "position": {
-                            "x": 633.6338388682409,
-                            "y": 186.98897858680593
-                        },
-                        "dimension": {
-                            "x": 8.56366350294104,
-                            "y": 6.366295345372549
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "150849d2-99d0-47fa-9836-4c0c4b1b78b7",
-                        "number": 59,
-                        "category": "小型大型货车",
-                        "frameNum": 0,
-                        "imageNum": 1,
-                        "position": {
-                            "x": 237.71428571428572,
-                            "y": 70.47619047619048
-                        },
-                        "dimension": {
-                            "x": 134.09523809523813,
-                            "y": 106.66666666666666
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "0d551834-5032-4609-a6bc-69e83c7f3883",
-                        "number": 64,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 1,
-                        "position": {
-                            "x": 403.1280803039085,
-                            "y": 229.42712394380143
-                        },
-                        "dimension": {
-                            "x": 206.76776530797542,
-                            "y": 85.79135717884154
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "b2a90a8f-1ce3-451c-91e4-8add7daa03f5",
-                        "number": 65,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 1,
-                        "position": {
-                            "x": 259.60432240766437,
-                            "y": 213.90009066702763
-                        },
-                        "dimension": {
-                            "x": 170.81229720625242,
-                            "y": 64.06573036468626
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "a4e17a77-9317-42df-b05b-a99cad72f604",
-                        "number": 84,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 1,
-                        "position": {
-                            "x": 0,
-                            "y": 301.83946742454145
-                        },
-                        "dimension": {
-                            "x": 366.92581885028676,
-                            "y": 226.00236461660154
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "fa77bf84-5e7b-4c46-b879-52baf4ec0d4a",
-                        "number": 85,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 1,
-                        "position": {
-                            "x": 932.1958925750396,
-                            "y": 238.67298578199052
-                        },
-                        "dimension": {
-                            "x": 179.96840442338066,
-                            "y": 216.3665086887836
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "f46a7749-48bd-4df8-845d-e0c429bc28cc",
-                        "number": 104,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 1,
-                        "position": {
-                            "x": 0,
-                            "y": 301.18621279277284
-                        },
-                        "dimension": {
-                            "x": 109.34314429245904,
-                            "y": 122.90631886555866
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "1193865f-8693-42d9-a7da-968f779fcc7e",
-                        "number": 22,
-                        "category": "行人",
-                        "frameNum": 0,
-                        "imageNum": 1,
-                        "position": {
-                            "x": 0,
-                            "y": 212.20710764796516
-                        },
-                        "dimension": {
-                            "x": 97.82594461475966,
-                            "y": 52.667936714067565
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 3.066454750198847
                     }
-                ]
-            },
-            {
-                "image": "/zhuxian/batch_data/0329_314_02/out/camera_l120/time_1647227295350359456_1647227295335056543.jpg",
-                "imageUrlInternal": "https://projecteng.oss-cn-shanghai.aliyuncs.com/zhuxian/batch_data/0329_314_02/out/camera_l120/time_1647227295350359456_1647227295335056543.jpg",
-                "imageUrlExternal": "",
-                "width": 1280,
-                "height": 720,
-                "items": [
-                    {
-                        "type": "RECT",
-                        "id": "1ec4e401-d4d2-4c2c-ab13-eec440102a27",
-                        "number": 14,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 2,
-                        "position": {
-                            "x": 901.4247391922472,
-                            "y": 233.12340933663953
-                        },
-                        "dimension": {
-                            "x": 36.625488789056476,
-                            "y": 16.736150506257673
-                        },
-                        "labels": "{\"occlusion\":2}",
-                        "isManual": true
+                },
+                {
+                    "position": {
+                        "x": 88.42863849408076,
+                        "y": 4.122572991279612,
+                        "z": 2.4115110675889984
                     },
-                    {
-                        "type": "RECT",
-                        "id": "e5462f0a-ca5f-4f43-a4a8-1d131c63df73",
-                        "number": 68,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 2,
-                        "position": {
-                            "x": 680.6867125394308,
-                            "y": 181.69817485753475
-                        },
-                        "dimension": {
-                            "x": 208.34641697721395,
-                            "y": 201.81005879753673
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -3.071187846475447
                     },
-                    {
-                        "type": "RECT",
-                        "id": "9841a719-22b4-47a2-b629-bc7db023baa4",
-                        "number": 81,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 2,
-                        "position": {
-                            "x": 455.1823553405636,
-                            "y": 251.55550290283594
-                        },
-                        "dimension": {
-                            "x": 134.81238745584437,
-                            "y": 129.91011882108637
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                    "dimension": {
+                        "x": 6.5670091239012764,
+                        "y": 2.447707399584269,
+                        "z": 3.3015220716378515
                     },
-                    {
-                        "type": "RECT",
-                        "id": "5da70f3f-1b20-48b4-b4b7-eed8cc4ee462",
-                        "number": 82,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 2,
-                        "position": {
-                            "x": 795.3394490750169,
-                            "y": 244.4083489225843
-                        },
-                        "dimension": {
-                            "x": 308.4771241677339,
-                            "y": 128.82900637288043
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                    "category": "小型大型货车",
+                    "frameNum": 0,
+                    "id": "0787ac54-c904-4377-a1a3-57b27d26458f",
+                    "number": 6,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 21
                     },
-                    {
-                        "type": "RECT",
-                        "id": "a702f9ea-075c-44b8-8cba-3bead7d8dc3b",
-                        "number": 83,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 2,
-                        "position": {
-                            "x": 314.38993313962374,
-                            "y": 415.5827475049033
-                        },
-                        "dimension": {
-                            "x": 176.1058979157612,
-                            "y": 131.95799947574653
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.9993804593742344,
+                        "w": 0.03519513348382466
                     },
-                    {
-                        "type": "RECT",
-                        "id": "2e399e62-4675-4935-8dec-015d0bb8dd54",
-                        "number": 105,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 2,
-                        "position": {
-                            "x": 178.23237308104157,
-                            "y": 86.55982372463524
-                        },
-                        "dimension": {
-                            "x": 262.43390954922563,
-                            "y": 163.74081535977328
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
-                    },
-                    {
-                        "type": "RECT",
-                        "id": "f0b743ca-4fa0-43a6-8ddf-81883ddf3086",
-                        "number": 116,
-                        "category": "行人",
-                        "frameNum": 0,
-                        "imageNum": 2,
-                        "position": {
-                            "x": 783.048291987109,
-                            "y": 198.74268778125747
-                        },
-                        "dimension": {
-                            "x": 75.73611842131504,
-                            "y": 51.22842908583283
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -3.071187846475447
                     }
-                ]
-            },
-            {
-                "image": "/zhuxian/batch_data/0329_314_02/out/camera_l60/time_1647227295350359456_1647227295335056543.jpg",
-                "imageUrlInternal": "https://projecteng.oss-cn-shanghai.aliyuncs.com/zhuxian/batch_data/0329_314_02/out/camera_l60/time_1647227295350359456_1647227295335056543.jpg",
-                "imageUrlExternal": "",
-                "width": 1280,
-                "height": 720,
-                "items": [
-                    {
-                        "type": "RECT",
-                        "id": "2fc9eba7-7e21-4898-ac1c-174475ed3d31",
-                        "number": 16,
-                        "category": "小型大型货车",
-                        "frameNum": 0,
-                        "imageNum": 3,
-                        "position": {
-                            "x": 0,
-                            "y": 149.1975497587864
-                        },
-                        "dimension": {
-                            "x": 59.62949548883509,
-                            "y": 340.79252060383686
-                        },
-                        "labels": "{\"occlusion\":1}",
-                        "isManual": true
+                },
+                {
+                    "position": {
+                        "x": 2.141061421550318,
+                        "y": -0.01255437786310809,
+                        "z": 0.6806649724688323
                     },
-                    {
-                        "type": "RECT",
-                        "id": "a02205da-34ae-4fb5-bd7b-5ebd2f09af49",
-                        "number": 66,
-                        "category": "小型大型货车",
-                        "frameNum": 0,
-                        "imageNum": 3,
-                        "position": {
-                            "x": 303.37116761376393,
-                            "y": 0
-                        },
-                        "dimension": {
-                            "x": 976.6288323862361,
-                            "y": 720
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 3.1372652008702557
                     },
-                    {
-                        "type": "RECT",
-                        "id": "e5462f0a-ca5f-4f43-a4a8-1d131c63df73",
-                        "number": 68,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 3,
-                        "position": {
-                            "x": 398.3570300157978,
-                            "y": 294.28120063191153
-                        },
-                        "dimension": {
-                            "x": 279.0521327014218,
-                            "y": 220.41074249605055
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                    "dimension": {
+                        "x": 7.187152612046315,
+                        "y": 3.0854479436859554,
+                        "z": 1.4999999999999991
                     },
-                    {
-                        "type": "RECT",
-                        "id": "ddc233ac-a2ff-4bbf-9e26-0b98a018ba2e",
-                        "number": 114,
-                        "category": "小型大型货车",
-                        "frameNum": 0,
-                        "imageNum": 3,
-                        "position": {
-                            "x": 0,
-                            "y": 0
-                        },
-                        "dimension": {
-                            "x": 289.8905226438792,
-                            "y": 415.9229918210055
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                    "category": "小汽车",
+                    "frameNum": 0,
+                    "id": "1e5ca7de-e4cf-40d2-96e6-d26766d0b7e7",
+                    "number": 27,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 2900
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0.9999976591450332,
+                        "w": 0.002163724671445069
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 3.137265200870256
                     }
-                ]
-            },
-            {
-                "image": "/zhuxian/batch_data/0329_314_02/out/camera_r120/time_1647227295350359456_1647227295335056543.jpg",
-                "imageUrlInternal": "https://projecteng.oss-cn-shanghai.aliyuncs.com/zhuxian/batch_data/0329_314_02/out/camera_r120/time_1647227295350359456_1647227295335056543.jpg",
-                "imageUrlExternal": "",
-                "width": 1280,
-                "height": 720,
-                "items": [
-                    {
-                        "type": "RECT",
-                        "id": "3638bf31-5cea-4936-a95d-9732c90545e6",
-                        "number": 23,
-                        "category": "行人",
-                        "frameNum": 0,
-                        "imageNum": 4,
-                        "position": {
-                            "x": 565.350749465548,
-                            "y": 185.50513430534116
-                        },
-                        "dimension": {
-                            "x": 29.978196601707623,
-                            "y": 22.92450328365885
-                        },
-                        "labels": "{\"occlusion\":1}",
-                        "isManual": true
+                },
+                {
+                    "position": {
+                        "x": 10.702255865100444,
+                        "y": -11.266355445839945,
+                        "z": 1.413546160348437
                     },
-                    {
-                        "type": "RECT",
-                        "id": "e4fd75b8-f17a-49d9-8579-ec8aeccee3da",
-                        "number": 67,
-                        "category": "小汽车",
-                        "frameNum": 0,
-                        "imageNum": 4,
-                        "position": {
-                            "x": 28.04085796611124,
-                            "y": 249.24768369063523
-                        },
-                        "dimension": {
-                            "x": 605.6233954024265,
-                            "y": 424.01284778475235
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.6071153170098071
                     },
-                    {
-                        "type": "RECT",
-                        "id": "d4982d2a-40f4-4408-84f3-4aac8c7e5006",
-                        "number": 103,
-                        "category": "两轮车",
-                        "frameNum": 0,
-                        "imageNum": 4,
-                        "position": {
-                            "x": 1241.6385778597537,
-                            "y": 333.25348711069523
-                        },
-                        "dimension": {
-                            "x": 38.361422140246304,
-                            "y": 280.82226597439274
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                    "dimension": {
+                        "x": 2.645706025975831,
+                        "y": 3.559072005979868,
+                        "z": 1.5
                     },
-                    {
-                        "type": "RECT",
-                        "id": "847a447a-e949-4ef3-a4ca-6bfbaf0f02ae",
-                        "number": 115,
-                        "category": "行人",
-                        "frameNum": 0,
-                        "imageNum": 4,
-                        "position": {
-                            "x": 926.129541864139,
-                            "y": 418.6413902053713
-                        },
-                        "dimension": {
-                            "x": 97.06161137440768,
-                            "y": 113.23854660347547
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                    "category": "小汽车",
+                    "frameNum": 0,
+                    "id": "1c5ed97b-3857-4fae-8d73-701946c4db76",
+                    "number": 28,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 990
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.7198301904612106,
+                        "w": 0.6941501976521921
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.607115317009805
                     }
-                ]
-            },
-            {
-                "image": "/zhuxian/batch_data/0329_314_02/out/camera_r60/time_1647227295350359456_1647227295335056543.jpg",
-                "imageUrlInternal": "https://projecteng.oss-cn-shanghai.aliyuncs.com/zhuxian/batch_data/0329_314_02/out/camera_r60/time_1647227295350359456_1647227295335056543.jpg",
-                "imageUrlExternal": "",
-                "width": 1280,
-                "height": 720,
-                "items": [
-                    {
-                        "type": "RECT",
-                        "id": "2fc9eba7-7e21-4898-ac1c-174475ed3d31",
-                        "number": 16,
-                        "category": "小型大型货车",
-                        "frameNum": 0,
-                        "imageNum": 5,
-                        "position": {
-                            "x": 1232.990956432303,
-                            "y": 136.97743233266567
-                        },
-                        "dimension": {
-                            "x": 47.00904356769706,
-                            "y": 329.6084560300377
-                        },
-                        "labels": "{\"occlusion\":1}",
-                        "isManual": true
+                },
+                {
+                    "position": {
+                        "x": 6.064396941804032,
+                        "y": 4.187498500188107,
+                        "z": 0.6230769230769212
                     },
-                    {
-                        "type": "RECT",
-                        "id": "d4982d2a-40f4-4408-84f3-4aac8c7e5006",
-                        "number": 103,
-                        "category": "两轮车",
-                        "frameNum": 0,
-                        "imageNum": 5,
-                        "position": {
-                            "x": 252.67252071248126,
-                            "y": 358.8331852533876
-                        },
-                        "dimension": {
-                            "x": 447.17843493504836,
-                            "y": 332.9586713255646
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.560045698784415
                     },
-                    {
-                        "type": "RECT",
-                        "id": "ddc233ac-a2ff-4bbf-9e26-0b98a018ba2e",
-                        "number": 114,
-                        "category": "小型大型货车",
-                        "frameNum": 0,
-                        "imageNum": 5,
-                        "position": {
-                            "x": 972.6653433384728,
-                            "y": 0
-                        },
-                        "dimension": {
-                            "x": 307.3346566615272,
-                            "y": 453.16719579920107
-                        },
-                        "labels": "{\"occlusion\":0}",
-                        "isManual": true
+                    "dimension": {
+                        "x": 0.8490535526628599,
+                        "y": 0.588129503245538,
+                        "z": 1.5
+                    },
+                    "category": "小汽车",
+                    "frameNum": 0,
+                    "id": "b99aa49e-ddec-4cb7-80d3-49aa7c75176f",
+                    "number": 29,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 128
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.7032956629590752,
+                        "w": 0.7108974683194158
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.5600456987844151
                     }
-                ]
-            }
-        ],
-        "attribute": "",
-        "relations": [],
-        "isValid": true,
-        "groundY": null,
-        "boundary": null
-    }
+                },
+                {
+                    "position": {
+                        "x": 9.910742618889982,
+                        "y": -5.879466595123285,
+                        "z": 0.7499652504920936
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "dimension": {
+                        "x": 0.3410840231930514,
+                        "y": 0.27107681202122347,
+                        "z": 1.4999305009841966
+                    },
+                    "category": "小汽车",
+                    "frameNum": 0,
+                    "id": "6297f8b2-bf67-4e37-8ec8-b3d389489b40",
+                    "number": 55,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 501
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    }
+                },
+                {
+                    "position": {
+                        "x": 12.692514941907511,
+                        "y": 0.15561543589546362,
+                        "z": 0.8911724752873558
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.03173989383848526
+                    },
+                    "dimension": {
+                        "x": 4.021981316196585,
+                        "y": 2.3104042464225625,
+                        "z": 1.5809854136525834
+                    },
+                    "category": "小汽车",
+                    "frameNum": 0,
+                    "id": "151d4aec-9c15-4958-8d5a-b4c2d5606a79",
+                    "number": 1,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 4803
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.015869280772815162,
+                        "w": 0.9998740750353284
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.03173989383848526
+                    }
+                },
+                {
+                    "position": {
+                        "x": 35.06818188106742,
+                        "y": 2.0402601011923496,
+                        "z": 0.7499999999999929
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 1.671142038088913
+                    },
+                    "dimension": {
+                        "x": 4,
+                        "y": 1.7,
+                        "z": 1.5
+                    },
+                    "category": "小汽车",
+                    "frameNum": 0,
+                    "id": "0d551834-5032-4609-a6bc-69e83c7f3883",
+                    "number": 64,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 6
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0.7416796460911019,
+                        "w": 0.6707542788340436
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 1.6711420380889113
+                    }
+                },
+                {
+                    "position": {
+                        "x": 39.90993300901589,
+                        "y": 7.591547121234026,
+                        "z": 0.7499999999999911
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 1.4086994085507059
+                    },
+                    "dimension": {
+                        "x": 4,
+                        "y": 1.7,
+                        "z": 1.5
+                    },
+                    "category": "小汽车",
+                    "frameNum": 0,
+                    "id": "b2a90a8f-1ce3-451c-91e4-8add7daa03f5",
+                    "number": 65,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 0
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0.6475384198128259,
+                        "w": 0.7620328043242682
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 1.4086994085507056
+                    }
+                },
+                {
+                    "position": {
+                        "x": -6.53706557644848,
+                        "y": -0.5597238098280224,
+                        "z": 2.048309178743961
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.5707963267948966
+                    },
+                    "dimension": {
+                        "x": 10,
+                        "y": 3.28647342995169,
+                        "z": 4.096618357487923
+                    },
+                    "category": "小型大型货车",
+                    "frameNum": 0,
+                    "id": "a02205da-34ae-4fb5-bd7b-5ebd2f09af49",
+                    "number": 66,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 110
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.7071067811865475,
+                        "w": 0.7071067811865476
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.5707963267948966
+                    }
+                },
+                {
+                    "position": {
+                        "x": 60.60726023581847,
+                        "y": 170.62625971238759,
+                        "z": 0.24666970335147
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 2.6360388075460146
+                    },
+                    "dimension": {
+                        "x": 4.542044287542958,
+                        "y": 2.521079385665745,
+                        "z": 1.7318840579710146
+                    },
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0.9682216650579659,
+                        "w": 0.25009359710392454
+                    },
+                    "category": "小汽车",
+                    "id": "2b1c1f78-3306-42eb-94d5-db22960b7fd5",
+                    "number": 5,
+                    "interpolated": false,
+                    "frameNum": 0,
+                    "pointCount": {
+                        "lidar": 0
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 2.636038807546014
+                    }
+                },
+                {
+                    "position": {
+                        "x": 6.53666376916516,
+                        "y": -5.750308250214376,
+                        "z": 0.7499999999999986
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.8900578644247028
+                    },
+                    "dimension": {
+                        "x": 4,
+                        "y": 1.7,
+                        "z": 1.5
+                    },
+                    "category": "小汽车",
+                    "frameNum": 0,
+                    "id": "e4fd75b8-f17a-49d9-8579-ec8aeccee3da",
+                    "number": 67,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 0
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.810513880285944,
+                        "w": 0.5857194293036748
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.890057864424703
+                    }
+                },
+                {
+                    "position": {
+                        "x": 16.674491380767037,
+                        "y": 29.5451016865125,
+                        "z": 1.2999999999999963
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0.19674658943836698
+                    },
+                    "dimension": {
+                        "x": 5.22,
+                        "y": 1.85,
+                        "z": 2.6
+                    },
+                    "category": "小型大型货车",
+                    "frameNum": 0,
+                    "id": "9a36bf6d-a032-4cc0-ba4c-fb6b3e1bc812",
+                    "number": 51,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 0
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0.09821470674250442,
+                        "w": 0.9951652482776334
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0.19674658943836698
+                    }
+                },
+                {
+                    "position": {
+                        "x": 1.804924020214164,
+                        "y": 35.71405240012354,
+                        "z": 1.2999999999999996
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0.19674658943836698
+                    },
+                    "dimension": {
+                        "x": 5.22,
+                        "y": 1.85,
+                        "z": 2.6
+                    },
+                    "category": "小型大型货车",
+                    "frameNum": 0,
+                    "id": "007c5f31-d882-47cf-a16a-ec5f0f721c54",
+                    "number": 52,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 32
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0.09821470674250442,
+                        "w": 0.9951652482776334
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0.19674658943836698
+                    }
+                },
+                {
+                    "position": {
+                        "x": 14.597090899107696,
+                        "y": 4.499606615339367,
+                        "z": 0.7499999999999973
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.5707963267948966
+                    },
+                    "dimension": {
+                        "x": 4,
+                        "y": 1.7,
+                        "z": 1.5
+                    },
+                    "category": "小汽车",
+                    "frameNum": 0,
+                    "id": "e5462f0a-ca5f-4f43-a4a8-1d131c63df73",
+                    "number": 68,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 170
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.7071067811865475,
+                        "w": 0.7071067811865476
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.5707963267948966
+                    }
+                },
+                {
+                    "position": {
+                        "x": 15.794146264143784,
+                        "y": 8.450815677617886,
+                        "z": 0.7499999999999964
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -2.8255286655810674
+                    },
+                    "dimension": {
+                        "x": 4,
+                        "y": 1.7,
+                        "z": 1.5
+                    },
+                    "category": "小汽车",
+                    "frameNum": 0,
+                    "id": "9841a719-22b4-47a2-b629-bc7db023baa4",
+                    "number": 81,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 0
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.9875389105705533,
+                        "w": 0.15737503013224424
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -2.8255286655810674
+                    }
+                },
+                {
+                    "position": {
+                        "x": 11.980766257472435,
+                        "y": 10.670408683226853,
+                        "z": 0.7080292045248612
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.231164688562239
+                    },
+                    "dimension": {
+                        "x": 3.9227053140096615,
+                        "y": 3.076092227980906,
+                        "z": 1.4160584090497275
+                    },
+                    "category": "小汽车",
+                    "frameNum": 0,
+                    "id": "5da70f3f-1b20-48b4-b4b7-eed8cc4ee462",
+                    "number": 82,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 213
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.5774340677737991,
+                        "w": 0.81643731992983
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.2311646885622387
+                    }
+                },
+                {
+                    "position": {
+                        "x": 8.391949418302554,
+                        "y": 6.039146089561189,
+                        "z": 0.7499999999999981
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.231164688562239
+                    },
+                    "dimension": {
+                        "x": 3.718273018689179,
+                        "y": 2.0067095238355317,
+                        "z": 1.5
+                    },
+                    "category": "小汽车",
+                    "frameNum": 0,
+                    "id": "a702f9ea-075c-44b8-8cba-3bead7d8dc3b",
+                    "number": 83,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 0
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.5774340677737991,
+                        "w": 0.81643731992983
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.2311646885622387
+                    }
+                },
+                {
+                    "position": {
+                        "x": 15.6239037425299,
+                        "y": 4.694618123236852,
+                        "z": 0.7499999999999966
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.9104279650277118
+                    },
+                    "dimension": {
+                        "x": 3.9227053140096606,
+                        "y": 1.8545893719806734,
+                        "z": 1.5
+                    },
+                    "category": "小汽车",
+                    "frameNum": 0,
+                    "id": "a4e17a77-9317-42df-b05b-a99cad72f604",
+                    "number": 84,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 102
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.8164373199298754,
+                        "w": 0.5774340677737348
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.9104279650277118
+                    }
+                },
+                {
+                    "position": {
+                        "x": 9.581937405816392,
+                        "y": -2.231912633098748,
+                        "z": 0.7499999999999988
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.4858884172384155
+                    },
+                    "dimension": {
+                        "x": 4,
+                        "y": 1.7,
+                        "z": 1.5
+                    },
+                    "category": "小汽车",
+                    "frameNum": 0,
+                    "id": "481ac1c2-3794-4c84-870c-10016b35838c",
+                    "number": 102,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 473
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.6764591914980864,
+                        "w": 0.7364801166615126
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.4858884172384146
+                    }
+                },
+                {
+                    "position": {
+                        "x": -0.13723746416749094,
+                        "y": -4.857690808819753,
+                        "z": 0.5499999999999999
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.4858884172384155
+                    },
+                    "dimension": {
+                        "x": 1.6179800749989304,
+                        "y": 1.4438992937350636,
+                        "z": 1.1
+                    },
+                    "category": "两轮车",
+                    "frameNum": 0,
+                    "id": "d4982d2a-40f4-4408-84f3-4aac8c7e5006",
+                    "number": 103,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 65
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.6764591914980864,
+                        "w": 0.7364801166615126
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -1.4858884172384146
+                    }
+                },
+                {
+                    "position": {
+                        "x": 14.882235769812265,
+                        "y": 12.224055847108005,
+                        "z": 9.622452703609122
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -2.8067517781443896
+                    },
+                    "dimension": {
+                        "x": 2.7292644204770435,
+                        "y": 2.676683364818799,
+                        "z": 1.5
+                    },
+                    "category": "小汽车",
+                    "frameNum": 0,
+                    "id": "f46a7749-48bd-4df8-845d-e0c429bc28cc",
+                    "number": 104,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 0
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.9860179037227504,
+                        "w": 0.16663941171941538
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -2.8067517781443896
+                    }
+                },
+                {
+                    "position": {
+                        "x": 64.98261541768096,
+                        "y": 17.374654103434892,
+                        "z": 0.8899999999999846
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 2.419875422401979
+                    },
+                    "dimension": {
+                        "x": 11.296815081559355,
+                        "y": 13.4548142082681,
+                        "z": 1.78
+                    },
+                    "category": "行人",
+                    "frameNum": 0,
+                    "id": "3638bf31-5cea-4936-a95d-9732c90545e6",
+                    "number": 23,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 61
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0.9355940105838251,
+                        "w": 0.35307767893152564
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 2.4198754224019785
+                    }
+                },
+                {
+                    "position": {
+                        "x": 36.95316616248707,
+                        "y": 54.365349821714666,
+                        "z": -0.2591566861646629
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 2.4198754224019794
+                    },
+                    "dimension": {
+                        "x": 12.507630333001954,
+                        "y": 10.854023597044629,
+                        "z": 1.78
+                    },
+                    "category": "行人",
+                    "frameNum": 0,
+                    "id": "f0b743ca-4fa0-43a6-8ddf-81883ddf3086",
+                    "number": 116,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 28
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0.9355940105838252,
+                        "w": 0.3530776789315252
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 2.4198754224019794
+                    }
+                },
+                {
+                    "position": {
+                        "x": 46.165955175004285,
+                        "y": 26.419901427353054,
+                        "z": 0.8899999999999895
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -2.027265527014135
+                    },
+                    "dimension": {
+                        "x": 4.869631035618484,
+                        "y": 10.33234670344102,
+                        "z": 1.78
+                    },
+                    "category": "行人",
+                    "frameNum": 0,
+                    "id": "847a447a-e949-4ef3-a4ca-6bfbaf0f02ae",
+                    "number": 115,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 37
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.8487583767863968,
+                        "w": 0.5287808788476762
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -2.027265527014135
+                    }
+                },
+                {
+                    "position": {
+                        "x": 31.65275486266429,
+                        "y": -15.34524415405275,
+                        "z": 1.3050748109817472
+                    },
+                    "rotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.051888166633024625
+                    },
+                    "dimension": {
+                        "x": 3.5653015503470877,
+                        "y": 2.915270633794778,
+                        "z": 2.610149621963508
+                    },
+                    "category": "小型大型货车",
+                    "frameNum": 0,
+                    "id": "38ff9460-7364-4688-8c48-825ec0b20e16",
+                    "number": 117,
+                    "interpolated": false,
+                    "pointCount": {
+                        "lidar": 151
+                    },
+                    "labels": null,
+                    "isEmpty": false,
+                    "annotatedBy": "human",
+                    "quaternion": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.02594117294035013,
+                        "w": 0.9996634711474051
+                    },
+                    "rotation2": {
+                        "x": 0,
+                        "y": 0,
+                        "z": -0.05188816663302462
+                    }
+                }
+            ],
+            "images": [
+                {
+                    "image": "/zhuxian/batch_data/0329_314_02/out/camera_f120/time_1647227295350359456_1647227295335056543.jpg",
+                    "imageUrlInternal": "https://projecteng.oss-cn-shanghai.aliyuncs.com/zhuxian/batch_data/0329_314_02/out/camera_f120/time_1647227295350359456_1647227295335056543.jpg",
+                    "imageUrlExternal": "",
+                    "width": 1280,
+                    "height": 720,
+                    "items": [
+                        {
+                            "type": "RECT",
+                            "id": "151d4aec-9c15-4958-8d5a-b4c2d5606a79",
+                            "number": 1,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 538.4013606971978,
+                                "y": 309.8785141949361
+                            },
+                            "dimension": {
+                                "x": 179.46987769595194,
+                                "y": 165.90118894556724
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "081122e9-b2b3-4015-9972-47e31806960d",
+                            "number": 2,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 569.3626056231254,
+                                "y": 299.2362553915814
+                            },
+                            "dimension": {
+                                "x": 78.461696262087,
+                                "y": 68.91000340275042
+                            },
+                            "labels": "{\"occlusion\":1}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "a2c927c5-c2ab-406f-8939-e60e403b22df",
+                            "number": 3,
+                            "category": "小型大型货车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 544.5327887082418,
+                                "y": 230.31024730829694
+                            },
+                            "dimension": {
+                                "x": 50.40020337864121,
+                                "y": 51.05196790478317
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "0787ac54-c904-4377-a1a3-57b27d26458f",
+                            "number": 6,
+                            "category": "小型大型货车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 584.2184386347774,
+                                "y": 240.7324402426292
+                            },
+                            "dimension": {
+                                "x": 18.379811148974113,
+                                "y": 25.15495705031526
+                            },
+                            "labels": "{\"occlusion\":1}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "fed26a59-8bfb-4b4b-a075-d1d75a218328",
+                            "number": 7,
+                            "category": "小型大型货车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 599.014893520163,
+                                "y": 239.37569041351298
+                            },
+                            "dimension": {
+                                "x": 12.9437015346507,
+                                "y": 18.429773708277253
+                            },
+                            "labels": "{\"occlusion\":1}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "12968067-35ac-4151-8938-7aec0d866f91",
+                            "number": 56,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 173.71428571428575,
+                                "y": 128.38095238095238
+                            },
+                            "dimension": {
+                                "x": 252.95238095238093,
+                                "y": 222.47619047619048
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "d45beb3d-124b-4c06-9fa1-05296f1e7700",
+                            "number": 57,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 725.3333333333334,
+                                "y": 125.33333333333333
+                            },
+                            "dimension": {
+                                "x": 109.71428571428544,
+                                "y": 124.95238095238105
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "0b63f0c2-ed42-47fe-a728-6a561447976c",
+                            "number": 58,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 234.92281303602059,
+                                "y": 52.62435677530017
+                            },
+                            "dimension": {
+                                "x": 70.25728987993139,
+                                "y": 37.32418524871356
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "6bf74760-1ac6-477b-8e0d-d18ef6b73fe5",
+                            "number": 60,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 853.3333333333333,
+                                "y": 357.9778830963665
+                            },
+                            "dimension": {
+                                "x": 264.89731437598743,
+                                "y": 169.85781990521332
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "0d551834-5032-4609-a6bc-69e83c7f3883",
+                            "number": 64,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 498.4682586522191,
+                                "y": 268.65728877707613
+                            },
+                            "dimension": {
+                                "x": 104.0134618567397,
+                                "y": 42.606433795268856
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "b2a90a8f-1ce3-451c-91e4-8add7daa03f5",
+                            "number": 65,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 435.08904178230534,
+                                "y": 265.99574958767096
+                            },
+                            "dimension": {
+                                "x": 86.38583172223593,
+                                "y": 31.56318633461916
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "022164af-13d9-4a00-8e2a-ea8171537b5d",
+                            "number": 69,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 117.2827804107425,
+                                "y": 346.8562401263823
+                            },
+                            "dimension": {
+                                "x": 181.99052132701425,
+                                "y": 181.99052132701422
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "a702f9ea-075c-44b8-8cba-3bead7d8dc3b",
+                            "number": 83,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 0,
+                                "y": 371.0383373900844
+                            },
+                            "dimension": {
+                                "x": 125.59760057233325,
+                                "y": 348.9616626099156
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "a4e17a77-9317-42df-b05b-a99cad72f604",
+                            "number": 84,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 185.3672348142999,
+                                "y": 303.3075182862544
+                            },
+                            "dimension": {
+                                "x": 286.6581026776646,
+                                "y": 118.39877128120611
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "481ac1c2-3794-4c84-870c-10016b35838c",
+                            "number": 102,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 332.9940981401846,
+                                "y": 567.2604854920343
+                            },
+                            "dimension": {
+                                "x": 68.11823093433156,
+                                "y": 55.018571139267806
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "f46a7749-48bd-4df8-845d-e0c429bc28cc",
+                            "number": 104,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 186.9019344867853,
+                                "y": 286.17304447885186
+                            },
+                            "dimension": {
+                                "x": 149.63720984229764,
+                                "y": 79.08760673508147
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "1193865f-8693-42d9-a7da-968f779fcc7e",
+                            "number": 22,
+                            "category": "行人",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 180.3253844017835,
+                                "y": 259.1508431846739
+                            },
+                            "dimension": {
+                                "x": 171.78644461903437,
+                                "y": 25.33326106040454
+                            },
+                            "labels": "{\"occlusion\":1}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "38ff9460-7364-4688-8c48-825ec0b20e16",
+                            "number": 117,
+                            "category": "小型大型货车",
+                            "frameNum": 0,
+                            "imageNum": 0,
+                            "position": {
+                                "x": 945.2532694622057,
+                                "y": 230.7365322975835
+                            },
+                            "dimension": {
+                                "x": 123.63438125057223,
+                                "y": 71.33481648555397
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        }
+                    ]
+                },
+                {
+                    "image": "/zhuxian/batch_data/0329_314_02/out/camera_f60/time_1647227295350359456_1647227295335056543.jpg",
+                    "imageUrlInternal": "https://projecteng.oss-cn-shanghai.aliyuncs.com/zhuxian/batch_data/0329_314_02/out/camera_f60/time_1647227295350359456_1647227295335056543.jpg",
+                    "imageUrlExternal": "",
+                    "width": 1280,
+                    "height": 720,
+                    "items": [
+                        {
+                            "type": "RECT",
+                            "id": "151d4aec-9c15-4958-8d5a-b4c2d5606a79",
+                            "number": 1,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 1,
+                            "position": {
+                                "x": 474.0078504907425,
+                                "y": 307.5092421358611
+                            },
+                            "dimension": {
+                                "x": 365.1268664781044,
+                                "y": 334.6706124375356
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "081122e9-b2b3-4015-9972-47e31806960d",
+                            "number": 2,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 1,
+                            "position": {
+                                "x": 496.7438931618844,
+                                "y": 264.19013379808194
+                            },
+                            "dimension": {
+                                "x": 170.32270882076085,
+                                "y": 143.4046010446845
+                            },
+                            "labels": "{\"occlusion\":1}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "0787ac54-c904-4377-a1a3-57b27d26458f",
+                            "number": 6,
+                            "category": "小型大型货车",
+                            "frameNum": 0,
+                            "imageNum": 1,
+                            "position": {
+                                "x": 568.8009228466158,
+                                "y": 171.99089043210412
+                            },
+                            "dimension": {
+                                "x": 35.86252217835522,
+                                "y": 50.25464688882326
+                            },
+                            "labels": "{\"occlusion\":1}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "fed26a59-8bfb-4b4b-a075-d1d75a218328",
+                            "number": 7,
+                            "category": "小型大型货车",
+                            "frameNum": 0,
+                            "imageNum": 1,
+                            "position": {
+                                "x": 596.4481398471642,
+                                "y": 169.48686014588196
+                            },
+                            "dimension": {
+                                "x": 27.609228190052818,
+                                "y": 37.12654240005722
+                            },
+                            "labels": "{\"occlusion\":2}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "eef2188a-9ef3-4ea0-99ad-7567621b05b2",
+                            "number": 8,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 1,
+                            "position": {
+                                "x": 620.5147714862576,
+                                "y": 187.01343250033835
+                            },
+                            "dimension": {
+                                "x": 7.255344971310137,
+                                "y": 10.599932156513376
+                            },
+                            "labels": "{\"occlusion\":2}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "1a7113b6-a0ff-4203-899f-aecec928f82e",
+                            "number": 9,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 1,
+                            "position": {
+                                "x": 633.6338388682409,
+                                "y": 186.98897858680593
+                            },
+                            "dimension": {
+                                "x": 8.56366350294104,
+                                "y": 6.366295345372549
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "150849d2-99d0-47fa-9836-4c0c4b1b78b7",
+                            "number": 59,
+                            "category": "小型大型货车",
+                            "frameNum": 0,
+                            "imageNum": 1,
+                            "position": {
+                                "x": 237.71428571428572,
+                                "y": 70.47619047619048
+                            },
+                            "dimension": {
+                                "x": 134.09523809523813,
+                                "y": 106.66666666666666
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "0d551834-5032-4609-a6bc-69e83c7f3883",
+                            "number": 64,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 1,
+                            "position": {
+                                "x": 403.1280803039085,
+                                "y": 229.42712394380143
+                            },
+                            "dimension": {
+                                "x": 206.76776530797542,
+                                "y": 85.79135717884154
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "b2a90a8f-1ce3-451c-91e4-8add7daa03f5",
+                            "number": 65,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 1,
+                            "position": {
+                                "x": 259.60432240766437,
+                                "y": 213.90009066702763
+                            },
+                            "dimension": {
+                                "x": 170.81229720625242,
+                                "y": 64.06573036468626
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "a4e17a77-9317-42df-b05b-a99cad72f604",
+                            "number": 84,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 1,
+                            "position": {
+                                "x": 0,
+                                "y": 301.83946742454145
+                            },
+                            "dimension": {
+                                "x": 366.92581885028676,
+                                "y": 226.00236461660154
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "fa77bf84-5e7b-4c46-b879-52baf4ec0d4a",
+                            "number": 85,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 1,
+                            "position": {
+                                "x": 932.1958925750396,
+                                "y": 238.67298578199052
+                            },
+                            "dimension": {
+                                "x": 179.96840442338066,
+                                "y": 216.3665086887836
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "f46a7749-48bd-4df8-845d-e0c429bc28cc",
+                            "number": 104,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 1,
+                            "position": {
+                                "x": 0,
+                                "y": 301.18621279277284
+                            },
+                            "dimension": {
+                                "x": 109.34314429245904,
+                                "y": 122.90631886555866
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "1193865f-8693-42d9-a7da-968f779fcc7e",
+                            "number": 22,
+                            "category": "行人",
+                            "frameNum": 0,
+                            "imageNum": 1,
+                            "position": {
+                                "x": 0,
+                                "y": 212.20710764796516
+                            },
+                            "dimension": {
+                                "x": 97.82594461475966,
+                                "y": 52.667936714067565
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        }
+                    ]
+                },
+                {
+                    "image": "/zhuxian/batch_data/0329_314_02/out/camera_l120/time_1647227295350359456_1647227295335056543.jpg",
+                    "imageUrlInternal": "https://projecteng.oss-cn-shanghai.aliyuncs.com/zhuxian/batch_data/0329_314_02/out/camera_l120/time_1647227295350359456_1647227295335056543.jpg",
+                    "imageUrlExternal": "",
+                    "width": 1280,
+                    "height": 720,
+                    "items": [
+                        {
+                            "type": "RECT",
+                            "id": "1ec4e401-d4d2-4c2c-ab13-eec440102a27",
+                            "number": 14,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 2,
+                            "position": {
+                                "x": 901.4247391922472,
+                                "y": 233.12340933663953
+                            },
+                            "dimension": {
+                                "x": 36.625488789056476,
+                                "y": 16.736150506257673
+                            },
+                            "labels": "{\"occlusion\":2}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "e5462f0a-ca5f-4f43-a4a8-1d131c63df73",
+                            "number": 68,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 2,
+                            "position": {
+                                "x": 680.6867125394308,
+                                "y": 181.69817485753475
+                            },
+                            "dimension": {
+                                "x": 208.34641697721395,
+                                "y": 201.81005879753673
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "9841a719-22b4-47a2-b629-bc7db023baa4",
+                            "number": 81,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 2,
+                            "position": {
+                                "x": 455.1823553405636,
+                                "y": 251.55550290283594
+                            },
+                            "dimension": {
+                                "x": 134.81238745584437,
+                                "y": 129.91011882108637
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "5da70f3f-1b20-48b4-b4b7-eed8cc4ee462",
+                            "number": 82,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 2,
+                            "position": {
+                                "x": 795.3394490750169,
+                                "y": 244.4083489225843
+                            },
+                            "dimension": {
+                                "x": 308.4771241677339,
+                                "y": 128.82900637288043
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "a702f9ea-075c-44b8-8cba-3bead7d8dc3b",
+                            "number": 83,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 2,
+                            "position": {
+                                "x": 314.38993313962374,
+                                "y": 415.5827475049033
+                            },
+                            "dimension": {
+                                "x": 176.1058979157612,
+                                "y": 131.95799947574653
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "2e399e62-4675-4935-8dec-015d0bb8dd54",
+                            "number": 105,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 2,
+                            "position": {
+                                "x": 178.23237308104157,
+                                "y": 86.55982372463524
+                            },
+                            "dimension": {
+                                "x": 262.43390954922563,
+                                "y": 163.74081535977328
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "f0b743ca-4fa0-43a6-8ddf-81883ddf3086",
+                            "number": 116,
+                            "category": "行人",
+                            "frameNum": 0,
+                            "imageNum": 2,
+                            "position": {
+                                "x": 783.048291987109,
+                                "y": 198.74268778125747
+                            },
+                            "dimension": {
+                                "x": 75.73611842131504,
+                                "y": 51.22842908583283
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        }
+                    ]
+                },
+                {
+                    "image": "/zhuxian/batch_data/0329_314_02/out/camera_l60/time_1647227295350359456_1647227295335056543.jpg",
+                    "imageUrlInternal": "https://projecteng.oss-cn-shanghai.aliyuncs.com/zhuxian/batch_data/0329_314_02/out/camera_l60/time_1647227295350359456_1647227295335056543.jpg",
+                    "imageUrlExternal": "",
+                    "width": 1280,
+                    "height": 720,
+                    "items": [
+                        {
+                            "type": "RECT",
+                            "id": "2fc9eba7-7e21-4898-ac1c-174475ed3d31",
+                            "number": 16,
+                            "category": "小型大型货车",
+                            "frameNum": 0,
+                            "imageNum": 3,
+                            "position": {
+                                "x": 0,
+                                "y": 149.1975497587864
+                            },
+                            "dimension": {
+                                "x": 59.62949548883509,
+                                "y": 340.79252060383686
+                            },
+                            "labels": "{\"occlusion\":1}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "a02205da-34ae-4fb5-bd7b-5ebd2f09af49",
+                            "number": 66,
+                            "category": "小型大型货车",
+                            "frameNum": 0,
+                            "imageNum": 3,
+                            "position": {
+                                "x": 303.37116761376393,
+                                "y": 0
+                            },
+                            "dimension": {
+                                "x": 976.6288323862361,
+                                "y": 720
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "e5462f0a-ca5f-4f43-a4a8-1d131c63df73",
+                            "number": 68,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 3,
+                            "position": {
+                                "x": 398.3570300157978,
+                                "y": 294.28120063191153
+                            },
+                            "dimension": {
+                                "x": 279.0521327014218,
+                                "y": 220.41074249605055
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "ddc233ac-a2ff-4bbf-9e26-0b98a018ba2e",
+                            "number": 114,
+                            "category": "小型大型货车",
+                            "frameNum": 0,
+                            "imageNum": 3,
+                            "position": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "dimension": {
+                                "x": 289.8905226438792,
+                                "y": 415.9229918210055
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        }
+                    ]
+                },
+                {
+                    "image": "/zhuxian/batch_data/0329_314_02/out/camera_r120/time_1647227295350359456_1647227295335056543.jpg",
+                    "imageUrlInternal": "https://projecteng.oss-cn-shanghai.aliyuncs.com/zhuxian/batch_data/0329_314_02/out/camera_r120/time_1647227295350359456_1647227295335056543.jpg",
+                    "imageUrlExternal": "",
+                    "width": 1280,
+                    "height": 720,
+                    "items": [
+                        {
+                            "type": "RECT",
+                            "id": "3638bf31-5cea-4936-a95d-9732c90545e6",
+                            "number": 23,
+                            "category": "行人",
+                            "frameNum": 0,
+                            "imageNum": 4,
+                            "position": {
+                                "x": 565.350749465548,
+                                "y": 185.50513430534116
+                            },
+                            "dimension": {
+                                "x": 29.978196601707623,
+                                "y": 22.92450328365885
+                            },
+                            "labels": "{\"occlusion\":1}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "e4fd75b8-f17a-49d9-8579-ec8aeccee3da",
+                            "number": 67,
+                            "category": "小汽车",
+                            "frameNum": 0,
+                            "imageNum": 4,
+                            "position": {
+                                "x": 28.04085796611124,
+                                "y": 249.24768369063523
+                            },
+                            "dimension": {
+                                "x": 605.6233954024265,
+                                "y": 424.01284778475235
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "d4982d2a-40f4-4408-84f3-4aac8c7e5006",
+                            "number": 103,
+                            "category": "两轮车",
+                            "frameNum": 0,
+                            "imageNum": 4,
+                            "position": {
+                                "x": 1241.6385778597537,
+                                "y": 333.25348711069523
+                            },
+                            "dimension": {
+                                "x": 38.361422140246304,
+                                "y": 280.82226597439274
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "847a447a-e949-4ef3-a4ca-6bfbaf0f02ae",
+                            "number": 115,
+                            "category": "行人",
+                            "frameNum": 0,
+                            "imageNum": 4,
+                            "position": {
+                                "x": 926.129541864139,
+                                "y": 418.6413902053713
+                            },
+                            "dimension": {
+                                "x": 97.06161137440768,
+                                "y": 113.23854660347547
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        }
+                    ]
+                },
+                {
+                    "image": "/zhuxian/batch_data/0329_314_02/out/camera_r60/time_1647227295350359456_1647227295335056543.jpg",
+                    "imageUrlInternal": "https://projecteng.oss-cn-shanghai.aliyuncs.com/zhuxian/batch_data/0329_314_02/out/camera_r60/time_1647227295350359456_1647227295335056543.jpg",
+                    "imageUrlExternal": "",
+                    "width": 1280,
+                    "height": 720,
+                    "items": [
+                        {
+                            "type": "RECT",
+                            "id": "2fc9eba7-7e21-4898-ac1c-174475ed3d31",
+                            "number": 16,
+                            "category": "小型大型货车",
+                            "frameNum": 0,
+                            "imageNum": 5,
+                            "position": {
+                                "x": 1232.990956432303,
+                                "y": 136.97743233266567
+                            },
+                            "dimension": {
+                                "x": 47.00904356769706,
+                                "y": 329.6084560300377
+                            },
+                            "labels": "{\"occlusion\":1}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "d4982d2a-40f4-4408-84f3-4aac8c7e5006",
+                            "number": 103,
+                            "category": "两轮车",
+                            "frameNum": 0,
+                            "imageNum": 5,
+                            "position": {
+                                "x": 252.67252071248126,
+                                "y": 358.8331852533876
+                            },
+                            "dimension": {
+                                "x": 447.17843493504836,
+                                "y": 332.9586713255646
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        },
+                        {
+                            "type": "RECT",
+                            "id": "ddc233ac-a2ff-4bbf-9e26-0b98a018ba2e",
+                            "number": 114,
+                            "category": "小型大型货车",
+                            "frameNum": 0,
+                            "imageNum": 5,
+                            "position": {
+                                "x": 972.6653433384728,
+                                "y": 0
+                            },
+                            "dimension": {
+                                "x": 307.3346566615272,
+                                "y": 453.16719579920107
+                            },
+                            "labels": "{\"occlusion\":0}",
+                            "isManual": true
+                        }
+                    ]
+                }
+            ],
+            "attribute": "",
+            "relations": [],
+            "isValid": true,
+            "groundY": null,
+            "boundary": null
+        }
+    ],
+    "frameList": []
 }

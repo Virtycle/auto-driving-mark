@@ -1,9 +1,9 @@
 import workerCreater from './worker-creater';
 import IDBTaskStore, { eventNames, pointsObjectStoreName, imageObjectStoreName } from './idb-store';
 import work from './work';
-import urlQuery from '@/common/utils/getQuery';
+import url from '@/common/utils/url-tools';
 
-const taskName = urlQuery.get('taskName') as string;
+const taskName = url.getUniqueId();
 
 const idbStore = new IDBTaskStore(
     workerCreater(work, {

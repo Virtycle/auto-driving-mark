@@ -95,7 +95,7 @@ export default class MeshFactory {
 
         const line = new Line(geometry, material);
 
-        const label2D = MeshFactory.createLabel(radius.toString() + 'm', 'spo-3d-main-circle-label');
+        const label2D = MeshFactory.createLabel(`R${radius}m`, 'spo-3d-main-circle-label');
         label2D.position.set(0, radius, 0);
         line.add(label2D);
         return line;

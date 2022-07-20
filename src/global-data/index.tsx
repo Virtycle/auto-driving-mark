@@ -1,29 +1,23 @@
 import React, { createContext, useState, ReactNode, useRef } from 'react';
-import ContentManager3D from '@/engine';
-import workerStorage from '@/storage';
+import frameManager, { FrameManager } from '@/engine';
 export type GlobalContextType = {
     userData: unknown;
     setUserData: (para: unknown) => void;
-    manager: ContentManager3D;
-    storageWorker: typeof workerStorage;
+    manager: FrameManager;
     loading: boolean;
 };
 export const GlobalContext = createContext<GlobalContextType>({} as GlobalContextType);
 
-const manager = new ContentManager3D();
-
 export default function GlobalContextProvide({ children }: { children: ReactNode }) {
     const [userData, setUserData] = useState<unknown>(null);
     const [loading, setLoading] = useState(false);
-    const managerRef = useRef(manager);
-    const storageWorkerRef = useRef(workerStorage);
+    const managerRef = useRef(frameManager);
     return (
         <GlobalContext.Provider
             value={{
                 userData,
                 setUserData,
                 manager: managerRef.current,
-                storageWorker: storageWorkerRef.current,
                 loading,
             }}
         >

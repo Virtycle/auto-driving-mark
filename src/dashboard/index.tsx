@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState, useContext } from 'react';
 import { GlobalContext } from '@/global-data';
 import GridLayout from 'react-grid-layout';
 import axios from '@/common/axios';
-import { baseURL } from '@/common/api';
-import { AllFrameData } from '@/common/interface';
+import { frameResultApi } from '@/common/api';
+import { FrameResultData } from '@/common/interface';
 import throttle from 'lodash/throttle';
 import get from 'lodash/get';
 import ResizeObserver from 'resize-observer-polyfill';
@@ -37,26 +37,26 @@ export default function Dashboard(props: {
     const rowHeight = Math.round(contentHeight / 18);
     const contentWidthI = Math.round(contentWidth);
     const [layoutI, setLayoutI] = useState(layout);
-    const { manager, storageWorker } = useContext(GlobalContext);
+    const { manager } = useContext(GlobalContext);
     const currentFullScreenRef = useRef<string>('');
 
     const layoutRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        axios.get<never, AllFrameData>(baseURL).then((data) => {
+        axios.get<never, FrameResultData[]>(frameResultApi).then((data) => {
             const loader = new PCDLoaderEx();
-            loader.load(data.frameUrl, (geo: BufferGeometry) => {
-                if (layoutRef.current && !manager.isInit) {
-                    manager.initScene({
+            loader.load(data[0].frameUrl, (geo: BufferGeometry) => {
+                if (layoutRef.current && !manager.manager3DInstance.isInit) {
+                    manager.manager3DInstance.initScene({
                         mainDiv: layoutRef.current?.children[2] as HTMLDivElement,
                         topDiv: layoutRef.current?.children[5] as HTMLDivElement,
                         frontDiv: layoutRef.current?.children[4] as HTMLDivElement,
                         sideDiv: layoutRef.current?.children[6] as HTMLDivElement,
                         pointCloud: geo,
                     });
-                    const itemData = data.items;
+                    const itemData = data[0].items;
                     itemData.forEach((item) => {
-                        manager.addCubeCollection({
+                        manager.manager3DInstance.addCubeCollection({
                             position: item.position,
                             rotation: item.rotation,
                             dimension: item.dimension,
@@ -66,7 +66,7 @@ export default function Dashboard(props: {
                             dash: item.isEmpty,
                         });
                     });
-                    storageWorker.storeTask(
+                    manager.idbStoreInstance.storeTask(
                         [
                             { name: '052_1591240197426.pcd', url: 'http://localhost:5566/052_1591240197426.pcd' },
                             { name: '1654150520.000085.pcd', url: 'http://localhost:5566/1654150520.000085.pcd' },
@@ -78,7 +78,7 @@ export default function Dashboard(props: {
                         ],
                     );
                     setTimeout(() => {
-                        storageWorker.readPointData('052_1591240197426.pcd').then((data) => {
+                        manager.idbStoreInstance.readPointData('052_1591240197426.pcd').then((data) => {
                             console.log(data);
                         });
                     }, 5000);
@@ -90,13 +90,14 @@ export default function Dashboard(props: {
             });
         });
         return () => {
-            manager.destroy();
+            manager.manager3DInstance.destroy();
         };
     }, [manager]);
 
     useEffect(() => {
         const children = get(layoutRef.current, 'children');
         const eventArray: ((event: KeyboardEvent) => void)[] = [];
+
         const getNewLayout = (id: string) => {
             return layout.map((item) => {
                 if (item.i === id && id !== 'spo-3d-main') {
@@ -122,7 +123,6 @@ export default function Dashboard(props: {
                 }
             });
         };
-
         const toggleElementDisplay = (id?: string) => {
             if (children) {
                 Array.prototype.forEach.call(children, (item) => {
@@ -160,7 +160,7 @@ export default function Dashboard(props: {
 
         const resizeObserver = new ResizeObserver(
             throttle(() => {
-                manager.resize();
+                manager.manager3DInstance.resize();
             }, 500),
         );
         if (children) {
