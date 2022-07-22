@@ -10,6 +10,7 @@ import {
     Matrix4,
     Box3,
     Color,
+    Group,
 } from 'three';
 import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
 
@@ -90,6 +91,7 @@ export interface CubeCollection {
     id: number;
     pointsNum: number;
     dash: boolean;
+    group: Group;
 }
 
 export enum ObjectLayers {

@@ -100,7 +100,7 @@ export default class MeshFactory {
         name: string;
         color: Color;
         dash: boolean;
-    }): Pick<CubeCollection, Exclude<keyof CubeCollection, 'id' | 'pointsNum' | 'label2D'>> {
+    }): Pick<CubeCollection, Exclude<keyof CubeCollection, 'id' | 'pointsNum' | 'label2D' | 'group'>> {
         const { position, rotation, dimension, name, color, dash } = cubeParams;
         const geometry = new BoxGeometry(dimension.x, dimension.y, dimension.z);
         const material = new MeshBasicMaterial({

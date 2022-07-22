@@ -35,7 +35,7 @@ export class ContentManager3D {
     // 渲染器
     private sceneRender = new SceneRender();
     // 是否编辑
-    public enableEdit = false;
+    public enableEdit = true;
 
     public isInit = false;
 
@@ -46,7 +46,7 @@ export class ContentManager3D {
     // 生成cubGroup mesh 集合
     private cubeCollection: CubeCollection[] = [];
     // active car
-    private activeCubeCollectionName = '';
+    private activeCubeCollection: CubeCollection | null = null;
     // active color
     private activeColor = new Color(1, 1, 0);
     // inactive color
@@ -129,13 +129,13 @@ export class ContentManager3D {
             }, 34),
         );
         this.sceneRender.mainRendererInstance.addEventHandler(MainRendererEvent.MeshDelete, () => {
-            if (!this.activeCubeCollectionName || !this.enableEdit) return;
+            if (!this.activeCubeCollection || !this.enableEdit) return;
             this.deleteActiveCube();
         });
         this.sceneRender.mainRendererInstance.addEventHandler(
             MainRendererEvent.MeshCreateClickStart,
             (event, camera, renderer) => {
-                if (this.activeCubeCollectionName) {
+                if (this.activeCubeCollection) {
                     this.inActiveCube();
                 }
                 this.sceneRender.mainRendererInstance.changeCursorType(CURSOR_TYPE.CROSS);
@@ -158,14 +158,14 @@ export class ContentManager3D {
         this.sceneRender.mainRendererInstance.addEventHandler(
             MainRendererEvent.MeshCreateClickMove,
             (event, camera, renderer) => {
-                if (!this.activeCubeCollectionName) return;
+                if (!this.activeCubeCollection) return;
                 const posNorm = getNormalizedPosition(event as PointerEvent, (renderer as WebGLRenderer).domElement);
                 const pos = this.sceneRender.testPlanPosition(posNorm, camera as PerspectiveCamera);
                 const axis = new Vector3(0, 1, 0);
                 let angleY = pos.sub(this.pickPosition).angleTo(axis);
                 const dir = new Vector3().crossVectors(pos, axis);
                 angleY = dir.z <= 0 ? angleY : 2 * Math.PI - angleY;
-                const group = this.sceneRender.findCube(this.activeCubeCollectionName);
+                const { group } = this.activeCubeCollection;
                 const quaternion = new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), angleY);
                 group?.quaternion.copy(quaternion);
                 this.sceneRender.requestRenderIfNotRequested();
@@ -175,7 +175,7 @@ export class ContentManager3D {
         this.sceneRender.mainRendererInstance.addEventHandler(
             MainRendererEvent.MeshCreateDragStart,
             (event, camera, renderer) => {
-                if (this.activeCubeCollectionName) {
+                if (this.activeCubeCollection) {
                     this.inActiveCube();
                 }
                 const posNorm = getNormalizedPosition(event as PointerEvent, (renderer as WebGLRenderer).domElement);
@@ -197,11 +197,11 @@ export class ContentManager3D {
                 };
                 const position = this.pickPosition.clone().add(dir.divideScalar(2));
                 if (
-                    !this.activeCubeCollectionName &&
+                    !this.activeCubeCollection &&
                     (dimension.x < this.minDimension || dimension.y < this.minDimension)
                 ) {
                     return;
-                } else if (!this.activeCubeCollectionName) {
+                } else if (!this.activeCubeCollection) {
                     this.addCubeCollection(
                         {
                             position: {
@@ -220,8 +220,8 @@ export class ContentManager3D {
                         true,
                     );
                 } else {
-                    const group = this.sceneRender.findCube(this.activeCubeCollectionName);
-                    const collection = this.cubeCollection.find((item) => item.name === this.activeCubeCollectionName);
+                    const collection = this.activeCubeCollection;
+                    const { group } = this.activeCubeCollection;
                     if (group && collection) {
                         const { box3Origin } = collection;
                         const scale = {
@@ -239,14 +239,14 @@ export class ContentManager3D {
         // this.sceneRender.topRendererInstance.addEventHandler(
         //     ThreeViewRendererEvent.ObjectSelect,
         //     (event, camera, renderer) => {
-        //         if (!this.activeCubeCollectionName) return;
+        //         if (!this.activeCubeCollection) return;
         //         console.log('1');
         //     },
         // );
         this.sceneRender.topRendererInstance.addEventHandler(
             ThreeViewRendererEvent.MouseMove,
             (event, camera, renderer) => {
-                if (!this.activeCubeCollectionName) return;
+                if (!this.activeCubeCollection) return;
                 const cssPosition = getCanvasCssPosition(event as PointerEvent, (renderer as WebGLRenderer).domElement);
                 // pick demo
                 const id = this.threeViewPicker.pick(
@@ -267,14 +267,14 @@ export class ContentManager3D {
         // this.sceneRender.topRendererInstance.addEventHandler(
         //     ThreeViewRendererEvent.ObjectRelease,
         //     (event, camera, renderer) => {
-        //         if (!this.activeCubeCollectionName) return;
+        //         if (!this.activeCubeCollection) return;
         //         console.log('3');
         //     },
         // );
         // this.sceneRender.topRendererInstance.addEventHandler(
         //     ThreeViewRendererEvent.ObjectChange,
         //     (event, camera, renderer) => {
-        //         if (!this.activeCubeCollectionName) return;
+        //         if (!this.activeCubeCollection) return;
         //         console.log('4');
         //     },
         // );
@@ -325,20 +325,23 @@ export class ContentManager3D {
         group.add(points);
         group.position.setFromMatrixPosition(matrix);
         group.rotation.setFromRotationMatrix(matrix);
-        if (dash) group.visible = false;
+        if (dash) {
+            label2D.visible = false;
+            group.visible = false;
+        }
         this.sceneRender.addCube(group);
         // for pick
         const { geometry } = mesh;
-        const id = this.mainPicker.addPickMeshFromGeo(geometry, matrix);
+        const id = this.mainPicker.addPickMeshFromGeo(geometry, matrix, !dash);
 
-        this.cubeCollection.push(Object.assign(result, { id, pointsNum, label2D }));
+        this.cubeCollection.push(Object.assign(result, { id, pointsNum, label2D, group }));
 
         if (active) {
             this.activeCube(name, result as CubeCollection);
         }
     }
 
-    deleteCubeCollection(name: string) {
+    disposeCubeCollection(name: string) {
         const index = this.cubeCollection.findIndex((item) => item.name === name);
         if (index !== -1) {
             const collection = this.cubeCollection[index];
@@ -355,14 +358,23 @@ export class ContentManager3D {
         }
     }
 
+    deleteCubeCollection(cubeCollection: CubeCollection) {
+        const { group, label2D, id } = cubeCollection;
+        group.visible = false;
+        label2D.visible = false;
+        this.mainPicker.togglePickMeshVisible(id, false);
+    }
+
     changeMainRenderState(state: STATE): void {
         if (this.enableEdit) this.sceneRender.mainRendererInstance.changeState(state);
     }
 
     deleteActiveCube() {
-        const name = this.activeCubeCollectionName;
-        this.inActiveCube();
-        this.deleteCubeCollection(name);
+        const cubeCollection = this.activeCubeCollection;
+        if (cubeCollection) {
+            this.inActiveCube();
+            this.deleteCubeCollection(cubeCollection);
+        }
     }
 
     updatePointCloud(data: PointsData) {
@@ -376,30 +388,28 @@ export class ContentManager3D {
     }
 
     activeCube(name: string, collectionParam?: CubeCollection): void {
-        if (this.activeCubeCollectionName === name) return;
-        if (this.activeCubeCollectionName) {
+        if (this.activeCubeCollection && this.activeCubeCollection.name === name) return;
+        if (this.activeCubeCollection) {
             this.inActiveCube();
         }
-        this.activeCubeCollectionName = name;
         const collection = collectionParam ? collectionParam : this.cubeCollection.find((item) => item.name === name);
         if (!collection) return;
-        const group = this.sceneRender.findCube(name);
+        this.activeCubeCollection = collection;
+        const { group } = collection;
         if (group && this.enableEdit) {
             this.sceneRender.bindActiveCube(true, group);
         }
 
         this.toggleCubeCollection(collection, true);
-        // this.flyToCollection(collection);
         this.toggleActiveThreeViewPickerMesh(collection, true);
         this.sceneRender.requestRenderIfNotRequested();
     }
 
     inActiveCube() {
-        const name = this.activeCubeCollectionName;
-        this.activeCubeCollectionName = '';
-        const collection = this.cubeCollection.find((item) => item.name === name);
+        const collection = this.activeCubeCollection;
+        this.activeCubeCollection = null;
         if (!collection) return;
-        const group = this.sceneRender.findCube(name);
+        const { group } = collection;
         if (group) {
             this.sceneRender.bindActiveCube(false, group);
         }
@@ -432,9 +442,9 @@ export class ContentManager3D {
     }
 
     changeActiveCube() {
-        if (!this.activeCubeCollectionName) return;
-        const collection = this.cubeCollection.find((item) => item.name === this.activeCubeCollectionName);
-        const group = this.sceneRender.findCube(this.activeCubeCollectionName);
+        if (!this.activeCubeCollection) return;
+        const collection = this.activeCubeCollection;
+        const { group } = collection;
         if (collection && group) {
             const { matrix, box3Origin } = collection;
             matrix.copy(group.matrix);

@@ -9,6 +9,7 @@ import { Color } from 'three';
 import './index.scss';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
+import { STATE } from '@/engine/interface';
 
 const layoutWith2d = [
     { i: 'spo-2d-main', x: 0, y: 0, w: 6, h: 11 },
@@ -48,13 +49,14 @@ export default function Dashboard(props: {
     const rowHeight = Math.round(contentHeight / 18);
     const contentWidthI = Math.round(contentWidth);
     const [layoutI, setLayoutI] = useState(layoutWith2d);
-    const { manager, frameResultData, objectCategoryAll, resouceRelation } = useContext(GlobalContext);
+    const { manager, frameResultData, objectCategoryAll, circleLimit } = useContext(GlobalContext);
     const currentFullScreenRef = useRef<string>('');
 
     const layoutRef = useRef<HTMLDivElement>(null);
     // 布局
     useEffect(() => {
-        if (layoutRef.current && !manager.manager3DInstance.isInit) {
+        if (layoutRef.current && !manager.manager3DInstance.isInit && circleLimit.length) {
+            manager.manager3DInstance.setCircleRadius(circleLimit);
             manager.manager3DInstance.initScene({
                 mainDiv: layoutRef.current?.children[2] as HTMLDivElement,
                 topDiv: layoutRef.current?.children[5] as HTMLDivElement,
@@ -65,7 +67,7 @@ export default function Dashboard(props: {
         return () => {
             manager.manager3DInstance.destroy();
         };
-    }, [manager]);
+    }, [manager, circleLimit]);
     // 添加所有帧的所有3d object
     useEffect(() => {
         if (frameResultData.length && objectCategoryAll.length) {
@@ -103,8 +105,7 @@ export default function Dashboard(props: {
         //     });
         // }, 5000);
         // setTimeout(() => {
-        // manager.sceneRenderInstance.mainRendererInstance.changeState(STATE.DRAW_PICK);
-        // manager.switchPointCloudColorType(2);
+        //     manager.manager3DInstance.sceneRenderInstance.mainRendererInstance.changeState(STATE.DRAW_PICK);
         // }, 3000);
     }, [frameResultData, objectCategoryAll, manager]);
 

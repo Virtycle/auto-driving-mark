@@ -27,9 +27,7 @@
                     "id": "081122e9-b2b3-4015-9972-47e31806960d",
                     "number": 2,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 327
-                    },
+                    "pointsNum": 327,
                     "labels": null,
                     "isEmpty": true,
                     "annotatedBy": "human",
@@ -66,9 +64,7 @@
                     "id": "a2c927c5-c2ab-406f-8939-e60e403b22df",
                     "number": 3,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 207
-                    },
+                    "pointsNum": 207,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -105,9 +101,7 @@
                     "id": "0787ac54-c904-4377-a1a3-57b27d26458f",
                     "number": 6,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 21
-                    },
+                    "pointsNum": 21,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -144,9 +138,7 @@
                     "id": "1e5ca7de-e4cf-40d2-96e6-d26766d0b7e7",
                     "number": 27,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 2900
-                    },
+                    "pointsNum": 2900,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -183,9 +175,7 @@
                     "id": "1c5ed97b-3857-4fae-8d73-701946c4db76",
                     "number": 28,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 990
-                    },
+                    "pointsNum": 990,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -222,9 +212,7 @@
                     "id": "b99aa49e-ddec-4cb7-80d3-49aa7c75176f",
                     "number": 29,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 128
-                    },
+                    "pointsNum": 128,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -261,9 +249,7 @@
                     "id": "6297f8b2-bf67-4e37-8ec8-b3d389489b40",
                     "number": 55,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 501
-                    },
+                    "pointsNum": 501,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -300,9 +286,7 @@
                     "id": "151d4aec-9c15-4958-8d5a-b4c2d5606a79",
                     "number": 1,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 4803
-                    },
+                    "pointsNum": 4803,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -339,9 +323,7 @@
                     "id": "0d551834-5032-4609-a6bc-69e83c7f3883",
                     "number": 64,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 6
-                    },
+                    "pointsNum": 6,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -378,9 +360,7 @@
                     "id": "b2a90a8f-1ce3-451c-91e4-8add7daa03f5",
                     "number": 65,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 0
-                    },
+                    "pointsNum": 0,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -417,9 +397,7 @@
                     "id": "a02205da-34ae-4fb5-bd7b-5ebd2f09af49",
                     "number": 66,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 110
-                    },
+                    "pointsNum": 110,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -462,9 +440,7 @@
                     "number": 5,
                     "interpolated": false,
                     "frameNum": 0,
-                    "pointCount": {
-                        "lidar": 0
-                    },
+                    "pointsNum": 0,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -495,9 +471,7 @@
                     "id": "e4fd75b8-f17a-49d9-8579-ec8aeccee3da",
                     "number": 67,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 0
-                    },
+                    "pointsNum": 0,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -534,9 +508,7 @@
                     "id": "9a36bf6d-a032-4cc0-ba4c-fb6b3e1bc812",
                     "number": 51,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 0
-                    },
+                    "pointsNum": 0,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -573,9 +545,7 @@
                     "id": "007c5f31-d882-47cf-a16a-ec5f0f721c54",
                     "number": 52,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 32
-                    },
+                    "pointsNum": 32,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -612,9 +582,7 @@
                     "id": "e5462f0a-ca5f-4f43-a4a8-1d131c63df73",
                     "number": 68,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 170
-                    },
+                    "pointsNum": 170,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -651,9 +619,7 @@
                     "id": "9841a719-22b4-47a2-b629-bc7db023baa4",
                     "number": 81,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 0
-                    },
+                    "pointsNum": 0,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -690,9 +656,7 @@
                     "id": "5da70f3f-1b20-48b4-b4b7-eed8cc4ee462",
                     "number": 82,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 213
-                    },
+                    "pointsNum": 213,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -729,9 +693,7 @@
                     "id": "a702f9ea-075c-44b8-8cba-3bead7d8dc3b",
                     "number": 83,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 0
-                    },
+                    "pointsNum": 0,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -768,9 +730,7 @@
                     "id": "a4e17a77-9317-42df-b05b-a99cad72f604",
                     "number": 84,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 102
-                    },
+                    "pointsNum": 102,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -807,9 +767,7 @@
                     "id": "481ac1c2-3794-4c84-870c-10016b35838c",
                     "number": 102,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 473
-                    },
+                    "pointsNum": 102,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -846,9 +804,7 @@
                     "id": "d4982d2a-40f4-4408-84f3-4aac8c7e5006",
                     "number": 103,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 65
-                    },
+                    "pointsNum": 65,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -885,9 +841,7 @@
                     "id": "f46a7749-48bd-4df8-845d-e0c429bc28cc",
                     "number": 104,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 0
-                    },
+                    "pointsNum": 0,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -924,9 +878,7 @@
                     "id": "3638bf31-5cea-4936-a95d-9732c90545e6",
                     "number": 23,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 61
-                    },
+                    "pointsNum": 61,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -963,9 +915,7 @@
                     "id": "f0b743ca-4fa0-43a6-8ddf-81883ddf3086",
                     "number": 116,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 28
-                    },
+                    "pointsNum": 28,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -1002,9 +952,7 @@
                     "id": "847a447a-e949-4ef3-a4ca-6bfbaf0f02ae",
                     "number": 115,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 37
-                    },
+                    "pointsNum": 28,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -1041,9 +989,7 @@
                     "id": "38ff9460-7364-4688-8c48-825ec0b20e16",
                     "number": 117,
                     "interpolated": false,
-                    "pointCount": {
-                        "lidar": 151
-                    },
+                    "pointsNum": 151,
                     "labels": null,
                     "isEmpty": false,
                     "annotatedBy": "human",
@@ -2142,7 +2088,7 @@
                 ]
             }
         ],
-        "dimension_range": "10,20",
+        "dimension_range": "50,100",
         "camera_params_json": [
             {}
         ],

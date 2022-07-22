@@ -20,6 +20,7 @@ export type GlobalContextType = {
     frameResultData: FrameResultData[];
     objectCategoryAll: ObjectCategory[];
     resouceRelation: ResouceRelation[];
+    circleLimit: number[];
 };
 
 export const GlobalContext = createContext<GlobalContextType>({} as GlobalContextType);
@@ -30,6 +31,7 @@ export default function GlobalContextProvide({ children }: { children: ReactNode
     const [resouceRelation, setResouceRelation] = useState<ResouceRelation[]>([]);
     const [frameResultData, setFrameResultData] = useState<FrameResultData[]>([]);
     const [objectCategoryAll, setObjectCategory] = useState<ObjectCategory[]>([]);
+    const [circleLimit, setCircleLimit] = useState<number[]>([]);
 
     const managerRef = useRef(frameManager);
 
@@ -63,7 +65,7 @@ export default function GlobalContextProvide({ children }: { children: ReactNode
                 .filter((item) => !isNaN(Number(item)))
                 .map(Number);
             if (radiusArr.length) {
-                manager.manager3DInstance.setCircleRadius(radiusArr);
+                setCircleLimit(radiusArr);
             }
             setObjectCategory(object_category);
         });
@@ -80,6 +82,7 @@ export default function GlobalContextProvide({ children }: { children: ReactNode
                 resouceRelation,
                 frameResultData,
                 objectCategoryAll,
+                circleLimit,
             }}
         >
             {children}
