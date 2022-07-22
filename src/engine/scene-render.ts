@@ -151,7 +151,6 @@ export default class SceneRender {
     }
 
     public render(): void {
-        this.renderRequested = false;
         if (typeof this.beforeRenderFunction === 'function') this.beforeRenderFunction();
         this.transformControlsGroup.visible = true;
         this.mainRenderer.render(this.wrappedScene);
@@ -159,12 +158,12 @@ export default class SceneRender {
     }
 
     public renderThreeView(): void {
-        this.renderRequested = false;
         const zoom = this.syncThreeViewZoom();
         this.transformControlsGroup.visible = false;
         this.frontRenderer.render(this.wrappedScene, zoom);
         this.topRenderer.render(this.wrappedScene, zoom);
         this.sideRenderer.render(this.wrappedScene, zoom);
+        this.renderRequested = false;
     }
 
     public requestRenderIfNotRequested() {

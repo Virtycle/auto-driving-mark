@@ -59,15 +59,18 @@ function getNormalizedPosition(event: MouseEvent, canvas: HTMLCanvasElement): Ve
 
 function containPointsNum(box3: Box3, matrix: Matrix4, points: Points): number {
     let number = 0;
-    const obb = new OBB().fromBox3(box3).applyMatrix4(matrix);
-    const positions = points.geometry.getAttribute('position');
-    const vec3 = new Vector3();
-    for (let i = 0; i < positions.count; i++) {
-        vec3.fromBufferAttribute(positions, i);
-        if (obb.containsPoint(vec3)) {
-            number++;
+    if (points) {
+        const obb = new OBB().fromBox3(box3).applyMatrix4(matrix);
+        const positions = points.geometry.getAttribute('position');
+        const vec3 = new Vector3();
+        for (let i = 0; i < positions.count; i++) {
+            vec3.fromBufferAttribute(positions, i);
+            if (obb.containsPoint(vec3)) {
+                number++;
+            }
         }
     }
+
     return number;
 }
 

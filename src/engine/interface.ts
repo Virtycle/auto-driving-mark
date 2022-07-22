@@ -98,3 +98,14 @@ export enum ObjectLayers {
     threeView = 2,
     none = 3,
 }
+
+export interface PointsData {
+    points: Float32Array;
+    intensity: Float32Array;
+    range: {
+        x: MaxAndMin;
+        y: MaxAndMin;
+        z: MaxAndMin;
+        intensity: MaxAndMin;
+    };
+}

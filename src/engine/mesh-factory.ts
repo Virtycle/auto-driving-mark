@@ -25,21 +25,13 @@ import {
 import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
 import createPointColorMapMaterial, { PointShaderDataGroup } from './materials/PointColorMapMaterial';
 import TextureFactory from './texture-factory';
-import { Vec3, CubeCollection, ObjectLayers, MaxAndMin } from './interface';
+import { Vec3, CubeCollection, ObjectLayers, PointsData } from './interface';
 
 const boxPointMaterial = new PointsMaterial({ color: 0xff0000, size: 8 });
 
 export default class MeshFactory {
-    public static createPointsGeo(
-        points: Float32Array,
-        intensity: Float32Array,
-        range: {
-            x: MaxAndMin;
-            y: MaxAndMin;
-            z: MaxAndMin;
-            intensity: MaxAndMin;
-        },
-    ): BufferGeometry {
+    public static createPointsGeo(data: PointsData): BufferGeometry {
+        const { points, intensity, range } = data;
         const geo = new BufferGeometry();
         geo.setAttribute('position', new Float32BufferAttribute(points, 3));
         if (intensity.length) geo.setAttribute('intensity', new Float32BufferAttribute(intensity, 1));
@@ -107,10 +99,9 @@ export default class MeshFactory {
         dimension: Vec3;
         name: string;
         color: Color;
-        label: string;
         dash: boolean;
-    }): Pick<CubeCollection, Exclude<keyof CubeCollection, 'id' | 'pointsNum'>> {
-        const { position, rotation, dimension, name, color, label, dash } = cubeParams;
+    }): Pick<CubeCollection, Exclude<keyof CubeCollection, 'id' | 'pointsNum' | 'label2D'>> {
+        const { position, rotation, dimension, name, color, dash } = cubeParams;
         const geometry = new BoxGeometry(dimension.x, dimension.y, dimension.z);
         const material = new MeshBasicMaterial({
             color,
@@ -118,8 +109,7 @@ export default class MeshFactory {
             opacity: 0.3,
         });
         const mesh = new Mesh(geometry, material);
-        const label2D = MeshFactory.createLabel(label, 'spo-3d-main-cube-label', color);
-        mesh.add(label2D);
+
         //origin data
         const box3Origin = new Box3();
         box3Origin.setFromObject(mesh);
@@ -152,7 +142,6 @@ export default class MeshFactory {
         mesh.layers.set(ObjectLayers.main);
         arrow.line.layers.set(ObjectLayers.main);
         arrow.cone.layers.set(ObjectLayers.main);
-        label2D.layers.set(ObjectLayers.main);
         helper.layers.set(ObjectLayers.main);
         points.layers.set(ObjectLayers.none);
 
@@ -165,7 +154,6 @@ export default class MeshFactory {
             matrix,
             box3Origin,
             color,
-            label2D,
             dash,
         };
     }

@@ -54,7 +54,8 @@ export type ImageStoreData = {
 type StoreBaseType = { name: string; url: string };
 export default class IDBTaskStore<
     T extends StoreBaseType,
-    S extends StoreBaseType & { width: number; height: number },
+    // S extends StoreBaseType & { width: number; height: number },
+    S extends StoreBaseType,
 > {
     private workInner!: Worker;
 

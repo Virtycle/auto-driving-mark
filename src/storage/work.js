@@ -677,7 +677,8 @@ export default (inputs) => {
             const objStoreName = this.imageObjectStoreName;
             if (Array.isArray(list) && taskDB && Array.isArray(readyHasList)) {
                 for (let index = 0; index < list.length; index++) {
-                    const { name, url, width, height } = list[index];
+                    // const { name, url, width, height } = list[index];
+                    const { name, url } = list[index];
                     let hasFlag = false;
                     if (!forceUpdate) {
                         hasFlag = !!readyHasList.find((item) => item === name);
@@ -689,8 +690,10 @@ export default (inputs) => {
                                     .transaction(objStoreName, 'readwrite')
                                     .objectStore(objStoreName);
                                 const rq = forceUpdate
-                                    ? taskObjectStore.put({ name, width, height, blob: data })
-                                    : taskObjectStore.add({ name, width, height, blob: data });
+                                    ? // ? taskObjectStore.put({ name, width, height, blob: data })
+                                      // : taskObjectStore.add({ name, width, height, blob: data });
+                                      taskObjectStore.put({ name, blob: data })
+                                    : taskObjectStore.add({ name, blob: data });
                                 rq.onsuccess = () => {
                                     self.postMessage({ type: eventNames.imageIndexStored, info: { index, name } });
                                 };
@@ -741,8 +744,8 @@ export default (inputs) => {
                     const db = event.target.result;
                     db.createObjectStore(this.pointsObjectStoreName, { keyPath: 'name' });
                     const imgOS = db.createObjectStore(this.imageObjectStoreName, { keyPath: 'name' });
-                    imgOS.createIndex('width', 'width', { unique: false });
-                    imgOS.createIndex('height', 'height', { unique: false });
+                    // imgOS.createIndex('width', 'width', { unique: false });
+                    // imgOS.createIndex('height', 'height', { unique: false });
                 };
             });
         }

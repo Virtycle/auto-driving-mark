@@ -1,20 +1,16 @@
 import React, { useEffect, useRef, useState, useContext } from 'react';
 import { GlobalContext } from '@/global-data';
 import GridLayout from 'react-grid-layout';
-import axios from '@/common/axios';
-import { frameResultApi } from '@/common/api';
-import { FrameResultData } from '@/common/interface';
 import throttle from 'lodash/throttle';
 import get from 'lodash/get';
 import ResizeObserver from 'resize-observer-polyfill';
+import { ObjectInScene, ObjectCategory } from '@/common/interface';
+import { Color } from 'three';
 import './index.scss';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import { PCDLoaderEx } from '@/engine';
-import { BufferGeometry } from 'three';
-import { STATE } from '@/engine/interface';
 
-const layout = [
+const layoutWith2d = [
     { i: 'spo-2d-main', x: 0, y: 0, w: 6, h: 11 },
     { i: 'spo-3d-tools', x: 6, y: 0, w: 6, h: 1 },
     { i: 'spo-3d-main', x: 6, y: 2, w: 6, h: 10 },
@@ -23,6 +19,21 @@ const layout = [
     { i: 'spo-3d-top', x: 6, y: 6, w: 3, h: 7 },
     { i: 'spo-3d-side', x: 9, y: 6, w: 3, h: 7 },
 ];
+
+// 判断权限 确定布局
+const layoutToUse = layoutWith2d;
+
+function generateElements(layout: typeof layoutWith2d) {
+    return layout.map((item) => <div key={item.i} className="spo-dashboard-item" tabIndex={-1} id={item.i} />);
+}
+// function BuildObjectTree(frames: FrameResultData[], category: ObjectCategory[]) {
+//     category.sort((a, b) => a.order - b.order);
+//     frames.forEach((frame) => {
+//         const { items, images } = frame;
+//     });
+
+//     return {};
+// }
 
 export default function Dashboard(props: {
     contentHeight: number;
@@ -36,70 +47,73 @@ export default function Dashboard(props: {
     const { contentHeight, contentWidth, changeSiderCollapsed } = props;
     const rowHeight = Math.round(contentHeight / 18);
     const contentWidthI = Math.round(contentWidth);
-    const [layoutI, setLayoutI] = useState(layout);
-    const { manager } = useContext(GlobalContext);
+    const [layoutI, setLayoutI] = useState(layoutWith2d);
+    const { manager, frameResultData, objectCategoryAll, resouceRelation } = useContext(GlobalContext);
     const currentFullScreenRef = useRef<string>('');
 
     const layoutRef = useRef<HTMLDivElement>(null);
-
+    // 布局
     useEffect(() => {
-        axios.get<never, FrameResultData[]>(frameResultApi).then((data) => {
-            const loader = new PCDLoaderEx();
-            loader.load(data[0].frameUrl, (geo: BufferGeometry) => {
-                if (layoutRef.current && !manager.manager3DInstance.isInit) {
-                    manager.manager3DInstance.initScene({
-                        mainDiv: layoutRef.current?.children[2] as HTMLDivElement,
-                        topDiv: layoutRef.current?.children[5] as HTMLDivElement,
-                        frontDiv: layoutRef.current?.children[4] as HTMLDivElement,
-                        sideDiv: layoutRef.current?.children[6] as HTMLDivElement,
-                        pointCloud: geo,
-                    });
-                    const itemData = data[0].items;
-                    itemData.forEach((item) => {
-                        manager.manager3DInstance.addCubeCollection({
-                            position: item.position,
-                            rotation: item.rotation,
-                            dimension: item.dimension,
-                            name: item.id,
-                            label: `${item.category} ${item.number}`,
-                            active: false,
-                            dash: item.isEmpty,
-                        });
-                    });
-                    manager.idbStoreInstance.storeTask(
-                        [
-                            { name: '052_1591240197426.pcd', url: 'http://localhost:5566/052_1591240197426.pcd' },
-                            { name: '1654150520.000085.pcd', url: 'http://localhost:5566/1654150520.000085.pcd' },
-                        ],
-                        [
-                            { name: '111.png', url: 'http://localhost:5566/111.png', width: 1980, height: 550 },
-                            { name: '222.png', url: 'http://localhost:5566/222.png', width: 1980, height: 550 },
-                            { name: '333.jpg', url: 'http://localhost:5566/333.jpg', width: 1980, height: 550 },
-                        ],
-                    );
-                    setTimeout(() => {
-                        manager.idbStoreInstance.readPointData('052_1591240197426.pcd').then((data) => {
-                            console.log(data);
-                        });
-                    }, 5000);
-                    // setTimeout(() => {
-                    // manager.sceneRenderInstance.mainRendererInstance.changeState(STATE.DRAW_PICK);
-                    // manager.switchPointCloudColorType(2);
-                    // }, 3000);
-                }
+        if (layoutRef.current && !manager.manager3DInstance.isInit) {
+            manager.manager3DInstance.initScene({
+                mainDiv: layoutRef.current?.children[2] as HTMLDivElement,
+                topDiv: layoutRef.current?.children[5] as HTMLDivElement,
+                frontDiv: layoutRef.current?.children[4] as HTMLDivElement,
+                sideDiv: layoutRef.current?.children[6] as HTMLDivElement,
             });
-        });
+        }
         return () => {
             manager.manager3DInstance.destroy();
         };
     }, [manager]);
+    // 添加所有帧的所有3d object
+    useEffect(() => {
+        if (frameResultData.length && objectCategoryAll.length) {
+            const mapForCheck: { [k: string]: ObjectInScene } = {};
+            // 从后向前覆盖重复
+            for (let index = frameResultData.length - 1; index >= 0; index--) {
+                const frame3dItems = frameResultData[index].items || [];
+                frame3dItems.forEach((item3d) => {
+                    mapForCheck[item3d.id] = item3d;
+                });
+            }
+            Object.values(mapForCheck).forEach((object3D) => {
+                const category =
+                    objectCategoryAll.find((item) => item.id === object3D.categoryId) ||
+                    ({ show_color: '#00ff00', show_name: 'car' } as ObjectCategory);
+                manager.manager3DInstance.addCubeCollection(
+                    {
+                        position: object3D.position,
+                        rotation: object3D.rotation,
+                        dimension: object3D.dimension,
+                        name: object3D.id,
+                        label: `${category.show_name} ${object3D.number}`,
+                        dash: object3D.isEmpty,
+                        pointsNum: object3D.pointsNum,
+                        color: new Color(category.show_color),
+                    },
+                    false,
+                );
+            });
+        }
+
+        // setTimeout(() => {
+        //     manager.idbStoreInstance.readPointData('052_1591240197426.pcd').then((data) => {
+        //         console.log(data);
+        //     });
+        // }, 5000);
+        // setTimeout(() => {
+        // manager.sceneRenderInstance.mainRendererInstance.changeState(STATE.DRAW_PICK);
+        // manager.switchPointCloudColorType(2);
+        // }, 3000);
+    }, [frameResultData, objectCategoryAll, manager]);
 
     useEffect(() => {
         const children = get(layoutRef.current, 'children');
         const eventArray: ((event: KeyboardEvent) => void)[] = [];
 
         const getNewLayout = (id: string) => {
-            return layout.map((item) => {
+            return layoutToUse.map((item) => {
                 if (item.i === id && id !== 'spo-3d-main') {
                     return {
                         x: 0,
@@ -144,7 +158,7 @@ export default function Dashboard(props: {
                     if (currentFullScreenRef.current) {
                         changeSiderCollapsed(false);
                         toggleElementDisplay();
-                        setLayoutI(layout);
+                        setLayoutI(layoutToUse);
                         currentFullScreenRef.current = '';
                     } else {
                         changeSiderCollapsed(true);
@@ -194,19 +208,7 @@ export default function Dashboard(props: {
                 innerRef={layoutRef}
                 {...defaultLayoutOpt}
             >
-                <div key="spo-2d-main" className="spo-dashboard-item" tabIndex={-1} id="spo-2d-main">
-                    2D Canvas Main
-                </div>
-                <div key="spo-3d-tools" className="spo-dashboard-item" id="spo-3d-tools">
-                    3D Canvas tools
-                </div>
-                <div key="spo-3d-main" className="spo-dashboard-item" id="spo-3d-main"></div>
-                <div key="spo-2d-list" className="spo-dashboard-item" id="spo-2d-list">
-                    2D Canvas List
-                </div>
-                <div key="spo-3d-front" className="spo-dashboard-item" id="spo-3d-front"></div>
-                <div key="spo-3d-top" className="spo-dashboard-item" id="spo-3d-top"></div>
-                <div key="spo-3d-side" className="spo-dashboard-item" id="spo-3d-side"></div>
+                {generateElements(layoutToUse)}
             </GridLayout>
         </>
     );

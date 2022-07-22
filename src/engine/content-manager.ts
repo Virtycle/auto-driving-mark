@@ -19,19 +19,28 @@ import GPUPickHelper, { lineMaterialNoId, meshMaterialNoId, pointsMaterialNoId }
 import { PointShaderDataGroup } from './materials/PointColorMapMaterial';
 import { MainRendererEvent } from './main-renderer';
 import { getCanvasCssPosition, getNormalizedPosition, containPointsNum } from './untils';
-import { CubeCollection, ObjectLayers, Vec3, ThreeViewRendererEvent, CURSOR_TYPE } from './interface';
+import {
+    CubeCollection,
+    ObjectLayers,
+    Vec3,
+    ThreeViewRendererEvent,
+    CURSOR_TYPE,
+    STATE,
+    PointsData,
+} from './interface';
 import { v4 as uuidv4 } from 'uuid';
 import throttle from 'lodash/throttle';
 
 export class ContentManager3D {
     // 渲染器
     private sceneRender = new SceneRender();
+    // 是否编辑
+    public enableEdit = false;
 
     public isInit = false;
-    // 当前帧
-    private currentFrame = 0;
+
     // 外圆半径
-    private circleRadius = 50;
+    private circleRadius = [50];
     // 外圆 或地面高
     private baseZ = 0;
     // 生成cubGroup mesh 集合
@@ -66,8 +75,8 @@ export class ContentManager3D {
         topDiv: HTMLDivElement;
         frontDiv: HTMLDivElement;
         sideDiv: HTMLDivElement;
-        circleRadius?: number;
-        pointCloud: BufferGeometry;
+        circleRadius?: number[];
+        pointCloud?: BufferGeometry;
         baseZ?: number;
     }): void {
         if (this.isInit) return;
@@ -76,18 +85,23 @@ export class ContentManager3D {
         this.initEvent();
         this.isInit = true;
         this.circleRadius = circleRadius ? circleRadius : this.circleRadius;
-        const limit = MeshFactory.createCircleLimit(this.circleRadius);
         const baseZInner = baseZ || this.baseZ;
         const vec3 = new Vector3(0, 0, baseZInner || 1);
-        limit.position.set(0, 0, baseZInner);
         this.sceneRender.setBasePlane(vec3, Math.abs(baseZInner));
-        const pointMaterial = MeshFactory.createPointMaterial(pointCloud);
-        const points = MeshFactory.createPointsCloud(pointCloud, pointMaterial);
-        this.pointsCloud = points;
-        this.sceneRender.addPointCloud(points);
-        this.sceneRender.addCircle(limit);
+        this.circleRadius.forEach((r) => {
+            const limit = MeshFactory.createCircleLimit(r);
+            limit.position.set(0, 0, baseZInner);
+            this.sceneRender.addCircle(limit);
+        });
+        if (pointCloud) {
+            const pointMaterial = MeshFactory.createPointMaterial(pointCloud);
+            const points = MeshFactory.createPointsCloud(pointCloud, pointMaterial);
+            this.pointsCloud = points;
+            this.sceneRender.addPointCloud(points);
+        }
+
         this.sceneRender.beforeRenderFunction = this.changeActiveCube.bind(this);
-        this.sceneRender.requestRenderIfNotRequested();
+        if (this.pointsCloud) this.sceneRender.requestRenderIfNotRequested();
     }
 
     get sceneRenderInstance() {
@@ -115,7 +129,7 @@ export class ContentManager3D {
             }, 34),
         );
         this.sceneRender.mainRendererInstance.addEventHandler(MainRendererEvent.MeshDelete, () => {
-            if (!this.activeCubeCollectionName) return;
+            if (!this.activeCubeCollectionName || !this.enableEdit) return;
             this.deleteActiveCube();
         });
         this.sceneRender.mainRendererInstance.addEventHandler(
@@ -129,12 +143,15 @@ export class ContentManager3D {
                 const pos = this.sceneRender.testPlanPosition(posNorm, camera as PerspectiveCamera);
                 this.pickPosition.copy(pos);
                 pos.z = pos.z + this.defaultCubeInfo.dimension.z / 2;
-                this.addCubeCollection({
-                    position: pos,
-                    name: uuidv4() as string,
-                    active: true,
-                    ...this.defaultCubeInfo,
-                });
+                this.addCubeCollection(
+                    {
+                        position: pos,
+                        name: uuidv4() as string,
+                        pointsNum: undefined,
+                        ...this.defaultCubeInfo,
+                    },
+                    true,
+                );
             },
         );
 
@@ -185,20 +202,23 @@ export class ContentManager3D {
                 ) {
                     return;
                 } else if (!this.activeCubeCollectionName) {
-                    this.addCubeCollection({
-                        position: {
-                            x: position.x,
-                            y: position.y,
-                            z: position.z + this.defaultCubeInfo.dimension.z / 2,
+                    this.addCubeCollection(
+                        {
+                            position: {
+                                x: position.x,
+                                y: position.y,
+                                z: position.z + this.defaultCubeInfo.dimension.z / 2,
+                            },
+                            dimension,
+                            rotation: { x: 0, y: 0, z: 0 },
+                            name: uuidv4() as string,
+                            label: this.defaultCubeInfo.label,
+                            color: this.defaultCubeInfo.color,
+                            dash: false,
+                            pointsNum: undefined,
                         },
-                        dimension,
-                        rotation: { x: 0, y: 0, z: 0 },
-                        name: uuidv4() as string,
-                        active: true,
-                        label: this.defaultCubeInfo.label,
-                        color: this.defaultCubeInfo.color,
-                        dash: false,
-                    });
+                        true,
+                    );
                 } else {
                     const group = this.sceneRender.findCube(this.activeCubeCollectionName);
                     const collection = this.cubeCollection.find((item) => item.name === this.activeCubeCollectionName);
@@ -264,27 +284,39 @@ export class ContentManager3D {
         //
     }
 
-    addCubeCollection(params: {
-        position: Vec3;
-        rotation: Vec3;
-        dimension: Vec3;
-        name: string; // 唯一 标识
-        active: boolean;
-        color?: Color;
-        label: string;
-        dash: boolean;
-    }): void {
-        const { position, rotation, dimension, name, active, color, label, dash } = params;
+    public setCircleRadius(arr: number[]) {
+        this.circleRadius = arr;
+    }
+
+    addCubeCollection(
+        params: {
+            position: Vec3;
+            rotation: Vec3;
+            dimension: Vec3;
+            name: string; // 唯一 标识
+            color?: Color;
+            label: string;
+            dash: boolean;
+            pointsNum: number | undefined;
+        },
+        active = false,
+    ): void {
+        const { position, rotation, dimension, name, color, label, dash } = params;
+        let { pointsNum } = params;
         const result = MeshFactory.creatCubeMesh({
             position,
             rotation,
             dimension,
             name,
             color: color ? color : this.inActiveColor,
-            label,
             dash,
         });
         const { mesh, meshHelper, arrow, name: nameI, matrix, points, box3Origin } = result;
+        if (typeof pointsNum === 'undefined') {
+            pointsNum = containPointsNum(box3Origin, matrix, this.pointsCloud);
+        }
+        const label2D = MeshFactory.createLabel(`${label} ${pointsNum}`, 'spo-3d-main-cube-label', color);
+        mesh.add(label2D);
         const group = new Group();
         group.name = nameI;
         group.add(mesh);
@@ -293,13 +325,13 @@ export class ContentManager3D {
         group.add(points);
         group.position.setFromMatrixPosition(matrix);
         group.rotation.setFromRotationMatrix(matrix);
-
+        if (dash) group.visible = false;
         this.sceneRender.addCube(group);
         // for pick
         const { geometry } = mesh;
         const id = this.mainPicker.addPickMeshFromGeo(geometry, matrix);
-        const pointsNum = containPointsNum(box3Origin, matrix, this.pointsCloud);
-        this.cubeCollection.push(Object.assign(result, { id, pointsNum }));
+
+        this.cubeCollection.push(Object.assign(result, { id, pointsNum, label2D }));
 
         if (active) {
             this.activeCube(name, result as CubeCollection);
@@ -310,7 +342,7 @@ export class ContentManager3D {
         const index = this.cubeCollection.findIndex((item) => item.name === name);
         if (index !== -1) {
             const collection = this.cubeCollection[index];
-            const { mesh, meshHelper, arrow, points, label2D, id } = collection;
+            const { mesh, meshHelper, arrow, points, id, label2D } = collection;
             this.sceneRender.removeCubeByName(name);
             this.mainPicker.removePickMeshById(id, true);
             this.cubeCollection.splice(index, 1);
@@ -323,10 +355,24 @@ export class ContentManager3D {
         }
     }
 
+    changeMainRenderState(state: STATE): void {
+        if (this.enableEdit) this.sceneRender.mainRendererInstance.changeState(state);
+    }
+
     deleteActiveCube() {
         const name = this.activeCubeCollectionName;
         this.inActiveCube();
         this.deleteCubeCollection(name);
+    }
+
+    updatePointCloud(data: PointsData) {
+        const pointGeo = MeshFactory.createPointsGeo(data);
+        const pointMaterial = MeshFactory.createPointMaterial(pointGeo);
+        const points = MeshFactory.createPointsCloud(pointGeo, pointMaterial);
+        this.sceneRender.removePointCloud(this.pointsCloud);
+        this.pointsCloud = points;
+        this.sceneRender.addPointCloud(points);
+        this.sceneRender.requestRenderIfNotRequested();
     }
 
     activeCube(name: string, collectionParam?: CubeCollection): void {
@@ -338,7 +384,7 @@ export class ContentManager3D {
         const collection = collectionParam ? collectionParam : this.cubeCollection.find((item) => item.name === name);
         if (!collection) return;
         const group = this.sceneRender.findCube(name);
-        if (group) {
+        if (group && this.enableEdit) {
             this.sceneRender.bindActiveCube(true, group);
         }
 
@@ -405,7 +451,7 @@ export class ContentManager3D {
     }
 
     toggleCubeCollection(collection: CubeCollection, seleted: boolean): void {
-        const { mesh, meshHelper, points, color, label2D, arrow, dash } = collection;
+        const { mesh, meshHelper, points, color, arrow, dash, label2D } = collection;
         const colorI = seleted ? this.activeColor : color;
         meshHelper.layers.set(seleted ? ObjectLayers.default : ObjectLayers.main);
         (meshHelper.material as LineDashedMaterial).color.setHex(colorI.getHex());

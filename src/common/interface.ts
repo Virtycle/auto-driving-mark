@@ -5,16 +5,46 @@ export interface ObjectInScene {
     rotation: Vec3;
     dimension: Vec3;
     category: string;
-    frameNum: number;
+    categoryId: number;
     number: number;
+    frameNum: number;
+    pointsNum: number;
     id: string;
     isEmpty: boolean;
     interpolated: boolean;
 }
 
+export interface ResouceRelation {
+    pcd_name: string;
+    images: {
+        http: string;
+        direction: string;
+        width: number;
+        height: number;
+    }[];
+}
+export interface FrameResouceList {
+    images: string[];
+    points: string[];
+    relations: ResouceRelation[];
+}
+
 export interface FrameResultData {
-    frameId: number;
+    data_id: number;
     frameUrl: string;
     items: ObjectInScene[];
     [key: string]: any;
 }
+
+export interface ProjectConfigType {
+    dimension_range: string;
+    object_category: ObjectCategory[];
+}
+
+export type ObjectCategory = {
+    show_color: string;
+    show_name: string;
+    object_size: { lenght: number; width: number; height: number };
+    order: number;
+    id: number;
+};
