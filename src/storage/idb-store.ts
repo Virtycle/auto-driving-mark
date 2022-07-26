@@ -1,5 +1,5 @@
 import E2, { Callback } from '@/engine/common/event-emitter';
-import { MaxAndMin } from '@/engine/interface';
+import { MaxAndMin } from '@/engine';
 
 export const eventNames = {
     ready: 'ready',
@@ -27,7 +27,7 @@ export type MessageType<T> = {
     info: T;
 };
 
-export type StoreErr = {
+export type StoreInfo = {
     name: string;
     index: number;
 };
@@ -52,6 +52,12 @@ export type ImageStoreData = {
 };
 
 type StoreBaseType = { name: string; url: string };
+
+type StoreProcessPromise = {
+    done: (value: void) => void;
+    deny: (value: void) => void;
+    name: string;
+};
 export default class IDBTaskStore<
     T extends StoreBaseType,
     // S extends StoreBaseType & { width: number; height: number },
@@ -81,6 +87,10 @@ export default class IDBTaskStore<
 
     private taskDB!: IDBDatabase;
 
+    private pointLoadProcessPromise: StoreProcessPromise | null = null;
+
+    private imageLoadProcessPromise: StoreProcessPromise[] = [];
+
     constructor(worker: Worker, taskName: string) {
         this.workInner = worker;
         this.taskName = taskName;
@@ -106,16 +116,38 @@ export default class IDBTaskStore<
             console.log(data);
         });
         this.events.on('pointIndexStored', (data) => {
-            this.storedPoints.push((data as StoreErr).name);
+            this.storedPoints.push((data as StoreInfo).name);
+            if (this.pointLoadProcessPromise && (data as StoreInfo).name === this.pointLoadProcessPromise.name) {
+                this.pointLoadProcessPromise.done();
+                this.pointLoadProcessPromise = null;
+            }
         });
         this.events.on('imageIndexStored', (data) => {
-            this.storedImages.push((data as StoreErr).name);
+            this.storedImages.push((data as StoreInfo).name);
+            if (this.imageLoadProcessPromise.length) {
+                const index = this.imageLoadProcessPromise.findIndex((item) => item.name === (data as StoreInfo).name);
+                if (index !== -1) {
+                    this.imageLoadProcessPromise[index].done();
+                    this.imageLoadProcessPromise.slice(index, 1);
+                }
+            }
         });
         this.events.on('pointIndexStoredErr', (data) => {
-            this.toRestorePoints.push((data as StoreErr).name);
+            this.toRestorePoints.push((data as StoreInfo).name);
+            if (this.pointLoadProcessPromise && (data as StoreInfo).name === this.pointLoadProcessPromise.name) {
+                this.pointLoadProcessPromise.deny();
+                this.pointLoadProcessPromise = null;
+            }
         });
         this.events.on('imageIndexStoredErr', (data) => {
-            this.toRestoreImages.push((data as StoreErr).name);
+            this.toRestoreImages.push((data as StoreInfo).name);
+            if (this.imageLoadProcessPromise.length) {
+                const index = this.imageLoadProcessPromise.findIndex((item) => item.name === (data as StoreInfo).name);
+                if (index !== -1) {
+                    this.imageLoadProcessPromise[index].deny();
+                    this.imageLoadProcessPromise.slice(index, 1);
+                }
+            }
         });
         this.events.on('taskDBCreated', () => {
             const { taskName } = this;
@@ -190,35 +222,77 @@ export default class IDBTaskStore<
     public readPointData(name: string): Promise<PointStoreData> {
         const taskDB = this.taskDB;
         const index = this.storedPoints.findIndex((item) => item === name);
-        if (!taskDB || index === -1) return Promise.reject(null);
         return new Promise((resolve, reject) => {
-            const rq = taskDB
-                .transaction(pointsObjectStoreName, 'readonly')
-                .objectStore(pointsObjectStoreName)
-                .get(name);
-            rq.onsuccess = (e) => {
-                const { target } = e;
-                if (target) resolve((target as EventTarget & { result: PointStoreData }).result);
-            };
-            rq.onerror = () => {
-                reject(null);
-            };
+            if (this.pointLoadProcessPromise) reject(null);
+            new Promise<void>((resolveInner, rejectInner) => {
+                if (!taskDB || index === -1) {
+                    const indexToStore = this.toStorePoints.findIndex((item) => item.name === name);
+                    const indexNoStore = this.toRestorePoints.findIndex((item) => item === name);
+                    if (indexToStore === -1 || indexNoStore !== -1) rejectInner();
+                    this.pointLoadProcessPromise = {
+                        done: resolveInner,
+                        deny: rejectInner,
+                        name,
+                    };
+                } else {
+                    resolveInner();
+                }
+            }).then(
+                () => {
+                    const rq = taskDB
+                        .transaction(pointsObjectStoreName, 'readonly')
+                        .objectStore(pointsObjectStoreName)
+                        .get(name);
+                    rq.onsuccess = (e) => {
+                        const { target } = e;
+                        if (target) resolve((target as EventTarget & { result: PointStoreData }).result);
+                    };
+                    rq.onerror = () => {
+                        reject(null);
+                    };
+                },
+                () => {
+                    reject(null);
+                },
+            );
         });
     }
 
     public readImageData(name: string): Promise<ImageStoreData> {
         const taskDB = this.taskDB;
         const index = this.storedImages.findIndex((item) => item === name);
-        if (!taskDB || index === -1) return Promise.reject(null);
         return new Promise((resolve, reject) => {
-            const rq = taskDB.transaction(imageObjectStoreName, 'readonly').objectStore(imageObjectStoreName).get(name);
-            rq.onsuccess = (e) => {
-                const { target } = e;
-                if (target) resolve((target as EventTarget & { result: ImageStoreData }).result);
-            };
-            rq.onerror = () => {
-                reject(null);
-            };
+            new Promise<void>((resolveInner, rejectInner) => {
+                if (!taskDB || index === -1) {
+                    const indexToStore = this.toStoreImages.findIndex((item) => item.name === name);
+                    const indexNoStore = this.toRestoreImages.findIndex((item) => item === name);
+                    if (indexToStore === -1 || indexNoStore !== -1) rejectInner();
+                    this.imageLoadProcessPromise.push({
+                        done: resolveInner,
+                        deny: rejectInner,
+                        name,
+                    });
+                } else {
+                    resolveInner();
+                }
+            }).then(
+                () => {
+                    const rq = taskDB
+                        .transaction(imageObjectStoreName, 'readonly')
+                        .objectStore(imageObjectStoreName)
+                        .get(name);
+                    rq.onsuccess = (e) => {
+                        const { target } = e;
+                        if (target) resolve((target as EventTarget & { result: ImageStoreData }).result);
+                    };
+                    rq.onerror = () => {
+                        reject(null);
+                    };
+                },
+                () => {
+                    reject(null);
+                },
+            );
         });
     }
 
@@ -229,6 +303,8 @@ export default class IDBTaskStore<
         this.storedImages = [];
         this.toRestorePoints = [];
         this.toRestoreImages = [];
+        this.imageLoadProcessPromise = [];
+        this.pointLoadProcessPromise = null;
         this.taskDB?.close();
         this.workInner.terminate();
     }

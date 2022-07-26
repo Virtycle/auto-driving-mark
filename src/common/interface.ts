@@ -1,4 +1,4 @@
-import { Vec3 } from '@/engine/interface';
+import { Vec3 } from '@/engine';
 
 export interface ObjectInScene {
     position: Vec3;
@@ -30,10 +30,11 @@ export interface FrameResouceList {
 }
 
 export interface FrameResultData {
+    data_source_id: number;
     data_id: number;
     frameUrl: string;
     items: ObjectInScene[];
-    [key: string]: any;
+    [key: string]: unknown;
 }
 
 export interface ProjectConfigType {

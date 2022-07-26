@@ -92,6 +92,7 @@ export interface CubeCollection {
     pointsNum: number;
     dash: boolean;
     group: Group;
+    labelOrigin: string;
 }
 
 export enum ObjectLayers {

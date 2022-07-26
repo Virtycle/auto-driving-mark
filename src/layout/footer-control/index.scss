@@ -1,0 +1,24 @@
+.spo-footer {
+    .spo-footer-frame-list-out {
+        color: #fff;
+        user-select: none;
+        overflow-x: auto;
+        width: 100%;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        height: 50px;
+        .spo-footer-frame-list-inner {
+            display: flex;
+            position: relative;
+            width: fit-content;
+            margin: 0 auto;
+            padding: 0 12px;
+
+            .spo-footer-frame-list-item {
+                min-width: 30px;
+            }
+        }
+    }
+}

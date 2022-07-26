@@ -1,10 +1,13 @@
 import SceneRender from './scene-render';
 import MeshFactory from './mesh-factory';
-import { ContentManager3D } from './content-manager';
+import manager3D, { ContentManager3D } from './content-manager';
 import TextureFactory from './texture-factory';
 import { PCDLoaderEx } from './loaders/PCDLoaderEx';
-import frameManager, { FrameManager } from './frame-manager';
+import E2 from './common/event-emitter';
+import * as EngineUtils from './untils';
 
-export { SceneRender, PCDLoaderEx, MeshFactory, TextureFactory, ContentManager3D, FrameManager };
+export { SceneRender, PCDLoaderEx, MeshFactory, TextureFactory, ContentManager3D, E2, EngineUtils };
 
-export default frameManager;
+export * from './interface';
+
+export default manager3D;

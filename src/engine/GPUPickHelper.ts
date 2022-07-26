@@ -50,7 +50,7 @@ export default class GPUPickHelper {
         });
     }
 
-    public addPickMeshFromGeo(geometry: BufferGeometry, matrix: Matrix4, visible = true, id?: number): number {
+    public addPickMeshFromGeo(geometry: BufferGeometry, matrix: Matrix4, id?: number): number {
         let idInnner;
         if (!id) {
             idInnner = this.currentId;
@@ -64,7 +64,6 @@ export default class GPUPickHelper {
         mesh.name = `${idInnner}`;
         mesh.matrix.copy(matrix);
         mesh.matrixAutoUpdate = false;
-        mesh.visible = visible;
         this.addPickMesh(mesh);
         return idInnner;
     }

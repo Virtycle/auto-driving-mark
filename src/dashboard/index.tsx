@@ -4,12 +4,10 @@ import GridLayout from 'react-grid-layout';
 import throttle from 'lodash/throttle';
 import get from 'lodash/get';
 import ResizeObserver from 'resize-observer-polyfill';
-import { ObjectInScene, ObjectCategory } from '@/common/interface';
-import { Color } from 'three';
 import './index.scss';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import { STATE } from '@/engine/interface';
+import { STATE } from '@/engine';
 
 const layoutWith2d = [
     { i: 'spo-2d-main', x: 0, y: 0, w: 6, h: 11 },
@@ -49,7 +47,7 @@ export default function Dashboard(props: {
     const rowHeight = Math.round(contentHeight / 18);
     const contentWidthI = Math.round(contentWidth);
     const [layoutI, setLayoutI] = useState(layoutWith2d);
-    const { manager, frameResultData, objectCategoryAll, circleLimit } = useContext(GlobalContext);
+    const { manager, circleLimit, frameResultData, resouceRelation } = useContext(GlobalContext);
     const currentFullScreenRef = useRef<string>('');
 
     const layoutRef = useRef<HTMLDivElement>(null);
@@ -68,46 +66,14 @@ export default function Dashboard(props: {
             manager.manager3DInstance.destroy();
         };
     }, [manager, circleLimit]);
-    // 添加所有帧的所有3d object
-    useEffect(() => {
-        if (frameResultData.length && objectCategoryAll.length) {
-            const mapForCheck: { [k: string]: ObjectInScene } = {};
-            // 从后向前覆盖重复
-            for (let index = frameResultData.length - 1; index >= 0; index--) {
-                const frame3dItems = frameResultData[index].items || [];
-                frame3dItems.forEach((item3d) => {
-                    mapForCheck[item3d.id] = item3d;
-                });
-            }
-            Object.values(mapForCheck).forEach((object3D) => {
-                const category =
-                    objectCategoryAll.find((item) => item.id === object3D.categoryId) ||
-                    ({ show_color: '#00ff00', show_name: 'car' } as ObjectCategory);
-                manager.manager3DInstance.addCubeCollection(
-                    {
-                        position: object3D.position,
-                        rotation: object3D.rotation,
-                        dimension: object3D.dimension,
-                        name: object3D.id,
-                        label: `${category.show_name} ${object3D.number}`,
-                        dash: object3D.isEmpty,
-                        pointsNum: object3D.pointsNum,
-                        color: new Color(category.show_color),
-                    },
-                    false,
-                );
-            });
-        }
 
-        // setTimeout(() => {
-        //     manager.idbStoreInstance.readPointData('052_1591240197426.pcd').then((data) => {
-        //         console.log(data);
-        //     });
-        // }, 5000);
-        // setTimeout(() => {
-        //     manager.manager3DInstance.sceneRenderInstance.mainRendererInstance.changeState(STATE.DRAW_PICK);
-        // }, 3000);
-    }, [frameResultData, objectCategoryAll, manager]);
+    // useEffect(() => {
+    //     if (frameResultData.length && resouceRelation.length) {
+    //         setTimeout(() => {
+    //             manager.loadFrame(1, resouceRelation[1], frameResultData[1]);
+    //         }, 5000);
+    //     }
+    // }, [frameResultData, resouceRelation, manager]);
 
     useEffect(() => {
         const children = get(layoutRef.current, 'children');

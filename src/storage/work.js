@@ -709,7 +709,7 @@ export default (inputs) => {
                             },
                         );
                     } else if (hasFlag) {
-                        self.postMessage({ type: eventNames.pointIndexStored, info: { index, name } });
+                        self.postMessage({ type: eventNames.imageIndexStored, info: { index, name } });
                     }
                 }
             }

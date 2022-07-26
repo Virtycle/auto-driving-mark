@@ -18,7 +18,7 @@ import MeshFactory from './mesh-factory';
 import GPUPickHelper, { lineMaterialNoId, meshMaterialNoId, pointsMaterialNoId } from './GPUPickHelper';
 import { PointShaderDataGroup } from './materials/PointColorMapMaterial';
 import { MainRendererEvent } from './main-renderer';
-import { getCanvasCssPosition, getNormalizedPosition, containPointsNum } from './untils';
+import { getCanvasCssPosition, getNormalizedPosition, getDecomposedDataFrom3d, containPointsNum } from './untils';
 import {
     CubeCollection,
     ObjectLayers,
@@ -80,10 +80,10 @@ export class ContentManager3D {
         baseZ?: number;
     }): void {
         if (this.isInit) return;
+        this.isInit = true;
         const { mainDiv, topDiv, frontDiv, sideDiv, circleRadius, pointCloud, baseZ } = params;
         this.sceneRender.init({ mainDiv, topDiv, frontDiv, sideDiv });
         this.initEvent();
-        this.isInit = true;
         this.circleRadius = circleRadius ? circleRadius : this.circleRadius;
         const baseZInner = baseZ || this.baseZ;
         const vec3 = new Vector3(0, 0, baseZInner || 1);
@@ -106,6 +106,10 @@ export class ContentManager3D {
 
     get sceneRenderInstance() {
         return this.sceneRender;
+    }
+
+    get cubeCollections() {
+        return this.cubeCollection;
     }
 
     private initEvent() {
@@ -332,9 +336,9 @@ export class ContentManager3D {
         this.sceneRender.addCube(group);
         // for pick
         const { geometry } = mesh;
-        const id = this.mainPicker.addPickMeshFromGeo(geometry, matrix, !dash);
+        const id = this.mainPicker.addPickMeshFromGeo(geometry, matrix);
 
-        this.cubeCollection.push(Object.assign(result, { id, pointsNum, label2D, group }));
+        this.cubeCollection.push(Object.assign(result, { id, pointsNum, label2D, group, labelOrigin: label }));
 
         if (active) {
             this.activeCube(name, result as CubeCollection);
@@ -381,10 +385,14 @@ export class ContentManager3D {
         const pointGeo = MeshFactory.createPointsGeo(data);
         const pointMaterial = MeshFactory.createPointMaterial(pointGeo);
         const points = MeshFactory.createPointsCloud(pointGeo, pointMaterial);
+        const lastPoints = this.pointsCloud;
         this.sceneRender.removePointCloud(this.pointsCloud);
         this.pointsCloud = points;
         this.sceneRender.addPointCloud(points);
         this.sceneRender.requestRenderIfNotRequested();
+        if (lastPoints) {
+            MeshFactory.disposeMesh(lastPoints);
+        }
     }
 
     activeCube(name: string, collectionParam?: CubeCollection): void {
@@ -446,12 +454,13 @@ export class ContentManager3D {
         const collection = this.activeCubeCollection;
         const { group } = collection;
         if (collection && group) {
-            const { matrix, box3Origin } = collection;
+            const { matrix, box3Origin, label2D, labelOrigin } = collection;
             matrix.copy(group.matrix);
             this.flyToCollection(collection);
             this.mainPicker.updatePickMeshMatrix(collection.id, matrix);
             this.threeViewPicker.updateAllPickMeshMatrix(matrix);
             collection.pointsNum = containPointsNum(box3Origin, matrix, this.pointsCloud);
+            label2D.element.textContent = `${labelOrigin} ${collection.pointsNum}`;
         }
     }
 
@@ -499,6 +508,67 @@ export class ContentManager3D {
             }
             material.needsUpdate = true;
         }
+    }
+
+    public diffCubeCollections(
+        arr: {
+            position: Vec3;
+            rotation: Vec3;
+            dimension: Vec3;
+            pointsNum: number | undefined;
+            id: string;
+        }[],
+    ): void {
+        this.cubeCollection.forEach((collection) => {
+            const toUpdataData = arr.find((item) => item.id === collection.name);
+            if (toUpdataData) {
+                const { position, rotation, dimension, pointsNum } = toUpdataData;
+                this.updataCubeCollection(collection, position, rotation, dimension, pointsNum || 0);
+            } else {
+                if (this.activeCubeCollection && collection.name === this.activeCubeCollection.name) {
+                    this.inActiveCube();
+                }
+                collection.group.visible = false;
+                collection.label2D.visible = false;
+                collection.dash = true;
+            }
+            this.mainPicker.togglePickMeshVisible(collection.id, !!toUpdataData);
+        });
+    }
+
+    public updataCubeCollection(
+        collection: CubeCollection,
+        position: Vec3,
+        rotation: Vec3,
+        dimension: Vec3,
+        pointsNum: number,
+    ) {
+        const { box3Origin, group, matrix, label2D, labelOrigin } = collection;
+        const scaleX = dimension.x / box3Origin.max.x;
+        const scaleY = dimension.y / box3Origin.max.y;
+        const scaleZ = dimension.z / box3Origin.max.z;
+        group.scale.set(scaleX, scaleY, scaleZ);
+        group.rotation.set(rotation.x, rotation.y, rotation.z);
+        group.position.set(position.x, position.y, position.z);
+        group.updateMatrix();
+        matrix.copy(group.matrix);
+        label2D.element.textContent = `${labelOrigin} ${pointsNum}`;
+        label2D.visible = true;
+        group.visible = true;
+        collection.dash = false;
+        this.mainPicker.updatePickMeshMatrix(collection.id, matrix);
+    }
+
+    public getVisibleCubeCollectionData() {
+        const map: { [k: string]: { name: string; dimension: Vec3; rotation: Vec3; position: Vec3 } } = {};
+        this.cubeCollections.forEach((collection) => {
+            if (collection.group.visible) {
+                const { name, group, box3Origin } = collection;
+                const data = getDecomposedDataFrom3d(box3Origin, group);
+                map.name = Object.assign(data, { name });
+            }
+        });
+        return map;
     }
 
     public resize(): void {

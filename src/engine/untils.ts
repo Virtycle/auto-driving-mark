@@ -1,6 +1,6 @@
-import { Box3, Euler, Matrix4, Quaternion, Vector3, Points } from 'three';
+import { Box3, Matrix4, Quaternion, Vector3, Points, Group } from 'three';
 import { OBB } from 'three/examples/jsm/math/OBB';
-import { Vec2 } from './interface';
+import { Vec2, Vec3 } from './interface';
 
 function getBoxDirection(
     box: Box3,
@@ -74,4 +74,28 @@ function containPointsNum(box3: Box3, matrix: Matrix4, points: Points): number {
     return number;
 }
 
-export { getBoxDirection, getCanvasRelativePosition, getCanvasCssPosition, getNormalizedPosition, containPointsNum };
+function getDecomposedDataFrom3d(
+    box: Box3,
+    group: Group,
+): {
+    dimension: Vec3;
+    rotation: Vec3;
+    position: Vec3;
+} {
+    const { scale, rotation, position } = group;
+    const dimension = {
+        x: Math.abs(2 * box.max.x * scale.x),
+        y: Math.abs(2 * box.max.y * scale.y),
+        z: Math.abs(2 * box.max.z * scale.z),
+    };
+    return { dimension, rotation, position };
+}
+
+export {
+    getBoxDirection,
+    getCanvasRelativePosition,
+    getCanvasCssPosition,
+    getNormalizedPosition,
+    containPointsNum,
+    getDecomposedDataFrom3d,
+};

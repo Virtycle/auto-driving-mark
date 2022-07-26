@@ -16,4 +16,5 @@ const idbStore = new IDBTaskStore(
     taskName,
 );
 
+export { eventNames };
 export default idbStore;
