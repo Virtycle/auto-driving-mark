@@ -1,12 +1,6 @@
 import manager3D from '@/engine';
 import idbStore from '@/storage';
-import { FrameResultData, ResouceRelation, ObjectInScene } from '@/common/interface';
-
-enum PlayStatus {
-    'play' = 1,
-    'pause' = 2,
-    'stop' = 0,
-}
+import { FrameResultData, ResouceRelation } from '@/common/interface';
 
 export class FrameManager {
     private manager3D = manager3D;
@@ -14,10 +8,6 @@ export class FrameManager {
     private idbStore = idbStore;
     // 当前帧
     private currentFrame = -1;
-
-    private status: PlayStatus = PlayStatus.stop;
-
-    private currentFrameData = null;
 
     get manager3DInstance() {
         return this.manager3D;
@@ -27,7 +17,16 @@ export class FrameManager {
         return this.idbStore;
     }
 
-    public init() {
+    get currentFrameNumber() {
+        return this.currentFrame;
+    }
+
+    public init(params: { enableEdit3d: boolean; enableShow2d: boolean }) {
+        const { enableEdit3d, enableShow2d } = params;
+        this.manager3D.enableEdit = enableEdit3d;
+        if (enableShow2d) {
+            this.init2DCameras();
+        }
         this.initEvents();
     }
 
@@ -46,7 +45,7 @@ export class FrameManager {
     public loadFrame(frameNum: number, resource: ResouceRelation, frameData: FrameResultData): Promise<boolean> {
         if (frameNum === this.currentFrame) return Promise.reject('request frame is current');
         console.log(performance.now() + 'frame switch start');
-        const { pcd_name, images } = resource;
+        const { pcd_name } = resource;
         return new Promise((resolve, reject) => {
             this.idbStore.readPointData(pcd_name).then(
                 (data) => {

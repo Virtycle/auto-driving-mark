@@ -6,6 +6,7 @@ import Dashboard from '../dashboard';
 import Header from '../layout/header';
 import FooterControl from '../layout/footer-control';
 import MainList from '../layout/main-list';
+import Drawer from '../layout/drawer';
 import throttle from 'lodash/throttle';
 import ResizeObserver from 'resize-observer-polyfill';
 
@@ -63,7 +64,7 @@ function LayoutComp() {
                 <Header toggleFullSceen={toggleFullSceen} />
                 <Layout style={{ height: '100%' }}>
                     <Sider
-                        width={200}
+                        width={300}
                         className="spo-sider"
                         style={{ background: '#BBBBBB' }}
                         collapsible
@@ -82,6 +83,7 @@ function LayoutComp() {
                     </Content>
                 </Layout>
                 <FooterControl />
+                <Drawer />
             </Layout>
         </Spin>
     );

@@ -1,23 +1,59 @@
-.spo-footer {
+#spo-footer {
+    padding: 10px 25px;
+    .spo-footer-frame-controls {
+        display: flex;
+        align-items: center;
+        height: 40px;
+        color: #ccc;
+        .spo-footer-frame-progress-show {
+            min-width: 500px;
+        }
+        .spo-footer-frame-progress-label {
+            margin: 0 20px;
+            width: 60px;
+        }
+        #spo-footer-frame-play-group {
+            margin: 0 20px;
+            width: 150px;
+            .spo-footer-frame-play-group-item {
+                color: #ccc;
+            }
+        }
+    }
+
     .spo-footer-frame-list-out {
-        color: #fff;
+        color: #ccc;
         user-select: none;
         overflow-x: auto;
         width: 100%;
+        margin-top: 5px;
         &::-webkit-scrollbar {
             display: none;
         }
-
-        height: 50px;
         .spo-footer-frame-list-inner {
+            overflow-x: auto;
             display: flex;
             position: relative;
             width: fit-content;
-            margin: 0 auto;
-            padding: 0 12px;
-
             .spo-footer-frame-list-item {
-                min-width: 30px;
+                min-width: 28px;
+                text-align: center;
+                cursor: pointer;
+                .spo-footer-frame-list-item-mark {
+                    width: 14px;
+                    height: 4px;
+                    border-radius: 2px;
+                    opacity: 0.59;
+                    margin: 4px auto 0;
+                }
+                .spo-footer-frame-list-item-num {
+                    height: 28px;
+                    padding: 1px;
+                    background: #4b4b4b;
+                }
+            }
+            .current {
+                box-shadow: inset 0 0 0 1px #ccc;
             }
         }
     }

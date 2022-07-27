@@ -28,7 +28,7 @@ export default class FrontRenderer implements RendererInstance {
 
     height = 0;
 
-    size = 20;
+    size = 30;
 
     distance = 50;
 

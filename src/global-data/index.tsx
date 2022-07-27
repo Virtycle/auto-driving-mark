@@ -18,7 +18,9 @@ export type GlobalContextType = {
     setUserData: (para: unknown) => void;
     manager: FrameManager;
     loading: boolean;
+    showDraw: boolean;
     setLoading: (para: boolean) => void;
+    setShowDraw: (para: boolean) => void;
     frameResultData: FrameResultData[];
     objectCategoryAll: ObjectCategory[];
     resouceRelation: ResouceRelation[];
@@ -30,6 +32,7 @@ export const GlobalContext = createContext<GlobalContextType>({} as GlobalContex
 export default function GlobalContextProvide({ children }: { children: ReactNode }) {
     const [userData, setUserData] = useState<unknown>(null);
     const [loading, setLoading] = useState(true);
+    const [showDraw, setShowDraw] = useState(false);
     const [resouceRelation, setResouceRelation] = useState<ResouceRelation[]>([]);
     const [frameResultData, setFrameResultData] = useState<FrameResultData[]>([]);
     const [objectCategoryAll, setObjectCategory] = useState<ObjectCategory[]>([]);
@@ -39,7 +42,7 @@ export default function GlobalContextProvide({ children }: { children: ReactNode
 
     useEffect(() => {
         const manager = managerRef.current;
-        manager.init();
+        manager.init({ enableEdit3d: true, enableShow2d: false });
         const resoucePromise = axios.get<never, FrameResouceList>(frameListApi);
         const resultPromise = axios.get<never, FrameResultData[]>(frameResultApi);
         const configPromise = axios.get<never, ProjectConfigType>(projectConfigApi);
@@ -98,13 +101,14 @@ export default function GlobalContextProvide({ children }: { children: ReactNode
                 }
             });
             manager.idbStoreInstance.storeTask(listP, listI);
-            const radiusArr = dimension_range
+            let radiusArr = dimension_range
                 .split(',')
                 .filter((item) => !isNaN(Number(item)))
                 .map(Number);
-            if (radiusArr.length) {
-                setCircleLimit(radiusArr);
+            if (!radiusArr.length) {
+                radiusArr = [50];
             }
+            setCircleLimit(radiusArr);
             setObjectCategory(object_category);
             setResouceRelation(relations);
             setFrameResultData(result);
@@ -114,11 +118,13 @@ export default function GlobalContextProvide({ children }: { children: ReactNode
     return (
         <GlobalContext.Provider
             value={{
+                manager: managerRef.current,
                 userData,
                 setUserData,
-                manager: managerRef.current,
+                setShowDraw,
                 setLoading,
                 loading,
+                showDraw,
                 resouceRelation,
                 frameResultData,
                 objectCategoryAll,

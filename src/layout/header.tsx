@@ -1,7 +1,6 @@
 import React from 'react';
 import { Layout, Button, Space } from 'antd';
 import { FullscreenOutlined } from '@ant-design/icons';
-import { type } from 'os';
 
 const { Header: HeaderAntD } = Layout;
 
