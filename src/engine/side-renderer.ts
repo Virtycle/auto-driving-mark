@@ -128,8 +128,8 @@ export default class SideRenderer implements RendererInstance {
         this.eventEmitter.on(name, callBack);
     }
 
-    public removeEventHandler(name: ThreeViewRendererEvent) {
-        this.eventEmitter.off(name);
+    public removeEventHandler(name: ThreeViewRendererEvent, callBack?: Callback) {
+        this.eventEmitter.off(name, callBack);
     }
 
     public changeCursorType(cursor: CURSOR_TYPE) {

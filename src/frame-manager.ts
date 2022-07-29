@@ -1,6 +1,7 @@
 import manager3D from '@/engine';
 import idbStore from '@/storage';
 import { FrameResultData, ResouceRelation } from '@/common/interface';
+import { envLogNow } from './common/log';
 
 export class FrameManager {
     private manager3D = manager3D;
@@ -44,7 +45,7 @@ export class FrameManager {
 
     public loadFrame(frameNum: number, resource: ResouceRelation, frameData: FrameResultData): Promise<boolean> {
         if (frameNum === this.currentFrame) return Promise.reject('request frame is current');
-        console.log(performance.now() + 'frame switch start');
+        envLogNow('frame switch start');
         const { pcd_name } = resource;
         return new Promise((resolve, reject) => {
             this.idbStore.readPointData(pcd_name).then(
@@ -54,7 +55,7 @@ export class FrameManager {
                     this.manager3D.updatePointCloud(data);
                     this.currentFrame = frameNum;
                     resolve(true);
-                    console.log(performance.now() + 'frame switch end');
+                    envLogNow('frame switch end');
                 },
                 (err) => {
                     reject(err);

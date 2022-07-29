@@ -167,8 +167,8 @@ export default class IDBTaskStore<
         this.events.on(name, callBack);
     }
 
-    public removeEventHandler(name: EventNames) {
-        this.events.off(name);
+    public removeEventHandler(name: EventNames, callBack?: Callback) {
+        this.events.off(name, callBack);
     }
 
     private postMessage<T>(data: MessageType<T>) {

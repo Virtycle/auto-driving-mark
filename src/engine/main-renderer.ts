@@ -29,6 +29,7 @@ export enum MainRendererEvent {
     MeshCreateDragStart = 'meshCreateDragStart',
     MeshCreateDrag = 'meshCreateDrag',
     MeshCreateDragEnd = 'meshCreateDragEnd',
+    StateChanged = 'stateChanged',
 }
 
 export default class MainRenderer implements RendererInstance {
@@ -194,8 +195,8 @@ export default class MainRenderer implements RendererInstance {
         this.eventEmitter.on(name, callBack);
     }
 
-    public removeEventHandler(name: MainRendererEvent) {
-        this.eventEmitter.off(name);
+    public removeEventHandler(name: MainRendererEvent, callBack?: Callback) {
+        this.eventEmitter.off(name, callBack);
     }
 
     public changeCursorType(cursor: CURSOR_TYPE) {
@@ -218,6 +219,7 @@ export default class MainRenderer implements RendererInstance {
             this.changeCursorType(CURSOR_TYPE.DEFAULT);
         }
         this.state = state;
+        this.eventEmitter.emit(MainRendererEvent.StateChanged, state);
     }
 
     public resize(width: number, height: number, resizeRenderer = true): void {

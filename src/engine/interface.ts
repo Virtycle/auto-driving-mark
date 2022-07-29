@@ -15,10 +15,15 @@ import {
 import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
 
 export enum STATE {
+    // 共用
     NONE = 0,
+    // 3视图用的
     SELECT = 1,
+    // 主视图用的
     DRAW_PICK = 2,
     DRAW_DRAG = 3,
+    DRAW_AREA = 4,
+    MEASURE = 5,
 }
 
 export enum ThreeViewRendererEvent {

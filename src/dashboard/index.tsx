@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useContext } from 'react';
+import Tools3D from '@/components/tool-3d';
 import { GlobalContext } from '@/global-data';
 import GridLayout from 'react-grid-layout';
 import throttle from 'lodash/throttle';
@@ -7,7 +8,6 @@ import ResizeObserver from 'resize-observer-polyfill';
 import './index.scss';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import { STATE } from '@/engine';
 
 const layoutWith2d = [
     { i: 'spo-2d-main', x: 0, y: 0, w: 6, h: 11 },
@@ -29,7 +29,17 @@ const layoutWithout2d = [
 const layoutToUse = layoutWithout2d;
 
 function generateElements(layout: typeof layoutWith2d) {
-    return layout.map((item) => <div key={item.i} className="spo-dashboard-item" tabIndex={-1} id={item.i} />);
+    return layout.map((item) => {
+        if (item.i === 'spo-3d-main') {
+            return (
+                <div key={item.i} className="spo-dashboard-item" tabIndex={-1} id={item.i}>
+                    <Tools3D />
+                </div>
+            );
+        } else {
+            return <div key={item.i} className="spo-dashboard-item" tabIndex={-1} id={item.i} />;
+        }
+    });
 }
 // function BuildObjectTree(frames: FrameResultData[], category: ObjectCategory[]) {
 //     category.sort((a, b) => a.order - b.order);
@@ -80,17 +90,7 @@ export default function Dashboard(props: {
                 });
             }
         }
-
-        return () => {
-            manager.manager3DInstance.destroy();
-        };
     }, [manager, circleLimit]);
-
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         setShowDraw(true);
-    //     }, 5000);
-    // }, [setShowDraw]);
 
     useEffect(() => {
         const children = get(layoutRef.current, 'children');

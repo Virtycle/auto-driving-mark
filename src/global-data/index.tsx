@@ -113,6 +113,11 @@ export default function GlobalContextProvide({ children }: { children: ReactNode
             setResouceRelation(relations);
             setFrameResultData(result);
         });
+        return () => {
+            if (manager) {
+                manager.manager3DInstance.destroy();
+            }
+        };
     }, []);
 
     return (
